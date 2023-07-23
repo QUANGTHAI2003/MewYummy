@@ -14,6 +14,13 @@ class ProductsController extends Controller {
 
     use uploadImageTrait;
 
+    public function __construct() {
+        $this->middleware('permission:view_products', ['only' => ['index']]);
+        $this->middleware('permission:create_product', ['only' => ['create', 'store']]);
+        $this->middleware('permission:update_product', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:delete_product', ['only' => ['destroy']]);
+    }
+
     public function index() {
         return view('admin.products.index');
     }

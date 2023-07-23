@@ -2,13 +2,13 @@
 
 namespace App\Http\Livewire\Admin\Products;
 
-use App\Exports\ProductsExport;
-use App\Traits\uploadImageTrait;
 use Exception;
 use App\Models\Product;
 use Livewire\Component;
 use WireUi\Traits\Actions;
 use Livewire\WithPagination;
+use App\Exports\ProductsExport;
+use App\Traits\uploadImageTrait;
 use App\Traits\tableSortingTrait;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -30,15 +30,23 @@ class AdminProducts extends Component {
 
     public function destroyProduct() {
         try {
-            $product     = Product::findOrFail($this->productId);
-            $productName = $product->name;
-            $product->delete();
-            $this->deleteImage($product->thumbnail);
+            try {
+                $this->authorize('delete_product');
+                $product     = Product::findOrFail($this->productId);
+                $productName = $product->name;
+                $this->deleteImage($product->thumbnail);
+                $product->delete();
 
-            $this->notification()->success(
-                $title = 'Đã xóa !!!',
-                $description = 'Đã xóa sản phẩm <strong>' . $productName . '</strong>'
-            );
+                $this->notification()->success(
+                    $title = 'Đã xóa !!!',
+                    $description = 'Đã xóa sản phẩm <strong>' . $productName . '</strong>'
+                );
+            } catch (Exception $e) {
+                $this->notification()->error(
+                    $title = 'Đã xảy ra lỗi !!!',
+                    $description = 'Bạn không có quyền xóa sản phẩm'
+                );
+            }
         } catch (Exception $e) {
             $this->notification()->error(
                 $title = 'Đã xảy ra lỗi !!!',
@@ -53,25 +61,30 @@ class AdminProducts extends Component {
 
     public function deleteSelected() {
         try {
-            $products = Product::whereIn('id', $this->selectedProducts)->get();
-            foreach ($products as $product) {
-                $this->deleteImage($product->thumbnail);
+            try {
+                $this->authorize('delete_product');
+                $products = Product::whereIn('id', $this->selectedProducts)->get();
+                foreach ($products as $product) {
+                    $this->deleteImage($product->thumbnail);
+                }
+                Product::whereIn('id', $this->selectedProducts)->delete();
+                $this->notification()->success(
+                    $title = 'Đã xóa !!!',
+                    $description = 'Đã xóa các sản phẩm đã chọn'
+                );
+                $this->resetSelected();
+            } catch (Exception $e) {
+                $this->notification()->error(
+                    $title = 'Đã xảy ra lỗi !!!',
+                    $description = 'Bạn không có quyền xóa các sản phẩm đã chọn'
+                );
             }
-            Product::whereIn('id', $this->selectedProducts)->delete();
-
-
-            $this->resetSelected();
-            $this->notification()->success(
-                $title = 'Đã xóa !!!',
-                $description = 'Đã xóa các sản phẩm đã chọn'
-            );
         } catch (Exception $e) {
             $this->notification()->error(
                 $title = 'Đã xảy ra lỗi !!!',
                 $description = 'Xóa các sản phẩm đã chọn thất bại'
             );
         }
-
     }
 
     public function resetSelected() {
@@ -120,6 +133,6 @@ class AdminProducts extends Component {
     }
 
     public function export() {
-        return Excel::download(new ProductsExport, 'invoices.xlsx');
+        return Excel::download(new ProductsExport(), 'invoices.xlsx');
     }
 }

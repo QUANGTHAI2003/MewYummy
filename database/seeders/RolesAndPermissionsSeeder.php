@@ -20,15 +20,17 @@ class RolesAndPermissionsSeeder extends Seeder{
         app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
 
         $permissions = [
-            'view_product',
+            'view_products',
             'create_product',
             'update_product',
             'delete_product',
-            'view_category',
+            'view_categories',
             'create_category',
             'update_category',
             'delete_category',
-            'authorize'
+            'manage_users',
+            'manage_staff',
+            'authorize',
         ];
 
         // create permissions
@@ -45,12 +47,8 @@ class RolesAndPermissionsSeeder extends Seeder{
         $adminRole->syncPermissions($permissions);
         $ownerRole->syncPermissions(array_diff($permissions, ['authorize']));
         $editorRole->syncPermissions([
-            'view_product',
+            'view_products',
             'create_product',
-            'update_product',
-            'create_category',
-            'update_category',
-            'delete_category',
         ]);
 
         // assign role to admin
@@ -73,8 +71,8 @@ class RolesAndPermissionsSeeder extends Seeder{
 
         // assign role to partner
         $editor = User::factory()->create([
-            'name'     => 'Partner',
-            'email'    => 'partner@example.com',
+            'name'     => 'Editor',
+            'email'    => 'editor@example.com',
             'password' => Hash::make('12345678'),
         ]);
 
