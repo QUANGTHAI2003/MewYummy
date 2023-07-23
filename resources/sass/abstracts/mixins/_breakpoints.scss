@@ -1,0 +1,20 @@
+$devices: (
+		'tiny' : 'screen and (max-width: 20.9375em)', // 335px / 16px = 20.9375em
+		'mobile' : 'screen and (min-width: 21em) and (max-width: 47.9375em)', // 336px / 16px = 21em, 767px / 16px = 47.9375em
+		'tablet' : 'screen and (min-width: 48em) and (max-width: 63.9375em)', // 768px / 16px = 48em, 1023px / 16px = 63.9375em
+		'desktop' : 'screen and (min-width: 64em) and (max-width: 79.9375em)', // 1024px / 16px = 64em, 1279px / 16px = 79.9375em
+		'widescreen': 'screen and (min-width: 80em) and (max-width: 87.4375em)', // 1280px / 16px = 80em, 1399px / 16px = 87.4375em
+		'fullhd' : 'screen and (min-width: 87.5em)' // 1400px / 16px = 87.5em
+);
+
+@mixin responsive($device) {
+	$condition: map-get($devices, $device);
+
+	@if not $condition {
+		@error "Device #{$device} not found in $devices map.";
+	}
+
+	@media #{$condition} {
+		@content;
+	}
+}

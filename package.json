@@ -1,0 +1,50 @@
+{
+  "name": "onlinemart",
+  "description": "Laravel Mix",
+  "version": "1.0.0",
+  "main": "tailwind.config.js",
+  "directories": {},
+  "keywords": [
+    "laravel",
+    "mix",
+    "tailwind"
+  ],
+  "author": "",
+  "license": "ISC",
+  "private": true,
+  "scripts": {
+    "dev": "npm run development",
+    "development": "mix",
+    "watch": "mix watch",
+    "watch-poll": "mix watch -- --watch-options-poll=1000",
+    "hot": "mix watch --hot",
+    "prod": "npm run production",
+    "production": "mix --production"
+  },
+  "devDependencies": {
+    "@tailwindcss/aspect-ratio": "^0.4.2",
+    "@tailwindcss/forms": "^0.5.3",
+    "@tailwindcss/typography": "^0.5.9",
+    "autoprefixer": "^10.4.14",
+    "axios": "^0.25",
+    "browser-sync": "^2.29.3",
+    "browser-sync-webpack-plugin": "^2.3.0",
+    "laravel-mix": "^6.0.6",
+    "lodash": "^4.17.19",
+    "postcss": "^8.4.23",
+    "resolve-url-loader": "^5.0.0",
+    "sass": "^1.62.1",
+    "sass-loader": "^12.1.0",
+    "tailwindcss": "^3.3.2"
+  },
+  "dependencies": {
+      "alpinejs": "^3.12.1",
+      "flowbite": "^1.7.0",
+      "preline": "^1.8.0"
+  },
+  "browserslist": [
+    "last 2 versions",
+    "> 0.5%",
+    "not dead"
+  ]
+}

@@ -1,0 +1,11 @@
+.checkbox {
+    @apply w-4 h-4 text-blue-600 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600
+}
+
+.table-head {
+    @apply border-b border-gray-200 bg-gray-50 px-4 py-3 text-xs font-medium uppercase leading-4 tracking-wider text-gray-500 cursor-pointer text-left
+}
+
+.table-body {
+    @apply border-b border-gray-200 px-4 py-4 text-left
+}

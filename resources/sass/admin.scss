@@ -1,0 +1,8 @@
+@import 'layouts/admin/header';
+@import 'layouts/admin/navbar';
+@import 'layouts/admin/sidebar';
+@import 'layouts/admin/footer';
+@import "./pages/admin/table";
+@import "./pages/admin/input";
+@import "./abstracts/mixins/generals";
+@import "./components/scrollbar"

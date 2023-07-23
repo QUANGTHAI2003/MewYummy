@@ -1,0 +1,6 @@
+.scrollbar {
+    @include scrollBar {
+        height: 4px;
+    }
+;
+}

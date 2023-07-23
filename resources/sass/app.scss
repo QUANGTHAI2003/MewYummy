@@ -1,0 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+// @layer base {
+//     html {
+//         font-family: Proxima Nova, system-ui, sans-serif;
+//     }
+// }
+
+// @layer components {
+//   .input {
+//     @apply placeholder-secondary-400 dark:bg-secondary-800 dark:text-secondary-400 dark:placeholder-secondary-500 border border-secondary-300 focus:ring-primary-500 focus:border-primary-500 dark:border-secondary-600 form-input block w-full sm:text-sm rounded-md transition ease-in-out duration-100 focus:outline-none shadow-sm;
+//   }
+// }
+
+.toast-message {
+    @apply fixed right-5 top-20 z-[999999999999999999] w-full md:w-full
+}
+
+.hide-modal {
+    @apply hidden
+}
+
+.page-item {
+    @apply mx-1 transform rounded-md bg-white px-4 py-2 text-gray-700 transition-colors duration-300 hover:bg-blue-500 hover:text-white dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-blue-500 sm:inline cursor-pointer border-gray-600
+}
+
+.navigate-page-item {
+    @apply relative inline-flex items-center mx-1 transform rounded-md bg-white px-4 py-2 text-gray-700 transition-colors duration-300 hover:bg-blue-500 hover:text-white dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-blue-500 cursor-pointer
+}
