@@ -39,9 +39,9 @@ class RolesAndPermissionsSeeder extends Seeder{
             }
         }
 
-        $adminRole   = Role::firstOrCreate(['name' => 'admin']);
-        $ownerRole   = Role::firstOrCreate(['name' => 'owner']);
-        $editorRole = Role::firstOrCreate(['name' => 'editor']);
+        $adminRole   = Role::firstOrCreate(['name' => 'admin', 'description' => 'Vai trò nay có quyền truy cập vào tất cả các chức năng của hệ thống']);
+        $ownerRole   = Role::firstOrCreate(['name' => 'owner', 'description' => 'Vai trò này có quyền truy cập vào tất cả các chức năng của hệ thống, ngoại trừ phân quyền']);
+        $editorRole = Role::firstOrCreate(['name' => 'editor', 'description' => 'Vai trò này có quyền truy cập vào các chức năng quản lý sản phẩm']);
 
         $adminRole->syncPermissions($permissions);
         $ownerRole->syncPermissions(array_diff($permissions, ['Authorizations']));
