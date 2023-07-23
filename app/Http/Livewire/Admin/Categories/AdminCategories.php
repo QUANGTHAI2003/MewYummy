@@ -38,7 +38,7 @@ class AdminCategories extends Component {
     public function destroyCategory() {
         try {
             try {
-                $this->authorize('delete_category');
+                $this->authorize('Delete category');
                 $category     = Category::findOrFail($this->categoryId);
                 $categoryName = $category->name;
                 $category->delete();
@@ -68,7 +68,7 @@ class AdminCategories extends Component {
     public function deleteSelected() {
         try {
             try {
-                $this->authorize('delete_category');
+                $this->authorize('Delete category');
                 $categories = Category::whereIn('id', $this->selectedCategories)->get();
                 foreach ($categories as $category) {
                     $this->deleteImage($category->thumbnail);

@@ -12,8 +12,8 @@
         <i class="bi bi-journal-text"></i><span>Sản phẩm</span><i class="bi bi-chevron-down ms-auto"></i>
       </a>
       <ul id="forms-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
-        <x-item-sidebar route="admin.categories" name="Quản lý danh mục" permisson="view_categories" />
-        <x-item-sidebar route="admin.products" name="Quản lý sản phẩm" permisson="view_products" />
+        <x-item-sidebar route="admin.categories" name="Quản lý danh mục" permisson="View categories" />
+        <x-item-sidebar route="admin.products" name="Quản lý sản phẩm" permisson="View products" />
       </ul>
     </li>
     <li class="nav-item">
@@ -50,9 +50,9 @@
         <i class="bi bi-bar-chart"></i><span>Quản lý người dùng</span><i class="bi bi-chevron-down ms-auto"></i>
       </a>
       <ul id="authorize" class="nav-content collapse" data-bs-parent="#sidebar-nav">
-        <x-item-sidebar route="admin.users.index" name="Quản lý người dùng" permisson="manage_users" />
-        <x-item-sidebar route="admin.users.index" name="Thêm vai trò" permisson="authorize" />
-        <x-item-sidebar route="admin.users.index" name="Thêm quyên" permisson="authorize" />
+        <x-item-sidebar route="admin.users.index" name="Quản lý người dùng" permisson="Manage users" />
+        <x-item-sidebar route="admin.users.index" name="Thêm vai trò" permisson="Authorizations" />
+        <x-item-sidebar route="admin.users.index" name="Thêm quyên" permisson="Authorizations" />
       </ul>
     </li>
   </ul>

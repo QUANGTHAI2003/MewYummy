@@ -31,7 +31,7 @@ class AdminProducts extends Component {
     public function destroyProduct() {
         try {
             try {
-                $this->authorize('delete_product');
+                $this->authorize('Delete product');
                 $product     = Product::findOrFail($this->productId);
                 $productName = $product->name;
                 $this->deleteImage($product->thumbnail);
@@ -62,7 +62,7 @@ class AdminProducts extends Component {
     public function deleteSelected() {
         try {
             try {
-                $this->authorize('delete_product');
+                $this->authorize('Delete product');
                 $products = Product::whereIn('id', $this->selectedProducts)->get();
                 foreach ($products as $product) {
                     $this->deleteImage($product->thumbnail);

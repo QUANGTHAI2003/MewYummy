@@ -8,7 +8,7 @@ use App\Http\Controllers\Controller;
 
 class UserManagementController extends Controller {
     public function __construct() {
-        $this->middleware('permission:manage_users');
+        $this->middleware('permission:Manage users');
     }
 
     public function index() {

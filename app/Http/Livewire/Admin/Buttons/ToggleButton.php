@@ -22,7 +22,7 @@ class ToggleButton extends Component {
     public function updating($field, $value) {
         try {
             try {
-                $this->authorize('update_category');
+                $this->authorize('Update category');
                 $this->model->setAttribute($this->field, $value)->save();
                 if ($value) {
                     $this->notification()->success(
