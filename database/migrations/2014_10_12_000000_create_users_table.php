@@ -16,6 +16,10 @@ return new class extends Migration{
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
+            $table->string('avatar')->nullable();
+            $table->boolean('is_active')->default(0)->comment('0: Offline, 1: Online');
+            $table->string('phone_number')->nullable();
+            $table->string('address')->default('avatar.png');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
