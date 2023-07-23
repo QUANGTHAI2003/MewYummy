@@ -3,7 +3,8 @@
     <section class="wrapper">
         <div class="container">
             <div class="col-sm-8 offset-sm-2 col-lg-6 offset-lg-3 col-xl-4 offset-xl-4 text-center size">
-                <form class="rounded bg-white shadow p-5" id="form" spellcheck="false" autocomplete="off">
+                <form action="{{ route('postRegister') }}" method="POST" class="rounded bg-white shadow p-5" id="form" spellcheck="false" autocomplete="off">
+                    @csrf
                     <div class="logo">
                         <a href="{{ route('home') }}">
                             <img src="{{ asset('storage/images/logo.webp') }}" class="img-fluid" alt="Logo">
@@ -16,24 +17,33 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-floating mb-3">
-                                <input type="text" class="form-control" id="name" placeholder="Name">
+                                <input type="text" name="name" value="{{ old('name') }}" id="name" class="form-control" placeholder="Name">
                                 <label for="floatingLastName">Name</label>
                                 <small></small>
+                                @error('name')
+                                    <small class="text-danger">{{ $message }}</small>
+                                @enderror
                             </div>
                             <div class="form-floating mb-3">
-                                <input type="email" class="form-control" id="email" placeholder="Email address">
+                                <input type="email" name="email" value="{{ old('email') }}" id="email" class="form-control" placeholder="Email address">
                                 <label for="floatingInput">Email address</label>
                                 <small></small>
+                                @error('email')
+                                    <small class="text-danger">{{ $message }}</small>
+                                @enderror
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-floating mb-3">
-                                <input type="password" class="form-control" id="password" placeholder="Password">
+                                <input type="password" name="password" id="password" class="form-control" placeholder="Password">
                                 <label for="floatingPassword">Password</label>
                                 <small></small>
+                                @error('password')
+                                    <small class="text-danger">{{ $message }}</small>
+                                @enderror
                             </div>
                             <div class="form-floating mb-3">
-                                <input type="password" class="form-control" id="cfpassword" placeholder="Confirm Password">
+                                <input type="password" name="password_confirmation" id="cfpassword" class="form-control" placeholder="Confirm Password">
                                 <label for="floatingPassword">Confirm Password</label>
                                 <small></small>
                             </div>
