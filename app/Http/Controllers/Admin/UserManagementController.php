@@ -12,8 +12,8 @@ class UserManagementController extends Controller {
     }
 
     public function index() {
-        $users = User::with('roles.permissions')->get();
+        // $users = User::with('roles.permissions')->get();
 
-        return view('admin.users.index', compact('users'));
+        return view('admin.users.index');
     }
 }
