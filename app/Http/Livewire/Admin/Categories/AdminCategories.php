@@ -8,11 +8,13 @@ use App\Models\Category;
 use WireUi\Traits\Actions;
 use Livewire\WithPagination;
 use App\Traits\tableSortingTrait;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class AdminCategories extends Component {
 
     use WithPagination;
     use tableSortingTrait;
+    use AuthorizesRequests;
     use Actions;
 
     public $categoryId;

@@ -10,12 +10,14 @@ use Livewire\WithPagination;
 use App\Exports\ProductsExport;
 use App\Traits\uploadImageTrait;
 use App\Traits\tableSortingTrait;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Maatwebsite\Excel\Facades\Excel;
 
 class AdminProducts extends Component {
 
     use WithPagination;
     use tableSortingTrait;
+    use AuthorizesRequests;
     use Actions;
     use uploadImageTrait;
 

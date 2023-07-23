@@ -6,10 +6,12 @@ use Exception;
 use Livewire\Component;
 use WireUi\Traits\Actions;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class ToggleButton extends Component {
 
     use Actions;
+    use AuthorizesRequests;
 
     public Model $model;
     public string $field;
