@@ -110,7 +110,7 @@
                     title="Sửa" href="{{ route('admin.users.edit', $user->id) }}" id="btLeft">
                     <i class="fas fa-edit" title="Sửa"></i>
                   </a>
-                  <button type="button" id="deleteProductBtn" title="Xóa" data-toggle="tooltip"
+                  <button type="button" wire:click="deleteUser({{ $user->id }})" id="deleteProductBtn" title="Xóa" data-toggle="tooltip"
                     data-placement="bottom" data-modal-target="deleteUserModal"
                     data-modal-toggle="deleteUserModal"
                     class="hover:shadow-lgfocus:bg-blue-700 focus:ring-active:bg-red-800 active:shadow-lgtransition ml-2 mr-4 rounded bg-red-600 px-4 py-2.5 text-xs font-medium uppercase leading-tight text-white shadow-md duration-150 ease-in-out hover:bg-red-700 focus:shadow-lg focus:outline-none">
@@ -121,6 +121,7 @@
             </tr>
           @endforeach
           @include('livewire.admin.authorizations.modal-show-permission')
+          @include('livewire.admin.authorizations.modal-delete')
         </tbody>
 
       </table>
