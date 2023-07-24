@@ -26,7 +26,9 @@ class AdminProducts extends Component {
     public $selectedProducts = [];
     public $productId;
     protected $queryString = [
-        'search' => ['except' => '']
+        'search' => ['except' => ''],
+        'sortColumnName' => ['except' => 'id', 'as' => 'sort'],
+        'sortDirection' => ['except' => 'desc', 'as' => 'direction']
     ];
     protected $listeners = ['resetSelected' => 'resetSelected'];
 

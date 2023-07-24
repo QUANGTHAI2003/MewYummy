@@ -22,7 +22,9 @@ class AdminCategories extends Component {
     public $selectAllCategories = false;
     public $selectedCategories  = [];
     protected $queryString      = [
-        'search' => ['except' => '']
+        'search' => ['except' => ''],
+        'sortColumnName' => ['except' => 'id', 'as' => 'sort'],
+        'sortDirection' => ['except' => 'desc', 'as' => 'direction']
     ];
     protected $listeners = [
         'resetSelected' => 'resetSelected',

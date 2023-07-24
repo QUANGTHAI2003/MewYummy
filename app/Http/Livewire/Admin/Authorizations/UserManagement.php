@@ -13,6 +13,8 @@ class UserManagement extends Component {
     public $search = '';
     protected $queryString = [
         'search' => ['except' => ''],
+        'sortColumnName' => ['except' => 'id', 'as' => 'sort'],
+        'sortDirection' => ['except' => 'desc', 'as' => 'direction']
     ];
 
     public function showPermissions($id) {
