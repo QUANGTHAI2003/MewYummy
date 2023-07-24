@@ -216,18 +216,14 @@ if (!function_exists('convertCurrency')){
     }
 }
 
-if (!function_exists('formatTimeAgo')){
+if (!function_exists('formatTime')){
     /**
      * @param $time
      *
      * @return string
      */
-    function formatTimeAgo($time)
+    function formatTime($time)
     : string{
-        if (!($time instanceof DateTimeInterface || is_string($time))){
-            throw new InvalidArgumentException('Tham số truyền vào phải là kiểu DateTimeInterface hoặc string');
-        }
-
         return Carbon::parse($time)->locale(config('app.locale'))->diffForHumans();
     }
 }

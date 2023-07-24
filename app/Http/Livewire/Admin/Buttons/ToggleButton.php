@@ -16,6 +16,7 @@ class ToggleButton extends Component {
     public Model $model;
     public string $field;
     public bool $isActive;
+    public string $authorize;
 
     public function mount() {
         $this->isActive = (bool) $this->model->getAttribute($this->field);
@@ -24,7 +25,7 @@ class ToggleButton extends Component {
     public function updating($field, $value) {
         try {
             try {
-                $this->authorize('Update category');
+                $this->authorize($this->authorize);
                 $this->model->setAttribute($this->field, $value)->save();
                 if ($value) {
                     $this->notification()->success(

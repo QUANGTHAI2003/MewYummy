@@ -74,7 +74,7 @@
                             </td>
                             <td class="table-body">{{ $category->slug }}</td>
                             <td class="right table-body">
-                                <livewire:admin.buttons.toggle-button :model="$category" field="is_active"
+                                <livewire:admin.buttons.toggle-button :model="$category" field="is_active" authorize="Update category"
                                                                       key="{{ $category->id }}"/>
                             </td>
                             <td class="right justify-content-end table-body">

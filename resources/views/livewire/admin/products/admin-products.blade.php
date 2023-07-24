@@ -128,7 +128,7 @@
                   {{ number_format($product->regular_price, 0, ',', '.') }}đ
                 </td>
                 <td class="whitespace-nowrap border-b border-gray-200 px-6 py-4 text-center text-sm text-gray-500">
-                  <livewire:admin.buttons.toggle-button :model="$product" field="is_active"
+                  <livewire:admin.buttons.toggle-button :model="$product" field="is_active" authorize="Update product"
                     key="{{ $product->id }}" />
                 </td>
                 <td class="whitespace-no-wrap right justify-content-end border-b border-gray-200 px-6 py-4 text-right">

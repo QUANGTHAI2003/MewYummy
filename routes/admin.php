@@ -42,7 +42,8 @@ Route::prefix('admin')->middleware(['auth', 'checkIsAdmin'])->name('admin.')->gr
 
     // authorizations
     Route::prefix('authorizations')->group(function () {
-        Route::resource('/users', UserManagementController::class)->except('show');
+        Route::resource('users', UserManagementController::class)->except('show');
+        Route::get('users/roles/{role}/permissions', [UserManagementController::class, 'getPermissions']);
     });
 
     Route::get('orders', function () {

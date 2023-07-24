@@ -24,6 +24,9 @@ class LoginController extends Controller {
         $roles = Role::all()->pluck('name')->toArray();
 
         $user = User::where('email', $request->email)->first();
+        $user->is_active = 1;
+        $user->last_seen_at = now();
+        $user->save();
 
         if (auth()->attempt($credentials)) {
             if ($user->hasAnyRole($roles)) {
@@ -37,6 +40,11 @@ class LoginController extends Controller {
     }
 
     public function logout(Request $request) {
+        $user = User::find(auth()->user()->id);
+        $user->is_active = 0;
+        $user->last_seen_at = now();
+        $user->save();
+
         auth()->logout();
 
         $request->session()->invalidate();
