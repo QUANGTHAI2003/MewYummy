@@ -26,18 +26,7 @@ class AdminCategories extends Component {
         'sortColumnName' => ['except' => 'id', 'as' => 'sort'],
         'sortDirection' => ['except' => 'desc', 'as' => 'direction']
     ];
-    protected $listeners = [
-        'resetSelected' => 'resetSelected',
-        'editCategory'  => 'editCategory'
-    ];
-
-    public function editCategory($categoryId) {
-        $this->emitTo(
-            'admin.categories.edit-categories',
-            'editCategory',
-            $categoryId
-        );
-    }
+    protected $listeners = ['resetSelected' => 'resetSelected'];
 
     public function destroyCategory() {
         try {
@@ -46,6 +35,8 @@ class AdminCategories extends Component {
                 $category     = Category::findOrFail($this->categoryId);
                 $categoryName = $category->name;
                 $category->delete();
+
+                $this->resetSelected();
 
                 $this->notification()->success(
                     $title = 'Đã xóa !!!',
@@ -75,10 +66,11 @@ class AdminCategories extends Component {
                 $this->authorize('Delete category');
                 $categories = Category::whereIn('id', $this->selectedCategories)->get();
                 foreach ($categories as $category) {
-                    $this->deleteImage($category->thumbnail);
                     $category->delete();
                 }
 
+                $this->resetSelected();
+                
                 $this->notification()->success(
                     $title = 'Đã xóa !!!',
                     $description = 'Đã xóa các danh mục đã chọn'

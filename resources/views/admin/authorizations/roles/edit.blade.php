@@ -1,7 +1,8 @@
 @extends('layouts.admin')
 
 @section('content')
-  <h3 class="text-3xl font-medium text-gray-700">Sửa thông tin nhân viên</h3>
+  <x-page-title currentPage="Quản lý vai trò" pageTitle="Sửa vai trò" />
+  <h3 class="text-3xl font-medium text-gray-700">Sửa vai trò</h3>
   <div class="mb-10 mt-10 md:grid md:grid-cols-3 md:gap-6">
     <div class="mt-5 md:col-span-6 md:mt-0">
       <form action="{{ route('admin.roles.update', $role->id) }}" method="POST" enctype="multipart/form-data">
@@ -13,8 +14,8 @@
               <div class="grid grid-cols-6 gap-6 py-3">
                 <div class="col-span-6">
                   <label for="name" class="my-2 block text-sm font-medium text-gray-700">Nhập tên vai trò</label>
-                  <input type="text" name="name" id="name" min="0" value="{{ old('name', $role->name) }}"
-                    class="input-form appearance-number-none">
+                  <input type="text" name="name" id="name" min="0"
+                    value="{{ old('name', $role->name) }}" class="input-form appearance-number-none">
                   @error('name')
                     <span class="text-sm text-red-500">{{ $message }}</span>
                   @enderror
@@ -44,7 +45,7 @@
                 </div>
               </div>
             </div>
-            <x-forms.feature-button back="{{ route('admin.products') }}" />
+            <x-forms.feature-button back="{{ route('admin.roles.index') }}" />
           </div>
         </div>
       </form>

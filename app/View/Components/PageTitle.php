@@ -7,7 +7,6 @@ use Illuminate\View\Component;
 class PageTitle extends Component
 {
     public $currentPage;
-    public $categoryTitle = '';
     public $pageTitle;
 
     /**
@@ -15,10 +14,9 @@ class PageTitle extends Component
      *
      * @return void
      */
-    public function __construct($currentPage, $categoryTitle = '', $pageTitle)
+    public function __construct($currentPage, $pageTitle)
     {
         $this->currentPage = $currentPage;
-        $this->categoryTitle = $categoryTitle;
         $this->pageTitle = $pageTitle;
     }
 

@@ -1,7 +1,8 @@
 @extends('layouts.admin')
 
 @section('content')
-  <h3 class="text-3xl font-medium text-gray-700">Create Product</h3>
+  <x-page-title currentPage="Quản lý sản phẩm" pageTitle="Thêm sản phẩm" />
+  <h3 class="text-3xl font-medium text-gray-700">Thêm sản phẩm</h3>
   <div class="mb-10 mt-10 md:grid md:grid-cols-3 md:gap-6">
     <div class="mt-5 md:col-span-6 md:mt-0">
       <form action="{{ route('admin.products.store') }}" method="POST" enctype="multipart/form-data">
@@ -9,7 +10,7 @@
         <div class="overflow-hidden shadow sm:rounded-md">
           <div class="bg-white px-4 py-5 sm:p-6">
             <div class="col-span-9 sm:col-span-4">
-              <div class="grid grid-cols-6 gap-6 sm:grid-cols-3">
+              <div class="grid md:grid-cols-6 gap-6 grid-cols-3">
                 <div class="col-span-6 sm:col-span-3">
                   <label for="name" class="my-2 block text-sm font-medium text-gray-700">Tến sản phẩm</label>
                   <input type="text" name="name" id="name" value="{{ old('name') }}" class="input-form">
@@ -25,9 +26,9 @@
                   @enderror
                 </div>
               </div>
-              <div class="grid grid-cols-6 gap-6 sm:grid-cols-3">
+              <div class="grid md:grid-cols-6 gap-6 grid-cols-3">
                 <div class="col-span-6 sm:col-span-3">
-                  <label for="categories" class="my-2 block text-sm font-medium text-gray-700">Categories</label>
+                  <label for="categories" class="my-2 block text-sm font-medium text-gray-700">Danh mục</label>
                   <select class="input-form" name="categories" id="categories" autocomplete="categories">
                     <option disabled selected value> -- Chọn danh mục</option>
                     @foreach ($categories as $category)
@@ -49,7 +50,7 @@
                   @enderror
                 </div>
               </div>
-              <div class="grid grid-cols-6 gap-6 py-3 sm:grid-cols-3">
+              <div class="grid md:grid-cols-6 gap-6 py-3 grid-cols-3">
                 <div class="col-span-6 sm:col-span-3">
                   <label for="regular_price" class="my-2 block text-sm font-medium text-gray-700">Giá thường</label>
                   <input type="number" name="regular_price" id="regular_price" value="{{ old('regular_price') }}"
@@ -67,7 +68,7 @@
                   @enderror
                 </div>
               </div>
-              {{-- <div class="col-span-6 sm:col-span-6">
+              <div class="col-span-6 sm:col-span-6">
                 <label for="editor" class="my-2 block text-sm font-medium text-gray-700">Mô tả sản phẩm</label>
                 <textarea id="editor" name="description" rows="3"
                   class="mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
@@ -75,16 +76,16 @@
                 @error('description')
                   <span class="text-sm text-red-500">{{ $message }}</span>
                 @enderror
-              </div> --}}
+              </div>
             </div>
             <div class="grid grid-cols-1 gap-1 pt-3">
-              Cover image
+              Ảnh đại diện
               <div class="col-span-1 pt-3 sm:col-span-1 lg:col-span-3">
                 <label for="upload-image"
-                  class="relative xs:h-[300px] drag-area h- dark:hover:bg-bray-800 flex w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 p-3 hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:border-gray-500 dark:hover:bg-gray-600">
-                  <img src="" alt=""
-                  id="img-preview"
-                  class="absolute inset-2 rounded-1 text-center left-1/2 transform -translate-x-1/2" style="height: -webkit-fill-available;">
+                  class="drag-area h- dark:hover:bg-bray-800 relative flex w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 p-3 hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:border-gray-500 dark:hover:bg-gray-600 xs:h-[300px]">
+                  <img src="" alt="" id="img-preview"
+                    class="rounded-1 absolute inset-2 left-1/2 -translate-x-1/2 transform text-center"
+                    style="height: -webkit-fill-available;">
                   <div class="flex flex-col items-center justify-center pb-6 pt-5">
                     <svg aria-hidden="true" class="mb-3 h-10 w-10 text-gray-400" fill="none" stroke="currentColor"
                       viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -98,24 +99,25 @@
                     <p class="filename text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or
                       GIF
                       (MAX. 800x400px)</p>
-                      <input  type="file" name="image" class="hidden" id="upload-image" onchange="loadFile(event)"/>
+                    <input type="file" name="image" class="hidden" id="upload-image"
+                      onchange="loadFile(event)" />
                   </div>
                 </label>
                 @error('image')
                   <span class="text-sm text-red-500">{{ $message }}</span>
                 @enderror
                 @push('scripts')
-                    <script>
-                        let loadFile = function(event) {
-                            let image = document.getElementById('img-preview');
-                            image.src = URL.createObjectURL(event.target.files[0]);
-                        };
-                    </script>
+                  <script>
+                    let loadFile = function(event) {
+                      let image = document.getElementById('img-preview');
+                      image.src = URL.createObjectURL(event.target.files[0]);
+                    };
+                  </script>
                 @endpush
 
               </div>
             </div>
-            <x-forms.feature-button back="{{ route('admin.products') }}" />
+            <x-forms.feature-button back="{{ route('admin.products.index') }}" />
           </div>
         </div>
       </form>

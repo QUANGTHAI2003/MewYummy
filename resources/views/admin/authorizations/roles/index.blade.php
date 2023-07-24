@@ -1,7 +1,8 @@
 @extends('layouts.admin')
 
 @section('content')
-  <div class="mt-10 flex items-center justify-between">
+<x-page-title currentPage="Quản lý vai trò" pageTitle="Danh sách vai trò" />
+  <div class="mt-2 flex items-center justify-between">
     <h3 class="text-3xl font-medium text-gray-700">Danh sách vai trò</h3>
     <div class="flex gap-x-3">
       <div class="text-left">

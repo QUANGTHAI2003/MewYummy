@@ -1,6 +1,7 @@
 @extends('layouts.admin')
 
 @section('content')
+    <x-page-title currentPage="Quản lý sản phẩm" pageTitle="Danh sách sản phẩm"/>
     <h3 class="text-gray-700 text-3xl font-medium">Danh sách sản phẩm</h3>
     <div class="flex items-center justify-between mt-10">
         <div class=" text-left">

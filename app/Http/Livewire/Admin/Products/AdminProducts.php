@@ -41,6 +41,8 @@ class AdminProducts extends Component {
                 $this->deleteImage($product->thumbnail);
                 $product->delete();
 
+                $this->resetSelected();
+
                 $this->notification()->success(
                     $title = 'Đã xóa !!!',
                     $description = 'Đã xóa sản phẩm <strong>' . $productName . '</strong>'
@@ -72,6 +74,9 @@ class AdminProducts extends Component {
                     $this->deleteImage($product->thumbnail);
                 }
                 Product::whereIn('id', $this->selectedProducts)->delete();
+
+                $this->resetSelected();
+                
                 $this->notification()->success(
                     $title = 'Đã xóa !!!',
                     $description = 'Đã xóa các sản phẩm đã chọn'

@@ -38,11 +38,11 @@ class ProductsController extends Controller {
         $data['thumbnail'] = $this->uploadOneImage($data['image'], 'products');
         $data['is_active'] = 1;
         $data['category_id'] = $request->input('categories');
-        $data['description'] = $request->input('description', '');
+        $data['description'] = $request->input('description', 'Đang cập nhật...');
 
        Product::create($data);
 
-        return redirect()->route('admin.products');
+        return redirect()->route('admin.products.index');
     }
 
     public function edit($id) {
@@ -56,7 +56,7 @@ class ProductsController extends Controller {
 
     public function update(ProductRequest $request, $id) {
         $product = Product::findOrFail($id);
-        $data = $request->all();
+        $data = $request->validated();
 
         $data['slug'] = Str::slug($data['name']);
         $data['is_active'] = 1;
@@ -70,6 +70,6 @@ class ProductsController extends Controller {
 
         $product->update($data);
 
-        return redirect()->route('admin.product');
+        return redirect()->route('admin.products.index');
     }
 }

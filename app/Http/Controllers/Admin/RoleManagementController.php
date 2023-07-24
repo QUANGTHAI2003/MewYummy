@@ -37,7 +37,7 @@ class RoleManagementController extends Controller
 
         $role->givePermissionTo($permissions);
 
-        return redirect()->route('admin.roels.index')->with('success', 'User created successfully');
+        return redirect()->route('admin.roles.index')->with('success', 'User created successfully');
     }
 
     public function edit($id) {

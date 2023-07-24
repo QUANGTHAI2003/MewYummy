@@ -55,6 +55,7 @@ class RolesAndPermissionsSeeder extends Seeder{
             'name'     => 'Admin',
             'email'    => 'admin@example.com',
             'password' => Hash::make('12345678'),
+            'last_seen_at' => '2023-07-25 02:11:36',
         ]);
 
         $admin->assignRole($adminRole);
@@ -64,6 +65,7 @@ class RolesAndPermissionsSeeder extends Seeder{
             'name'     => 'Owner',
             'email'    => 'owner@example.com',
             'password' => Hash::make('12345678'),
+            'last_seen_at' => '2023-07-25 02:11:36'
         ]);
 
         $owner->assignRole($ownerRole);
@@ -73,6 +75,7 @@ class RolesAndPermissionsSeeder extends Seeder{
             'name'     => 'Editor',
             'email'    => 'editor@example.com',
             'password' => Hash::make('12345678'),
+            'last_seen_at' => '2023-07-25 02:11:36'
         ]);
 
         $editor->assignRole($editorRole);

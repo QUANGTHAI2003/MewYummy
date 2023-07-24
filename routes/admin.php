@@ -22,26 +22,8 @@ use App\Http\Controllers\Admin\StaffManagementController;
 Route::prefix('admin')->middleware(['auth', 'checkIsAdmin'])->name('admin.')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-    Route::resource('/products', ProductsController::class, ['except' => ['show', 'destroy']])
-        ->names([
-            'index'  => 'products',
-            'create' => 'products.create',
-            'store'  => 'products.store',
-            'show'   => 'products.show',
-            'edit'   => 'products.edit',
-            'update' => 'products.update'
-        ]);
-
-    Route::resource('/categories', CategoriesController::class, ['except' => ['show', 'destroy']])
-        ->names([
-            'index'  => 'categories',
-            'create' => 'categories.create',
-            'store'  => 'categories.store',
-            'edit'   => 'categories.edit',
-            'update' => 'categories.update'
-        ]);
-
-    // authorizations
+    Route::resource('/products', ProductsController::class, ['except' => ['show', 'destroy']]);
+    Route::resource('/categories', CategoriesController::class, ['except' => ['show', 'destroy']]);
     Route::prefix('authorizations')->group(function () {
         Route::resource('users', UserManagementController::class)->except('show');
         Route::resource('roles', RoleManagementController::class)->except('show');

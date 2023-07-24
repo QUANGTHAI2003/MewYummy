@@ -1,8 +1,9 @@
 @extends('layouts.admin')
 
 @section('content')
-  <div class="mt-10 flex items-center justify-between">
-    <h3 class="text-3xl font-medium text-gray-700">Users</h3>
+  <x-page-title currentPage="Quản lý người dùng" pageTitle="Danh sách người dùng" />
+  <div class="mt-2 flex items-center justify-between">
+    <h3 class="text-3xl font-medium text-gray-700">Danh sách người dùng</h3>
     <div class="flex gap-x-3">
       <div class="text-left">
         <a href="{{ route('admin.users.create') }}"

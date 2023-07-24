@@ -19,7 +19,6 @@ class CategoriesController extends Controller
         $this->middleware('permission:View categories', ['only' => ['index']]);
         $this->middleware('permission:Create category', ['only' => ['create', 'store']]);
         $this->middleware('permission:Update category', ['only' => ['edit', 'update']]);
-        $this->middleware('permission:Delete category', ['only' => ['destroy']]);
     }
 
     public function index()
@@ -47,11 +46,11 @@ class CategoriesController extends Controller
             $category->addProduct($data);
 
             return redirect()
-                ->route('admin.categories')
+                ->route('admin.categories.index')
                 ->with('success', 'Thêm mới danh mục thành công');
         } catch (Exception $ex) {
             return redirect()
-                ->route('admin.categories')
+                ->route('admin.categories.index')
                 ->with('error', 'Thêm mới danh mục thất bại');
         }
     }
@@ -77,11 +76,11 @@ class CategoriesController extends Controller
             $this->category->updateProduct($data, $id);
 
             return redirect()
-                ->route('admin.categories')
+                ->route('admin.categories.index')
                 ->with('success', 'Cập nhật danh mục thành công');
         } catch (Exception $ex) {
             return redirect()
-                ->route('admin.categories')
+                ->route('admin.categories.index')
                 ->with('error', 'Cập nhật danh mục thất bại');
         }
     }
@@ -95,7 +94,7 @@ class CategoriesController extends Controller
                 ->route('admin.categories')
                 ->with('success', 'Xóa danh mục thành công');
         } catch (Exception $ex) {
-            return redirect()->route('admin.categories')->with('error', 'Xóa danh mục thất bại');
+            return redirect()->route('admin.categories.ondex')->with('error', 'Xóa danh mục thất bại');
         }
     }
 }
