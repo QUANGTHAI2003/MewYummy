@@ -51,7 +51,7 @@
       </a>
       <ul id="authorize" class="nav-content collapse" data-bs-parent="#sidebar-nav">
         <x-item-sidebar route="admin.users.index" name="Quản lý người dùng" permisson="Manage users" />
-        <x-item-sidebar route="admin.users.index" name="Thêm vai trò" permisson="Authorizations" />
+        <x-item-sidebar route="admin.roles.index" name="Thêm vai trò" permisson="Authorizations" />
         <x-item-sidebar route="admin.users.index" name="Thêm quyên" permisson="Authorizations" />
       </ul>
     </li>

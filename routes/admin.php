@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\ProductsController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\CategoriesController;
+use App\Http\Controllers\Admin\RoleManagementController;
 use App\Http\Controllers\Admin\UserManagementController;
 use App\Http\Controllers\Admin\StaffManagementController;
 
@@ -43,7 +44,8 @@ Route::prefix('admin')->middleware(['auth', 'checkIsAdmin'])->name('admin.')->gr
     // authorizations
     Route::prefix('authorizations')->group(function () {
         Route::resource('users', UserManagementController::class)->except('show');
-        Route::get('users/roles/{role}/permissions', [UserManagementController::class, 'getPermissions']);
+        Route::resource('roles', RoleManagementController::class)->except('show');
+    Route::get('users/roles/{role}/permissions', [UserManagementController::class, 'getPermissions']);
     });
 
     Route::get('orders', function () {
