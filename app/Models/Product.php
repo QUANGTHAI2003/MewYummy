@@ -22,14 +22,18 @@ class Product extends Model{
         'sale_price',
         'stock_qty',
         'is_active',
-        'thumbnail',
         'description',
         'created_at',
         'updated_at',
     ];
 
-    public function category()
+    public function categories()
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsTo(Category::class, 'category_id');
+    }
+
+    public function product_images()
+    {
+        return $this->hasMany(ProductImages::class);
     }
 }

@@ -12,7 +12,7 @@
           <input type="hidden" name="id" value="{{ $product->id }}">
           <div class="bg-white px-4 py-5 sm:p-6">
             <div class="col-span-9 sm:col-span-4">
-              <div class="grid md:grid-cols-6 gap-6 grid-cols-3">
+              <div class="grid grid-cols-3 gap-6 md:grid-cols-6">
                 <div class="col-span-6 sm:col-span-3">
                   <label for="name" class="my-2 block text-sm font-medium text-gray-700">Tến sản phẩm</label>
                   <input type="text" name="name" id="name" value="{{ old('name', $product->name) }}"
@@ -30,7 +30,7 @@
                   @enderror
                 </div>
               </div>
-              <div class="grid md:grid-cols-6 gap-6 grid-cols-3">
+              <div class="grid grid-cols-3 gap-6 md:grid-cols-6">
                 <div class="col-span-6 sm:col-span-3">
                   <label for="categories" class="my-2 block text-sm font-medium text-gray-700">Danh mục</label>
                   <select class="input-form" name="categories" id="categories" autocomplete="categories">
@@ -54,7 +54,7 @@
                   @enderror
                 </div>
               </div>
-              <div class="grid md:grid-cols-6 gap-6 py-3 grid-cols-3">
+              <div class="grid grid-cols-3 gap-6 py-3 md:grid-cols-6">
                 <div class="col-span-6 sm:col-span-3">
                   <label for="regular_price" class="my-2 block text-sm font-medium text-gray-700">Giá thường</label>
                   <input type="number" name="regular_price" id="regular_price"
@@ -89,9 +89,9 @@
                 <label for="upload-image"
                   class="drag-area h- dark:hover:bg-bray-800 relative flex w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 p-3 hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:border-gray-500 dark:hover:bg-gray-600 xs:h-[300px]">
                   @php
-                    $image = asset('storage/images/products/' . $product->thumbnail);
-                    if (!file_exists(public_path() . '/storage/images/products/' . $product->thumbnail)) {
-                        $image = asset('storage/' . $product->thumbnail);
+                    $image = asset('storage/images/products/' . $product->product_images[0]->image);
+                    if (!file_exists(public_path() . '/storage/images/products/' . $product->product_images[0]->image)) {
+                        $image = asset('storage/' . $product->product_images[0]->image);
                     }
                   @endphp
 
@@ -111,8 +111,8 @@
                     <p class="filename text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or
                       GIF
                       (MAX. 800x400px)</p>
-                    <input type="file" name="image" class="hidden"
-                      value="{{ old('image', $product->thumbnail) }}" id="upload-image" onchange="loadFile(event)" />
+                    <input type="file" name="image" class="hidden" value="{{ old('image', $product->product_images[0]->image) }}"
+                      id="upload-image" onchange="loadFile(event)" />
                   </div>
                 </label>
                 @error('image')

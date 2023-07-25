@@ -23,7 +23,6 @@ return new class extends Migration{
             $table->integer('sale_price')->nullable();
             $table->integer('stock_qty')->default(0);
             $table->boolean('is_active')->default(true)->comment('1: active, 0: inactive');
-            $table->string('thumbnail');
             $table->text('description');
             $table->timestamps();
         });

@@ -7,11 +7,12 @@ use App\Models\Product;
 use Livewire\Component;
 use WireUi\Traits\Actions;
 use Livewire\WithPagination;
+use App\Models\ProductImages;
 use App\Exports\ProductsExport;
 use App\Traits\uploadImageTrait;
 use App\Traits\tableSortingTrait;
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class AdminProducts extends Component {
 
@@ -26,9 +27,9 @@ class AdminProducts extends Component {
     public $selectedProducts = [];
     public $productId;
     protected $queryString = [
-        'search' => ['except' => ''],
+        'search'         => ['except' => ''],
         'sortColumnName' => ['except' => 'id', 'as' => 'sort'],
-        'sortDirection' => ['except' => 'desc', 'as' => 'direction']
+        'sortDirection'  => ['except' => 'desc', 'as' => 'direction']
     ];
     protected $listeners = ['resetSelected' => 'resetSelected'];
 
@@ -36,10 +37,18 @@ class AdminProducts extends Component {
         try {
             try {
                 $this->authorize('Delete product');
-                $product     = Product::findOrFail($this->productId);
-                $productName = $product->name;
-                $this->deleteImage($product->thumbnail);
-                $product->delete();
+                $productImage = ProductImages::where('product_id', $this->productId)->get();
+                if ($productImage !== null) {
+                    foreach ($productImage as $image) {
+                        $this->deleteImage($image->image);
+                    }
+                }
+
+                $product     = Product::where('id', $this->productId)->first();
+                if($product !== null) {
+                    $productName = $product->name;
+                    $product->delete();
+                }
 
                 $this->resetSelected();
 
@@ -69,14 +78,15 @@ class AdminProducts extends Component {
         try {
             try {
                 $this->authorize('Delete product');
-                $products = Product::whereIn('id', $this->selectedProducts)->get();
-                foreach ($products as $product) {
-                    $this->deleteImage($product->thumbnail);
+                $productsImage = ProductImages::whereIn('product_id', $this->selectedProducts)->get();
+                foreach ($productsImage as $productImage) {
+                    $this->deleteImage($productImage->image);
                 }
+
                 Product::whereIn('id', $this->selectedProducts)->delete();
 
                 $this->resetSelected();
-                
+
                 $this->notification()->success(
                     $title = 'Đã xóa !!!',
                     $description = 'Đã xóa các sản phẩm đã chọn'
@@ -127,13 +137,15 @@ class AdminProducts extends Component {
 
     public function render() {
         $products = Product::query()
-            ->select('products.*', 'categories.name as category_name')
-            ->join('categories', 'categories.id', '=', 'products.category_id')
+            ->with(['product_images' => function ($query) {
+                $query->where('product_images.is_main', true);
+            }, 'categories' => function ($query) {
+                $query->where('categories.is_active', true);
+            }])
             ->when($this->search, function ($query) {
                 $query->where('products.name', 'like', '%' . $this->search . '%')
                       ->orWhere('categories.name', 'like', '%' . $this->search . '%');
-            })
-                     ->orderBy($this->sortColumnName, $this->sortDirection)
+            })->orderBy($this->sortColumnName, $this->sortDirection)
                      ->paginate($this->perPage);
 
         return view('livewire.admin.products.admin-products', [

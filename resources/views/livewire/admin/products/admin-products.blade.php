@@ -98,9 +98,9 @@
                 <td class="table-body">
                   <div class="flex items-center">
                     @php
-                      $image = asset('storage/images/products/' . $product->thumbnail);
-                      if (!file_exists(public_path() . '/storage/images/products/' . $product->thumbnail)) {
-                          $image = asset('storage/' . $product->thumbnail);
+                      $image = asset('storage/images/products/' . $product->product_images[0]->image);
+                      if (!file_exists(public_path() . '/storage/images/products/' . $product->product_images[0]->image)) {
+                          $image = asset('storage/' . $product->product_images[0]->image);
                       }
                     @endphp
                     <img src="{{ $image }}" class="img-backend-products">
@@ -122,7 +122,7 @@
                   </div>
                 </td>
                 <td class="table-body text-sm">
-                  <div class="leading-5 text-gray-900">{{ $product->category_name }}</div>
+                  <div class="leading-5 text-gray-900">{{ $product->categories->name }}</div>
                 </td>
                 <td class="table-body">
                   {{ number_format($product->regular_price, 0, ',', '.') }}đ

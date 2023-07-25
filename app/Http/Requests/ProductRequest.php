@@ -24,27 +24,31 @@ class ProductRequest extends FormRequest {
         switch ($this->route()->getActionMethod()) {
             case 'store':
                 return [
-                    'name'          => 'required|unique:products,name',
-                    'slug'          => 'unique:products,slug',
-                    'regular_price' => 'required|integer|min:0',
-                    'sale_price'    => 'nullable|integer|min:0',
-                    'image'         => 'required|image|mimes:jpg,jpeg,png,gif|max:2048',
-                    'categories'    => 'required',
-                    'stock_qty'     => 'required|integer|min:0',
-                    'description'   => 'nullable'
+                    'name'              => 'required|unique:products,name',
+                    'slug'              => 'unique:products,slug',
+                    'regular_price'     => 'required|integer|min:0|max:100000000|gte:sale_price',
+                    'sale_price'        => 'nullable|integer|min:0|max:100000000|lte:regular_price',
+                    'image'             => 'required|image|mimes:jpg,jpeg,png,gif|max:2048',
+                    'multiple_images'   => 'nullable|array|max:5',
+                    'multiple_images.*' => 'image|mimes:jpg,jpeg,png,gif|max:2048',
+                    'categories'        => 'required',
+                    'stock_qty'         => 'required|integer|min:0',
+                    'description'       => 'nullable'
                 ];
             case 'update':
                 $productId = $this->route()->parameter('product');
 
                 return [
-                    'name'          => 'required|unique:products,name,' . $productId,
-                    'slug'          => 'unique:products,slug,' . $productId,
-                    'regular_price' => 'required|integer|min:0',
-                    'sale_price'    => 'nullable|integer|min:0',
-                    'image'         => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048',
-                    'categories'    => 'required',
-                    'stock_qty'     => 'required|integer|min:0',
-                    'description'   => 'nullable'
+                    'name'              => 'required|unique:products,name,' . $productId,
+                    'slug'              => 'unique:products,slug,' . $productId,
+                    'regular_price'     => 'required|integer|min:0|max:100000000|gte:sale_price',
+                    'sale_price'        => 'nullable|integer|min:0|max:100000000|lte:regular_price',
+                    'image'             => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048',
+                    'multiple_images'   => 'nullable|array|max:5',
+                    'multiple_images.*' => 'image|mimes:jpg,jpeg,png,gif|max:2048',
+                    'categories'        => 'required',
+                    'stock_qty'         => 'required|integer|min:0',
+                    'description'       => 'nullable'
                 ];
             default:
                 return [];
@@ -77,15 +81,16 @@ class ProductRequest extends FormRequest {
      */
     public function attributes() {
         return [
-            'name'          => 'Tên sản phẩm',
-            'slug'          => 'Slug',
-            'regular_price' => 'Giá ban đầu',
-            'sale_price'    => 'Giá khuyến mãi',
-            'image'         => 'Ảnh sản phẩm',
-            'categories'    => 'Danh mục sản phẩm',
-            'stock_qty'     => 'Số lượng sản phẩm',
-            'brands'        => 'Tên thuơng hiệu',
-            'description'   => 'Mô tả sản phẩm'
+            'name'            => 'Tên sản phẩm',
+            'slug'            => 'Slug',
+            'regular_price'   => 'Giá ban đầu',
+            'sale_price'      => 'Giá khuyến mãi',
+            'image'           => 'Ảnh sản phẩm',
+            'multiple_images' => 'Danh mục ảnh',
+            'categories'      => 'Danh mục sản phẩm',
+            'stock_qty'       => 'Số lượng sản phẩm',
+            'brands'          => 'Tên thuơng hiệu',
+            'description'     => 'Mô tả sản phẩm'
         ];
     }
 }

@@ -20,21 +20,9 @@ trait uploadImageTrait {
      *
      */
     public function uploadMultipleImages(array $files, string $directoryType) {
-        if (!in_array($directoryType, $this->validDirectoryTypes)) {
-            throw new \InvalidArgumentException('Invalid directory type');
-        }
-
-        $paths = [];
         foreach ($files as $file) {
-            $extension = strtolower($file->getClientOriginalExtension());
-            $filename  = time() . '.' . $extension;
-            $now       = Carbon::now();
-            $path      = 'uploads/' . $directoryType . '/' . $now->year . '/' . $now->month . '/';
-            Storage::disk('public')->putFileAs($path, $file, $filename);
-            $paths[] = $path . $filename;
+            $this->uploadOneImage($file, $directoryType);
         }
-
-        return $paths;
     }
 
     /**
@@ -51,7 +39,7 @@ trait uploadImageTrait {
         }
 
         $extension = strtolower($file->getClientOriginalExtension());
-        $filename  = time() . '.' . $extension;
+        $filename = $directoryType . '_' . uniqid() . '_' . time() . '.' . $extension;
         $now       = Carbon::now();
         $path      = 'uploads/' . $directoryType . '/' . $now->year . '/' . $now->month . '/';
         if (!Storage::exists($path)) {

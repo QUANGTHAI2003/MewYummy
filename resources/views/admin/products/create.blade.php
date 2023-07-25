@@ -10,7 +10,7 @@
         <div class="overflow-hidden shadow sm:rounded-md">
           <div class="bg-white px-4 py-5 sm:p-6">
             <div class="col-span-9 sm:col-span-4">
-              <div class="grid md:grid-cols-6 gap-6 grid-cols-3">
+              <div class="grid grid-cols-3 gap-6 md:grid-cols-6">
                 <div class="col-span-6 sm:col-span-3">
                   <label for="name" class="my-2 block text-sm font-medium text-gray-700">Tến sản phẩm</label>
                   <input type="text" name="name" id="name" value="{{ old('name') }}" class="input-form">
@@ -26,7 +26,7 @@
                   @enderror
                 </div>
               </div>
-              <div class="grid md:grid-cols-6 gap-6 grid-cols-3">
+              <div class="grid grid-cols-3 gap-6 md:grid-cols-6">
                 <div class="col-span-6 sm:col-span-3">
                   <label for="categories" class="my-2 block text-sm font-medium text-gray-700">Danh mục</label>
                   <select class="input-form" name="categories" id="categories" autocomplete="categories">
@@ -50,7 +50,7 @@
                   @enderror
                 </div>
               </div>
-              <div class="grid md:grid-cols-6 gap-6 py-3 grid-cols-3">
+              <div class="grid grid-cols-3 gap-6 py-3 md:grid-cols-6">
                 <div class="col-span-6 sm:col-span-3">
                   <label for="regular_price" class="my-2 block text-sm font-medium text-gray-700">Giá thường</label>
                   <input type="number" name="regular_price" id="regular_price" value="{{ old('regular_price') }}"
