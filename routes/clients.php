@@ -52,3 +52,12 @@ Route::post('/login', [LoginController::class, 'authenticate'])->name('authentic
 Route::get('/register', [RegisterController::class, 'register'])->name('register');
 Route::post('/register', [RegisterController::class, 'postRegister'])->name('postRegister');
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
+
+Route::get('/login/google', [LoginController::class, 'redirectToGoogle'])->name('login.google');
+Route::get('/login/google/callback', [LoginController::class, 'handleGoogleCallback'])
+    ->name('login.google.callback');
+
+Route::get('/login/facebook', [LoginController::class, 'redirectToFacebook'])
+    ->name('login.facebook');
+Route::get('/login/facebook/callback', [LoginController::class, 'handleFacebookCallback'])
+    ->name('login.facebook.callback');

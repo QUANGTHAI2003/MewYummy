@@ -36,9 +36,9 @@
           <button type="submit" class="btn btn-primary submit_btn w-100 my-4" id="btnSubmit">Sign In</button>
           <div class="other text-muted text-uppercase mb-3 text-center"><span>OR</span></div>
           <div class="social-account">
-            <a href="#" class="btn btn-light login_with w-100 mb-3">
+            <a href="{{ route('login.google') }}" class="btn btn-light login_with w-100 mb-3">
               <img alt="Logo" src="{{ asset('storage/images/google.png') }}" class="img-fluid me-3">Google</a>
-            <a href="#" class="btn btn-light login_with w-100 mb-3">
+            <a href="{{ route('login.facebook') }}" class="btn btn-light login_with w-100 mb-3">
               <img alt="Logo" src="{{ asset('storage/images/facebook.png') }}" class="img-fluid me-3">Facebook</a>
           </div>
         </form>

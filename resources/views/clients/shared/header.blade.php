@@ -59,11 +59,26 @@
             </a>
           </div>
           <div class="action__block d-none d-lg-block">
-            <div class="d-lg-flex align-items-stretch">
+            <div class="d-lg-flex align-items-center">
               <div class="action__block-login btn-account d-lg-flex me-3 p-2">
-                <i class="fa-solid fa-user icon icon-outline"></i>
+                @if (Auth::check())
+                  @php
+                    $avatar = auth()->user()->avatar;
+
+                    if (strpos($avatar, 'https://') !== false) {
+                        $avatar = auth()->user()->avatar;
+                    } else {
+                        $avatar = asset('storage/images/avatar/' . auth()->user()->avatar);
+                    }
+                  @endphp
+
+                  <img src="{{ $avatar }}" alt="{{ auth()->user()->name }}">
+                @else
+                  <i class="fa-solid fa-user icon icon-outline"></i>
+                @endif
                 <ul class="pop__login sub__menu">
                   @if (Auth::check())
+                    <h4 class="d-block fs-6">{{ auth()->user()->name }}</h4>
                     <li class="pop__login-list">
                       <a href="{{ route('account.index') }}" class="pop__login-link d-block fw-bold">Tài khoản</a>
                     </li>

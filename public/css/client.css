@@ -257,7 +257,12 @@ li {
   align-items: center;
   justify-content: center;
   position: relative;
-  min-width: 60px;
+  min-width: 100px;
+}
+.header .action__block-login img {
+  width: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
 }
 .header .action__block-login .icon {
   font-size: 26px;

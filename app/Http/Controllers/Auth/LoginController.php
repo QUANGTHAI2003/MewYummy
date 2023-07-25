@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
+use Laravel\Socialite\Facades\Socialite;
 
 class LoginController extends Controller {
     public function __construct() {
@@ -23,8 +24,8 @@ class LoginController extends Controller {
 
         $roles = Role::all()->pluck('name')->toArray();
 
-        $user = User::where('email', $request->email)->first();
-        $user->is_active = 1;
+        $user               = User::where('email', $request->email)->first();
+        $user->is_active    = 1;
         $user->last_seen_at = now();
         $user->save();
 
@@ -39,9 +40,61 @@ class LoginController extends Controller {
         return back()->with('error', 'Tài khoản hoặc mật khẩu không chính xác');
     }
 
+    public function redirectToGoogle() {
+        return Socialite::driver('google')->redirect();
+    }
+
+    public function handleGoogleCallback() {
+        $user = Socialite::driver('google')->user();
+
+        $this->_registerOrLoginUser($user);
+
+        return redirect()->route('home');
+    }
+
+    public function redirectToFacebook() {
+        return Socialite::driver('facebook')->redirect();
+    }
+
+    public function handleFacebookCallback() {
+        $user = Socialite::driver('facebook')->user();
+
+        $this->_registerOrLoginUser($user);
+
+        return redirect()->route('home');
+    }
+
+    protected function _registerOrLoginUser($data) {
+        try {
+            $user = User::where('email', $data->email)->first();
+
+            if (!$user) {
+                $user = User::create([
+                    'name'              => $data->name,
+                    'email'             => $data->email,
+                    'avatar'            => $data->avatar,
+                    'provider_id'       => $data->id,
+                    'password'          => bcrypt('123456'),
+                    'is_active'         => 1,
+                    'last_seen_at'      => now(),
+                    'email_verified_at' => now()
+                ]);
+            } else {
+                $user->is_active    = 1;
+                $user->last_seen_at = now();
+                $user->save();
+            }
+
+            auth()->login($user);
+
+        } catch (\Throwable $th) {
+            return back()->with('error', 'Đã có lỗi xảy ra');
+        }
+    }
+
     public function logout(Request $request) {
-        $user = User::find(auth()->user()->id);
-        $user->is_active = 0;
+        $user               = User::find(auth()->user()->id);
+        $user->is_active    = 0;
         $user->last_seen_at = now();
         $user->save();
 
