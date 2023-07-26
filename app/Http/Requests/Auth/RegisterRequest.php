@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Auth;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Lunaweb\RecaptchaV3\Facades\RecaptchaV3;
 
 class RegisterRequest extends FormRequest {
     /**
@@ -20,10 +21,14 @@ class RegisterRequest extends FormRequest {
      * @return array<string, mixed>
      */
     public function rules() {
+        $score = RecaptchaV3::verify($this->get('g-recaptcha-response'), 'postRegister');
         return [
-            'name'       => 'required',
-            'email'      => 'required|email|unique:users,email',
-            'password'   => 'required|min:6|confirmed',
+            'name'                  => 'required',
+            'email'                 => 'required|email|unique:users,email',
+            'password'              => 'required|min:6|confirmed|same:password_confirmation',
+            'password_confirmation' => 'required|min:6|same:password',
+            // 'g-recaptcha-response'  => 'required|recaptchav3:register,0.5',
+            'terms_of_service'      => 'required|accepted'
         ];
     }
 
@@ -50,9 +55,11 @@ class RegisterRequest extends FormRequest {
      */
     public function attributes() {
         return [
-            'name'       => 'Tên',
-            'email'      => 'Email',
-            'password'   => 'Mật khẩu',
+            'name'     => 'Tên',
+            'email'    => 'Email',
+            'password' => 'Mật khẩu',
+            'g-recaptcha-response' => 'reCAPTCHA',
+            'terms_of_service' => 'Điều khoản sử dụng'
         ];
     }
 
@@ -63,9 +70,9 @@ class RegisterRequest extends FormRequest {
      */
     public function filters() {
         return [
-            'name'       => 'trim',
-            'email'      => 'trim',
-            'password'   => 'trim',
+            'name'     => 'trim',
+            'email'    => 'trim',
+            'password' => 'trim'
         ];
     }
 }

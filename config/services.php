@@ -39,5 +39,4 @@ return [
         'client_secret' => env('FACEBOOK_SECRET_ID'),
         'redirect' => env('FACEBOOK_REDIRECT_URL'),
     ],
-
 ];

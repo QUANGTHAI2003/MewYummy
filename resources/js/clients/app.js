@@ -1,3 +1,2 @@
-console.log('client app');
-require('./app')
+require('./main')
 require('./slider')

@@ -12,6 +12,7 @@
     "fruitcake/laravel-cors": "^2.0.5",
     "guzzlehttp/guzzle": "^7.2",
     "intervention/image": "^2.7",
+    "josiasmontag/laravel-recaptchav3": "^1.0",
     "laracraft-tech/laravel-date-scopes": "^1.1",
     "laravel/framework": "^9.0",
     "laravel/sanctum": "^2.14",

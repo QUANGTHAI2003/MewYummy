@@ -68,7 +68,7 @@
                     if (strpos($avatar, 'https://') !== false) {
                         $avatar = auth()->user()->avatar;
                     } else {
-                        $avatar = asset('storage/images/avatar/' . auth()->user()->avatar);
+                        $avatar = asset('storage/images/avatars/' . auth()->user()->avatar);
                     }
                   @endphp
 

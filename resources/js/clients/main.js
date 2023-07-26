@@ -95,7 +95,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     // Set the date you want to count down to
-    const countDownDate = new Date("Mar 30, 2023 10:30:00").getTime();
+    const countDownDate = new Date("Aug 30, 2023 10:30:00").getTime();
     const day = document.querySelector('.day');
     const hour = document.querySelector('.hour');
     const minute = document.querySelector('.minute');
@@ -122,7 +122,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (distance <= 0) {
             clearInterval(countdown);
-            hideSales.style.display = 'none';
+            hideSales && hideSales.classList.add('d-none');
         }
     }
 

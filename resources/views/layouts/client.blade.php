@@ -14,6 +14,9 @@
 
     <link href="{{ asset('storage/vendor/font/fontawesome-free-6.2.1-web/css/all.min.css') }}" rel="stylesheet">
     <link href="{{ asset('storage/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('plugins/swiperjs/swiper-bundle.min.css') }}" rel="stylesheet">
+    {!! RecaptchaV3::initJs() !!}
+
     @stack('styles-plugins')
 
     <link rel="stylesheet" href="{{ mix('css/client.css') }}"/>
@@ -42,12 +45,12 @@
 @livewireScripts
 @wireUiScripts
 <script defer src="{{ mix('js/app.js') }}"></script>
-<script src="{{ mix('js/client.js') }}"></script>
 
 {{-- Plugins JS --}}
+<script src="{{ asset('plugins/jquery-3.6.0.min.js') }}"></script>
 <script src="{{ asset('storage/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-
-{{-- Custom js and link --}}
+<script src="{{ mix('js/client.js') }}"></script>
+<script src="{{ asset('plugins/swiperjs/swiper-bundle.min.js') }}"></script>
 @stack('scripts')
 </body>
 

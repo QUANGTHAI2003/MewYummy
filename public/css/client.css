@@ -2246,7 +2246,7 @@ footer .footer-mid .store:hover .tit {
   opacity: 0;
   transition: opacity 0.35s, transform 0.35s;
   transform: scale3d(1.4, 1.4, 1);
-  background-image: url("../../assets/images/favicon.webp");
+  background-image: url("../../storage/images/favicon.webp");
   background-repeat: no-repeat;
   background-position: center center;
   background-size: 70px;
@@ -2383,7 +2383,7 @@ footer .footer-mid .store:hover .tit {
   overflow: hidden;
 }
 .item__video .modal-open .video_open {
-  background-image: url("../../assets/images/play-button.webp");
+  background-image: url("../../storage/images/play-button.webp");
   position: absolute;
   width: 100%;
   height: 100%;
