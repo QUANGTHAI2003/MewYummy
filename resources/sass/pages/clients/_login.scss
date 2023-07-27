@@ -76,4 +76,14 @@
 			}
 		}
 	}
+
+    .form-check {
+        font-size: 18px;
+        cursor: pointer;
+
+        &-label {
+            cursor: pointer;
+            user-select: none;
+        }
+    }
 }

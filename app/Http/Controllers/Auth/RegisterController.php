@@ -15,7 +15,7 @@ class RegisterController extends Controller
     }
 
     public function postRegister(RegisterRequest $request) {
-        $data = $request->except('_token');
+        $data = $request->validated();
         $data['password'] = bcrypt($data['password']);
         $user = User::create($data);
         if ($user) {

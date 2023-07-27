@@ -27,7 +27,7 @@ class RegisterRequest extends FormRequest {
             'email'                 => 'required|email|unique:users,email',
             'password'              => 'required|min:6|confirmed|same:password_confirmation',
             'password_confirmation' => 'required|min:6|same:password',
-            // 'g-recaptcha-response'  => 'required|recaptchav3:register,0.5',
+            // 'g-recaptcha-response'  => 'required|recaptchav3:postRegister,0.5',
             'terms_of_service'      => 'required|accepted'
         ];
     }

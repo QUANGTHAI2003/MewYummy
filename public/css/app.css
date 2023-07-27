@@ -5194,11 +5194,6 @@ input[type="number"].appearance-number-none {
   background-color: rgb(4 108 78 / var(--tw-bg-opacity)) !important;
 }
 
-:is(.dark .dark\:bg-green-800) {
-  --tw-bg-opacity: 1 !important;
-  background-color: rgb(3 84 63 / var(--tw-bg-opacity)) !important;
-}
-
 :is(.dark .dark\:bg-indigo-700) {
   --tw-bg-opacity: 1 !important;
   background-color: rgb(81 69 205 / var(--tw-bg-opacity)) !important;
@@ -5359,11 +5354,6 @@ input[type="number"].appearance-number-none {
 :is(.dark .dark\:text-gray-600) {
   --tw-text-opacity: 1 !important;
   color: rgb(75 85 99 / var(--tw-text-opacity)) !important;
-}
-
-:is(.dark .dark\:text-green-200) {
-  --tw-text-opacity: 1 !important;
-  color: rgb(188 240 218 / var(--tw-text-opacity)) !important;
 }
 
 :is(.dark .dark\:text-negative-500) {

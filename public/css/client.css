@@ -21,8 +21,8 @@ html {
 
 body {
   min-height: 100vh;
-  font-family: "Quicksand", sans-serif;
-  line-height: 1.5;
+  font-family: "Open Sans", sans-serif;
+  color: #444444;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
   background-color: #fff;
@@ -1723,6 +1723,16 @@ footer .footer-mid .store:hover .tit {
 .wrapper .social-account .login_with img {
   display: inline-block;
   max-width: 40px;
+}
+.wrapper .form-check {
+  font-size: 18px;
+  cursor: pointer;
+}
+.wrapper .form-check-label {
+  cursor: pointer;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
 }
 
 .cart-layout h2 {

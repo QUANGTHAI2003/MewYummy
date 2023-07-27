@@ -2,82 +2,104 @@
 
 namespace Database\Seeders;
 
+use Exception;
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Permission;
-use Spatie\Permission\Models\Role;
 
-class RolesAndPermissionsSeeder extends Seeder{
+class RolesAndPermissionsSeeder extends Seeder
+{
 
     /**
      * Run the database seeds.
      *
      * @return void
      */
-    public function run(){
-        // Reset cached roles and permissions
-        app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
+    public function run()
+    {
+        DB::beginTransaction();
 
-        $permissions = [
-            'View products',
-            'Create product',
-            'Update product',
-            'Delete product',
-            'View categories',
-            'Create category',
-            'Update category',
-            'Delete category',
-            'Manage users',
-            'Authorizations',
-        ];
+        try {
+            // Reset cached roles and permissions
+            app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
 
-        // create permissions
-        foreach ($permissions as $permission){
-            if (!Permission::where('name', $permission)->first()){
-                Permission::create(['name' => $permission]);
-            }
+            // Create permissions in bulk
+            $permissions = collect([
+                ['name' => 'View products', 'guard_name' => 'web'],
+                ['name' => 'Create product', 'guard_name' => 'web'],
+                ['name' => 'Update product', 'guard_name' => 'web'],
+                ['name' => 'Delete product', 'guard_name' => 'web'],
+                ['name' => 'View categories', 'guard_name' => 'web'],
+                ['name' => 'Create category', 'guard_name' => 'web'],
+                ['name' => 'Update category', 'guard_name' => 'web'],
+                ['name' => 'Delete category', 'guard_name' => 'web'],
+                ['name' => 'Manage users', 'guard_name' => 'web'],
+                ['name' => 'Authorizations', 'guard_name' => 'web']
+            ]);
+
+            Permission::insert($permissions->toArray());
+
+            $roles = collect([
+                ['guard_name' => 'web', 'name' => 'admin', 'description' => 'Vai trò này có quyền truy cập vào tất cả các chức năng của hệ thống'],
+                ['guard_name' => 'web', 'name' => 'owner', 'description' => 'Vai trò này có quyền truy cập vào tất cả các chức năng của hệ thống, ngoại trừ phân quyền'],
+                ['guard_name' => 'web', 'name' => 'editor', 'description' => 'Vai trò này có quyền truy cập vào các chức năng quản lý sản phẩm']
+            ]);
+
+            Role::insert($roles->toArray());
+
+            $permissionIds = Permission::pluck('id')->toArray();
+
+            // Assign permissions to roles
+            $adminPermissions  = $permissionIds;
+            $ownerPermissions  = array_diff($permissionIds, [10]); // exclude 'Authorizations' permission
+            $editorPermissions = [1, 2]; // 'View products', 'Create product'
+
+            Role::find(1)->permissions()->sync($adminPermissions);
+            Role::find(2)->permissions()->sync($ownerPermissions);
+            Role::find(3)->permissions()->sync($editorPermissions);
+
+            $users = collect([
+                [
+                    'name'         => 'Admin',
+                    'email'        => 'admin@example.com',
+                    'password'     => Hash::make('12345678'),
+                    'last_seen_at' => '2023-07-25 02:11:36'
+                ],
+                [
+                    'name'         => 'Owner',
+                    'email'        => 'owner@example.com',
+                    'password'     => Hash::make('12345678'),
+                    'last_seen_at' => '2023-07-25 02:11:36'
+                ],
+                [
+                    'name'         => 'Editor',
+                    'email'        => 'editor@example.com',
+                    'password'     => Hash::make('12345678'),
+                    'last_seen_at' => '2023-07-25 02:11:36'
+                ],
+                [
+                    'name'         => 'quangthai',
+                    'email'        => 'tranquangthai.10102003@gmail.com',
+                    'password'     => Hash::make('12345678'),
+                    'last_seen_at' => '2023-07-25 02:11:36'
+                ]
+            ]);
+
+            User::insert($users->toArray());
+
+            // Assign roles to users
+            User::find(1)->assignRole('admin');
+            User::find(2)->assignRole('owner');
+            User::find(3)->assignRole('editor');
+
+            DB::commit();
+
+        } catch (Exception $e) {
+            DB::rollback();
+            throw $e;
         }
-
-        $adminRole   = Role::firstOrCreate(['name' => 'admin', 'description' => 'Vai trò nay có quyền truy cập vào tất cả các chức năng của hệ thống']);
-        $ownerRole   = Role::firstOrCreate(['name' => 'owner', 'description' => 'Vai trò này có quyền truy cập vào tất cả các chức năng của hệ thống, ngoại trừ phân quyền']);
-        $editorRole = Role::firstOrCreate(['name' => 'editor', 'description' => 'Vai trò này có quyền truy cập vào các chức năng quản lý sản phẩm']);
-
-        $adminRole->syncPermissions($permissions);
-        $ownerRole->syncPermissions(array_diff($permissions, ['Authorizations']));
-        $editorRole->syncPermissions([
-            'View products',
-            'Create product',
-        ]);
-
-        // assign role to admin
-        $admin = User::factory()->create([
-            'name'     => 'Admin',
-            'email'    => 'admin@example.com',
-            'password' => Hash::make('12345678'),
-            'last_seen_at' => '2023-07-25 02:11:36',
-        ]);
-
-        $admin->assignRole($adminRole);
-
-        // assign role to owner
-        $owner = User::factory()->create([
-            'name'     => 'Owner',
-            'email'    => 'owner@example.com',
-            'password' => Hash::make('12345678'),
-            'last_seen_at' => '2023-07-25 02:11:36'
-        ]);
-
-        $owner->assignRole($ownerRole);
-
-        // assign role to partner
-        $editor = User::factory()->create([
-            'name'     => 'Editor',
-            'email'    => 'editor@example.com',
-            'password' => Hash::make('12345678'),
-            'last_seen_at' => '2023-07-25 02:11:36'
-        ]);
-
-        $editor->assignRole($editorRole);
     }
 }
