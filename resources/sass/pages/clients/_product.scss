@@ -58,7 +58,7 @@
 	.page-item {
 		margin: 0 3px;
 
-		&.active a,
+		&.active .page-link,
 		&:hover:not(:last-child, :first-child) a {
 			background: $primaryColor !important;
 			color: $white;

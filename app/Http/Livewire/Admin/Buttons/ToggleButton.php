@@ -7,6 +7,7 @@ use Livewire\Component;
 use WireUi\Traits\Actions;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Support\Facades\Log;
 
 class ToggleButton extends Component {
 
@@ -27,6 +28,9 @@ class ToggleButton extends Component {
             try {
                 $this->authorize($this->authorize);
                 $this->model->setAttribute($this->field, $value)->save();
+
+                Log::info('Updated');
+
                 if ($value) {
                     $this->notification()->success(
                         $title = 'Đã lưu !!!',

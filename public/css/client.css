@@ -1038,7 +1038,7 @@ footer .footer-mid .store:hover .tit {
 .pagination .page-item {
   margin: 0 3px;
 }
-.pagination .page-item.active a, .pagination .page-item:hover:not(:last-child, :first-child) a {
+.pagination .page-item.active .page-link, .pagination .page-item:hover:not(:last-child, :first-child) a {
   background: #2e9f3c !important;
   color: #fff;
   border-color: #2e9f3c;

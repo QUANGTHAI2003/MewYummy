@@ -15,7 +15,7 @@ class ProductImageSeeder extends Seeder {
     public function run() {
         $data = [];
 
-        for ($i = 1; $i <= 10; $i++) {
+        for ($i = 1; $i <= 23; $i++) {
             $data[] = [
                 'image'      => 'pro' . $i . '.webp',
                 'product_id' => $i,

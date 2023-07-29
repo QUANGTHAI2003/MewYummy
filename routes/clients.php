@@ -27,8 +27,9 @@ Route::get('/about', function () {
 })->name('about');
 
 Route::prefix('product')->group(function () {
-    Route::get('/', [ProductController::class, 'list'])->name('product');
-    Route::get('/{id}', [ProductController::class, 'detail'])->name('detail');
+    Route::get('/collections', [ProductController::class, 'index'])->name('product');
+    Route::get('/{slug}-p{id}.html', [ProductController::class, 'show'])->name('show')
+    ->where(['slug' => '[a-z0-9-]+', 'id' => '[0-9]+']);
 });
 
 Route::get('/cart', [CartController::class, 'index'])->name('cart');

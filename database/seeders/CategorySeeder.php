@@ -27,7 +27,7 @@ class CategorySeeder extends Seeder
                 'is_active' => true,
             ],
             [
-                'name' => 'Đồ khô',
+                'name' => 'Hải sản',
                 'slug' => 'do-kho',
                 'is_active' => true,
             ],

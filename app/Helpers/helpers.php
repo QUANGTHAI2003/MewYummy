@@ -2,9 +2,10 @@
 
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Storage;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
-if (!function_exists('formatNumber')){
+if (!function_exists('formatNumber')) {
     /**
      * @param float  $num
      * @param int    $digits
@@ -13,20 +14,20 @@ if (!function_exists('formatNumber')){
      * @return string
      */
     function formatNumber(float $num, int $digits = 0, string $unit = '₫')
-    : string{
-        try{
-            if ($digits < 0){
+        : string {
+        try {
+            if ($digits < 0) {
                 throw new InvalidArgumentException('Số chữ số thập phân phải lớn hơn hoặc bằng 0');
             }
 
             return number_format($num, $digits, ',', '.') . $unit;
-        }catch (Exception $e){
+        } catch (Exception $e) {
             return $e->getMessage();
         }
     }
 }
 
-if (!function_exists('formatDate')){
+if (!function_exists('formatDate')) {
     /**
      * @param string $date
      * @param string $format
@@ -34,9 +35,9 @@ if (!function_exists('formatDate')){
      * @return string
      */
     function formatDate(string $date, string $format = 'd/m/Y')
-    : string{
+        : string{
         $dateTime = DateTime::createFromFormat($format, $date);
-        if (!$dateTime){
+        if (!$dateTime) {
             throw new InvalidArgumentException('Ngày tháng không hợp lệ: ' . $date);
         }
 
@@ -44,7 +45,7 @@ if (!function_exists('formatDate')){
     }
 }
 
-if (!function_exists('formatDateTime')){
+if (!function_exists('formatDateTime')) {
     /**
      * @param string $date
      * @param string $format
@@ -52,9 +53,9 @@ if (!function_exists('formatDateTime')){
      * @return string
      */
     function formatDateTime(string $date, string $format = 'd/m/Y H:i:s')
-    : string{
+        : string{
         $dateTime = DateTime::createFromFormat($format, $date);
-        if (!$dateTime){
+        if (!$dateTime) {
             throw new InvalidArgumentException('Ngày tháng không hợp lệ: ' . $date);
         }
 
@@ -63,70 +64,85 @@ if (!function_exists('formatDateTime')){
 }
 
 // some useful functions for ecommerce website
-if (!function_exists('getPrice')){
+if (!function_exists('getPrice')) {
     /**
      * @param float      $price
      * @param null|float $sale_price
      *
      * @return string
      */
-    function getPrice(float $price, ?float $sale_price = NULL)
-    : string{
-        if ($price < 0){
+    function getPrice(float $price, ?float $sale_price = null): string
+    {
+        if ($price < 0) {
             throw new InvalidArgumentException('Giá sản phẩm phải lớn hơn hoặc bằng 0');
         }
 
-        if ($sale_price !== NULL && $sale_price < 0){
+        if ($sale_price !== null && $sale_price < 0) {
             throw new InvalidArgumentException('Giá khuyến mãi phải lớn hơn hoặc bằng 0');
         }
 
-        return formatNumber($price);
+        if ($sale_price == 0 || $sale_price === null) {
+            return formatNumber($price);
+        } else {
+            return formatNumber($sale_price);
+        }
     }
 }
 
-if (!function_exists('getSalePercent')){
+if (!function_exists('getSalePercent')) {
     /**
      * @param float      $price
      * @param null|float $sale_price
      *
-     * @return null|int
+     * @return null|string
      */
-    function getSalePercent(float $price, ?float $sale_price = NULL)
-    : ?int{
-        if ($price <= 0){
+    function getSalePercent(float $price, ?float $sale_price = null): ?string
+    {
+        if ($price <= 0) {
             throw new InvalidArgumentException("Giá sản phẩm phải lớn hơn hoặc bằng 0");
         }
-        if ($sale_price !== NULL && $sale_price >= $price){
+
+        if ($sale_price !== null && $sale_price >= $price) {
             throw new InvalidArgumentException("Giá khuyến mãi phải nhỏ hơn giá sản phẩm");
         }
-        if ($sale_price !== NULL){
+
+        if ($sale_price !== null) {
             $percent = round(($price - $sale_price) / $price * 100);
-            if ($percent < 0 || $percent > 100){
+
+            if ($percent < 0 || $percent > 100) {
                 throw new InvalidArgumentException("Phần trăm khuyến mãi phải nằm trong khoảng từ 0 đến 100");
             }
 
-            return $percent;
-        }
+            if($percent === 0) {
+                return null;
+            }
 
-        return NULL;
+            if($percent == 100) {
+                return null;
+            }
+
+            return '- ' . $percent . '%';
+        } else {
+            return 0;
+        }
     }
 }
 
-if (!function_exists('generateSKU')){
+if (!function_exists('generateSKU')) {
     /**
      * @param int $length
      *
      * @return string
      */
     function generateSKU(int $length = 8)
-    : string{
-        if ($length < 1){
+        : string {
+        if ($length < 1) {
             throw new InvalidArgumentException("SKU phải có ít nhất 1 ký tự");
         }
         $characters       = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $charactersLength = strlen($characters);
         $sku              = '';
-        for ($i = 0; $i < $length; $i ++){
+        for ($i = 0; $i < $length; $i++) {
             $sku .= $characters[rand(0, $charactersLength - 1)];
         }
 
@@ -134,7 +150,7 @@ if (!function_exists('generateSKU')){
     }
 }
 
-if (!function_exists('calculateDiscount')){
+if (!function_exists('calculateDiscount')) {
     /**
      * @param float $price
      * @param float $sale_price
@@ -142,13 +158,13 @@ if (!function_exists('calculateDiscount')){
      * @return int
      */
     function calculateDiscount(float $price, float $sale_price)
-    : int{
-        if ($price <= 0 || $sale_price <= 0){
+        : int {
+        if ($price <= 0 || $sale_price <= 0) {
             throw new InvalidArgumentException("Giá sản phẩm và giá khuyến mãi phải lớn hơn 0");
         }
         $discountAmount  = $price - $sale_price;
         $discountPercent = round($discountAmount / $price * 100);
-        if ($discountPercent < 0 || $discountPercent > 100){
+        if ($discountPercent < 0 || $discountPercent > 100) {
             throw new InvalidArgumentException("Phần trăm khuyến mãi phải nằm trong khoảng từ 0 đến 100");
         }
 
@@ -156,15 +172,15 @@ if (!function_exists('calculateDiscount')){
     }
 }
 
-if (!function_exists('getRatingStar')){
+if (!function_exists('getRatingStar')) {
     /**
      * @param float $rating
      *
      * @return string
      */
     function getRatingStar(float $rating)
-    : string{
-        if ($rating < 0 || $rating > 5){
+        : string {
+        if ($rating < 0 || $rating > 5) {
             throw new InvalidArgumentException("Đánh giá phải nằm trong khoảng từ 0 đến 5");
         }
         $rating = round($rating * 2) / 2;
@@ -186,29 +202,29 @@ if (!function_exists('getRatingStar')){
     }
 }
 
-if (!function_exists('convertCurrency')){
+if (!function_exists('convertCurrency')) {
     /**
      * @param float $amount
      *
      * @return string
      */
     function convertCurrency(float $amount)
-    : string{
+        : string{
         $locale       = LaravelLocalization::getCurrentLocale();
         $locales      = config('app.locales'); // vi and en
         $exchangeRate = 0.000043; // 1 USD = 23,000 VND
 
-        if ($amount <= 0){
+        if ($amount <= 0) {
             throw new InvalidArgumentException('Số tiền phải lớn hơn 0');
         }
 
-        if (!in_array($locale, $locales)){
+        if (!in_array($locale, $locales)) {
             throw new InvalidArgumentException('Ngôn ngữ không hợp lệ');
         }
 
-        if ($locale == 'vi'){
+        if ($locale == 'vi') {
             return formatNumber($amount, 0, '') . '₫';
-        }else{
+        } else {
             $amount = $amount * $exchangeRate;
 
             return '$' . formatNumber($amount, 2, '');
@@ -216,32 +232,44 @@ if (!function_exists('convertCurrency')){
     }
 }
 
-if (!function_exists('formatTime')){
+if (!function_exists('formatTime')) {
     /**
      * @param $time
      *
      * @return string
      */
     function formatTime($time)
-    : string{
+        : string {
         return Carbon::parse($time)->locale(config('app.locale'))->diffForHumans();
     }
 }
 
-if (!function_exists('transRoute')){
+if (!function_exists('transRoute')) {
     /**
      * @param $route
      *
      * @return string
      */
     function transRoute($route)
-    : string{
+        : string{
         $routeKey = explode('.', $route)[1];
         $data     = Lang::get('routes');
-        if (!array_key_exists($routeKey, $data)){
+        if (!array_key_exists($routeKey, $data)) {
             throw new InvalidArgumentException('Route không tồn tại. Vui lòng kiểm tra lại');
         }
 
         return LaravelLocalization::transRoute($route);
+    }
+}
+
+if (!function_exists('getProductImage')) {
+    function getProductImage($image)
+    {
+        $path = 'images/products/' . $image;
+        if (!Storage::exists($path)) {
+            return asset('storage/' . $image);
+        }
+
+        return asset('storage/' . $path);
     }
 }

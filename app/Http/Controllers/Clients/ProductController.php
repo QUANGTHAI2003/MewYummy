@@ -2,15 +2,25 @@
 
 namespace App\Http\Controllers\Clients;
 
+use App\Models\Product;
 use App\Http\Controllers\Controller;
 
-class ProductController extends Controller{
+class ProductController extends Controller
+{
 
-    public function list(){
-        return view('clients.pages.product');
+    public function index()
+    {
+        $products = Product::all();
+        return view('clients.pages.product', compact('products'));
     }
 
-    public function detail($id){
-        return view('clients.pages.product_detail', ['id' => $id]);
+    public function show($slug, $id)
+    {
+        $product        = Product::with('categories')->findOrFail($id);
+        $productRelated = Product::where('id', '!=', $id)
+            ->where('category_id', $product->category_id)
+            ->orderBy('id', 'desc')->take(6)->get();
+        return view('clients.pages.product_detail', compact('product', 'productRelated'));
     }
+
 }
