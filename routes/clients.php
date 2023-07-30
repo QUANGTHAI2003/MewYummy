@@ -45,8 +45,10 @@ Route::get('/contact', function () {
 Route::prefix('account')->name('account.')->group(function () {
     Route::get('/', [AccountController::class, 'profile'])->name('index');
     Route::get('/update-info', [AccountController::class, 'updateInfo'])->name('updateInfo');
+    Route::put('/update-info/{id}', [AccountController::class, 'postUpdateInfo'])->name('postUpdateInfo');
     Route::get('/update-password', [AccountController::class, 'updatePassword'])
         ->name('updatePassword');
+    Route::put('/update-password/{id}', [AccountController::class, 'postUpdatePassword'])->name('postUpdatePassword');
 });
 
 // Authentication routes

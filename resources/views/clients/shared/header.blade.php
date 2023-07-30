@@ -65,13 +65,12 @@
                   @php
                     $avatar = auth()->user()->avatar;
 
-                    if (strpos($avatar, 'https://') !== false) {
+                    if (file_exists(public_path('storage/images/avatars/' . auth()->user()->avatar))) {
                         $avatar = auth()->user()->avatar;
                     } else {
-                        $avatar = asset('storage/images/avatars/' . auth()->user()->avatar);
+                        $avatar = asset('storage/' . auth()->user()->avatar);
                     }
                   @endphp
-
                   <img src="{{ $avatar }}" alt="{{ auth()->user()->name }}">
                 @else
                   <i class="fa-solid fa-user icon icon-outline"></i>

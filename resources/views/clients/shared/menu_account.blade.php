@@ -3,26 +3,25 @@
         <div class="col-12">
             <div class="account-action rounded h-100">
                 <div class="item_acc border-bottom">
-                    <a href="{{ route('account.index') }}" class="active" title="Thông
-            tin tài khoản">
+                    <a href="{{ route('account.index') }}" class="{{ request()->routeIs('account.index') ? 'active' : '' }}" title="Thông tin tài khoản">
                         <i class="fa-solid fa-user icon"></i>
                         <span class="ms-3">Thông tin tài khoản</span>
                     </a>
                 </div>
                 <div class="item_acc border-bottom">
-                    <a href="{{ route('account.updateInfo') }}" class=" d-flex w-100 align-items-center" title="Quản lý địa chỉ">
+                    <a href="{{ route('account.updateInfo') }}" class="{{ request()->routeIs('account.updateInfo') ? 'active' : '' }} d-flex w-100 align-items-center" title="Quản lý địa chỉ">
                         <i class="fa-solid fa-pen-to-square icon"></i>
                         <span class="ms-3">Cập nhật tài khoản</span>
                     </a>
                 </div>
                 <div class="item_acc border-bottom">
-                    <a href="{{ route('account.updatePassword') }}" class=" d-flex w-100 align-items-center" title="Đổi mật khẩu">
+                    <a href="{{ route('account.updatePassword') }}" class="{{ request()->routeIs('account.updatePassword') ? 'active' : '' }} d-flex w-100 align-items-center" title="Đổi mật khẩu">
                         <i class="fa-solid fa-shuffle icon"></i>
                         <span class="ms-3">Đổi mật khẩu</span>
                     </a>
                 </div>
                 <div class="item_acc">
-                    <a class="d-flex w-100 align-items-center" href="#" title="Đăng xuất">
+                    <a class="d-flex w-100 align-items-center" href="{{ route('logout') }}" title="Đăng xuất">
                         <i class="fa-solid fa-arrow-right-from-bracket icon"></i>
                         <span class="ms-3">Đăng xuất</span>
                     </a>
