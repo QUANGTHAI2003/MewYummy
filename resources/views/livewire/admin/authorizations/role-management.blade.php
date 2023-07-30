@@ -43,6 +43,7 @@
           </tr>
         </thead>
         <tbody class="bg-white">
+            @if(count($roles) > 0)
           @foreach ($roles as $role)
             <tr wire:loading.class.delay="opacity-50 cursor-wait">
               <td class="table-body">
@@ -84,6 +85,21 @@
               </td>
             </tr>
           @endforeach
+          @else
+          <tr>
+            <td colspan="8" class="py-4 text-center">
+              <div class="flex items-center justify-center">
+                <div class="flex flex-col items-center">
+                  <div class="flex flex-col items-center">
+                    <span class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+                      Không có dữ liệu
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </td>
+          </tr>
+          @endif
         </tbody>
         @include('livewire.admin.authorizations.modal-delete-role')
       </table>

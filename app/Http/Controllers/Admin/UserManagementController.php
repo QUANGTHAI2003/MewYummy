@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Requests\Admin\UserRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
@@ -26,55 +27,67 @@ class UserManagementController extends Controller {
         return view('admin.authorizations.users.create', compact('roles', 'permissions'));
     }
 
-    public function store(Request $request) {
-        $data             = $request->except('_token', 'roles', 'permissions');
+    public function store(UserRequest $request) {
+        $data             = $request->validated();
         $data['password'] = bcrypt($data['password']);
         $user             = User::create($data);
 
-        $role        = Role::where('id', $request->role)->select('name')->first()->name;
+        if($request->role) {
+            $role = Role::where('id', $request->role)->select('name')->first()->name;
+            $user->assignRole($role);
+        }
         if($request->permissions) {
             $permissions = Permission::whereIn('id', $request->permissions)->pluck('name')->toArray();
+            $user->givePermissionTo($permissions ?? []);
         }
-       
-        $user->assignRole($role);
-        $user->givePermissionTo($permissions ?? []);
+
 
         return redirect()->route('admin.users.index')->with('success', 'User created successfully');
     }
 
     public function edit(User $user) {
-        // get role
         $roleId = $user->roles->pluck('id')->first();
         $roles = Role::all();
+
         $permissions = Permission::all();
-        $permissionsId = $user->permissions->pluck('id')->toArray();
+        $checkUserHasRole = $user->hasAnyRole($roles);
 
-        // merge permissions and permissions id
-        $permissions = $permissions->map(function ($permission) use ($permissionsId) {
-            if (in_array($permission->id, $permissionsId)) {
-                $permission->checked = true;
+        if($checkUserHasRole) {
+            $role = $user->roles[0];
+            $permissionsId = $role->permissions->pluck('id')->toArray();
+        } else {
+            $permissionsId = $user->permissions->pluck('id')->toArray();
+        }
+
+        foreach($permissions as $key => $permission) {
+            if(in_array($permission->id, $permissionsId)) {
+                $permissions[$key]['checked'] = true;
             } else {
-                $permission->checked = false;
+                $permissions[$key]['checked'] = false;
             }
-            return $permission;
-        });
+        }
 
-        return view('admin.authorizations.users.edit', compact('user', 'roleId', 'permissions', 'roles', 'permissionsId'));
+        return view('admin.authorizations.users.edit', compact('user', 'roleId', 'permissions', 'roles', 'permissionsId', 'checkUserHasRole'));
     }
 
-    public function update(Request $request, User $user) {
+    public function update(UserRequest $request, User $user) {
         $data = $request->except('_token', 'roles', 'permissions');
         if ($request->password) {
             $data['password'] = bcrypt($data['password']);
         }
         $user->update($data);
 
-        $role = Role::where('id', $request->role)->select('name')->first()->name;
+        // update role
+        if($request->role) {
+            $role = Role::where('id', $request->role)->select('name')->first()->name;
+            $user->syncRoles($role);
+        }
+
+        // update permissions
         if($request->permissions) {
             $permissions = Permission::whereIn('id', $request->permissions)->pluck('name')->toArray();
+            $user->syncPermissions($permissions ?? []);
         }
-        $user->syncRoles($role);
-        $user->syncPermissions($permissions ?? []);
 
         return redirect()->route('admin.users.index')->with('success', 'User updated successfully');
     }

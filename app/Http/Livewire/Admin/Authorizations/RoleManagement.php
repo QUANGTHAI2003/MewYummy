@@ -12,9 +12,12 @@ class RoleManagement extends Component
 {
     use tableSortingTrait;
     use Actions;
+
+    public $search = '';
     protected $queryString = [
         'sortColumnName' => ['except' => 'id', 'as' => 'sort'],
-        'sortDirection' => ['except' => 'desc', 'as' => 'direction']
+        'sortDirection' => ['except' => 'desc', 'as' => 'direction'],
+        'search' => ['except' => '']
     ];
 
     public $roleId;
@@ -42,6 +45,9 @@ class RoleManagement extends Component
     public function render()
     {
         $roles = Role::with('permissions')
+                    ->when($this->search, function ($query) {
+                        $query->where('name', 'like', '%' . $this->search . '%');
+                    })
                  ->orderBy($this->sortColumnName, $this->sortDirection)
                  ->orderBy($this->sortByColumn(), $this->sortDirection())
                  ->paginate($this->perPage);

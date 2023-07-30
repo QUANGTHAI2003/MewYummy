@@ -5,7 +5,7 @@
   <h3 class="text-3xl font-medium text-gray-700">Thêm nhân viên</h3>
   <div class="mb-10 mt-10 md:grid md:grid-cols-3 md:gap-6">
     <div class="mt-5 md:col-span-6 md:mt-0">
-      <form action="{{ route('admin.users.store') }}" method="POST" enctype="multipart/form-data">
+      <form action="{{ route('admin.users.store') }}" method="POST" enctype="multipart/form-data" autocomplete="off">
         @csrf
         <div class="overflow-hidden shadow sm:rounded-md">
           <div class="bg-white px-4 py-5 sm:p-6">
@@ -55,6 +55,9 @@
                       </option>
                     @endforeach
                   </select>
+                    @error('role')
+                        <span class="text-sm text-red-500">{{ $message }}</span>
+                    @enderror
                 </div>
               </div>
               <div class="grid grid-cols-6 gap-6 py-3">
@@ -67,7 +70,10 @@
                         <x-buttons.toggle-button label="{{ $permission->name }}" value="{{ $permission->id }}" name="permissions[]" check="" />
                       @endforeach
                     @endif
-                  </div>
+                </div>
+                @error('permissions')
+                    <span class="text-sm text-red-500">{{ $message }}</span>
+                @enderror
                 </div>
               </div>
             </div>
