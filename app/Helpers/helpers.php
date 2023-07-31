@@ -113,11 +113,11 @@ if (!function_exists('getSalePercent')) {
                 throw new InvalidArgumentException("Phần trăm khuyến mãi phải nằm trong khoảng từ 0 đến 100");
             }
 
-            if($percent === 0) {
+            if ($percent === 0) {
                 return null;
             }
 
-            if($percent == 100) {
+            if ($percent == 100) {
                 return null;
             }
 
@@ -271,5 +271,19 @@ if (!function_exists('getProductImage')) {
         }
 
         return asset('storage/' . $path);
+    }
+}
+
+if (!function_exists('avatarUrl')) {
+    function avatarUrl($user)
+    {
+        if ($user->avatar == '') {
+            $name   = urlencode($user->name);
+            $avatar = "https://ui-avatars.com/api/?name={$name}";
+
+        } else {
+            $avatar = asset('storage/' . $user->avatar);
+        }
+        return $avatar;
     }
 }

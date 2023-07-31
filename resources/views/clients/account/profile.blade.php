@@ -28,17 +28,8 @@
               tabindex="0">
               <div class="account__info row mt-4 rounded">
                 <div class="account__info-image col-lg-4">
-                  @php
-                    $avatar = auth()->user()->avatar;
-
-                    if (file_exists(public_path('storage/images/avatars/' . auth()->user()->avatar))) {
-                        $avatar = auth()->user()->avatar;
-                    } else {
-                        $avatar = asset('storage/' . auth()->user()->avatar);
-                    }
-                  @endphp
                   <div class="account-image">
-                    <img src="{{ $avatar }}" alt="{{ $user->name }}">
+                    <img src="{{ avatarUrl(auth()->user()) }}" alt="{{ $user->name }}">
                   </div>
                 </div>
                 <div class="account__info-content col-lg-8 mt-lg-0 mt-4">

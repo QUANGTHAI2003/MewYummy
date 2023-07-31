@@ -59,6 +59,16 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $appends = [
-        'profile_photo_url',
+        'avatar',
     ];
+
+    /**
+     * Get the user's avatar.
+     *
+     * @return string
+     */
+    public function getAvatarAttribute()
+    {
+        return $this->attributes['avatar'] ?? 'https://ui-avatars.com/api/?name=' . $this->attributes['name'];
+    }
 }

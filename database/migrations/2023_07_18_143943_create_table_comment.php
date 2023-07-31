@@ -15,10 +15,10 @@ return new class extends Migration{
         Schema::create('comments', function (Blueprint $table){
             $table->id();
             $table->foreignId("user_id")->constrained("users")->onDelete("cascade");
-            $table->foreignId("post_id")->constrained("posts")->onDelete("cascade");
-            $table->foreignId("product_id")->constrained("products")->onDelete("cascade");
+            $table->foreignId("product_id")->constrained("products")->index()->onDelete("cascade");
             $table->text("content");
-            $table->integer("parent_id")->default(0);
+            $table->integer("like_count")->default(0)->constrained("users")->onDelete("cascade");
+            $table->integer("parent_id")->nullable();
             $table->timestamps();
         });
     }

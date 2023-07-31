@@ -62,16 +62,7 @@
             <div class="d-lg-flex align-items-center">
               <div class="action__block-login btn-account d-lg-flex me-3 p-2">
                 @if (Auth::check())
-                  @php
-                    $avatar = auth()->user()->avatar;
-
-                    if (file_exists(public_path('storage/images/avatars/' . auth()->user()->avatar))) {
-                        $avatar = auth()->user()->avatar;
-                    } else {
-                        $avatar = asset('storage/' . auth()->user()->avatar);
-                    }
-                  @endphp
-                  <img src="{{ $avatar }}" alt="{{ auth()->user()->name }}">
+                  <img src="{{ avatarUrl(auth()->user()) }}" alt="{{ auth()->user()->name }}">
                 @else
                   <i class="fa-solid fa-user icon icon-outline"></i>
                 @endif

@@ -261,6 +261,7 @@ li {
 }
 .header .action__block-login img {
   width: 40px;
+  height: 40px;
   border-radius: 50%;
   margin-right: 10px;
 }
@@ -1653,6 +1654,64 @@ footer .footer-mid .store:hover .tit {
   border-radius: 25px;
   -o-object-fit: cover;
      object-fit: cover;
+}
+
+.btnRes,
+.btnResParent {
+  cursor: pointer;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+}
+
+.comment__box-avatar,
+.author-thumbnail {
+  overflow: hidden;
+  margin: 0 20px 20px 0;
+}
+
+.comment__box-avatar > img,
+.author-thumbnail > img {
+  width: 50px;
+  height: 50px;
+  border-radius: 25px;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+.comment__box.reply {
+  padding: 20px 0 0 60px;
+}
+
+.comment__box.reply .comment__box-avatar {
+  overflow: hidden;
+  margin: 0 20px 20px 0;
+}
+
+.comment__box.reply .comment__box-avatar > img {
+  width: 40px;
+  height: 40px;
+  border-radius: 25px;
+}
+
+.comment__box.hide {
+  display: none;
+}
+
+.warning-login {
+  margin-bottom: 30px;
+}
+
+.login-comment {
+  color: #08c;
+}
+
+.login-comment:hover {
+  text-decoration: underline;
+}
+
+.comment__box-input {
+  display: flex;
 }
 
 /* =========== Login Section =========== */
