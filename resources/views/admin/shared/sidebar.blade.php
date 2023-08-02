@@ -14,6 +14,7 @@
       <ul id="forms-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
         <x-item-sidebar route="admin.categories.index" name="Quản lý danh mục" permisson="View categories" />
         <x-item-sidebar route="admin.products.index" name="Quản lý sản phẩm" permisson="View products" />
+        <x-item-sidebar route="admin.attributes.index" name="Quản lý biến thể" permisson="View products" />
       </ul>
     </li>
     <li class="nav-item">
