@@ -44,4 +44,8 @@ class Product extends Model{
     public function comments() {
         return $this->hasMany(Comment::class)->whereNull('parent_id');
     }
+
+    public function attributeValues() {
+        return $this->hasMany(AttributeValue::class, 'product_id');
+    }
 }

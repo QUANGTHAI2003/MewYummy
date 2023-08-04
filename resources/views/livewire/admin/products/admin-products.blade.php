@@ -98,9 +98,11 @@
                 <td class="table-body">
                   <div class="flex items-center">
                     @php
-                      $image = asset('storage/images/products/' . $product->product_images[0]->image);
+                      if($product->product_images->isNotEmpty()) {
+                        $image = asset('storage/images/products/' . $product->product_images[0]->image);
                       if (!file_exists(public_path() . '/storage/images/products/' . $product->product_images[0]->image)) {
                           $image = asset('storage/' . $product->product_images[0]->image);
+                      }
                       }
                     @endphp
                     <img src="{{ $image }}" class="img-backend-products">

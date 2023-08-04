@@ -9,6 +9,7 @@ use App\Traits\uploadImageTrait;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProductRequest;
 use App\Models\ProductImages;
+use Illuminate\Http\Request;
 
 class ProductsController extends Controller {
 
@@ -26,12 +27,13 @@ class ProductsController extends Controller {
     }
 
     public function create() {
-        $categories = Category::where('is_active', true)->get();
+        // $categories = Category::where('is_active', true)->get();
 
-        return view('admin.products.create', compact('categories'));
+        return view('admin.products.create');
     }
 
-    public function store(ProductRequest $request) {
+    public function store(Request $request) {
+        dd($request->all());
         $data = $request->validated();
 
         $dataProduct = [
