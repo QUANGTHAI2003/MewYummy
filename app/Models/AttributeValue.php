@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class AttributeValue extends Model
 {
@@ -19,5 +19,10 @@ class AttributeValue extends Model
         'product_attribute_quantity',
         'product_id'
     ];
+
+    public function productAttribute()
+    {
+        return $this->belongsTo(ProductAttribute::class);
+    }
 
 }
