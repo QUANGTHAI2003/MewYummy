@@ -28,7 +28,7 @@ class CreateProduct extends Component
     public $description       = '';
     public $category_id       = '';
     public $image;
-    public $images = [];
+    public $images;
 
     public function mount()
     {

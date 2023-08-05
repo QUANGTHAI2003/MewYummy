@@ -89,7 +89,7 @@
                 <span class="box-icon p-1">
                   <i class="fa-solid fa-cart-shopping icon"></i>
                 </span>
-                <span class="cart__count">0</span>
+                <span class="cart__count">{{ Cart::count() }}</span>
               </a>
             </div>
           </div>

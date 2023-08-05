@@ -4,9 +4,9 @@
   </div>
   <div class="product-layout_col-left col-12 col-sm-12 col-md-5 col-lg-6 col-xl-6 mb-3" id="mainThumb">
     <img src="{{ getProductImage($product->product_images[0]->image) }}" alt="{{ $product->name }}" class="rounded">
-    @if (count($subImages))
+    @if (count($subImages) > 1)
       <div
-        class="mt-4 product-thumb-slide swiper-container swiper-container-initialized swiper-container-horizontal swiper-container-pointer-events swiper-container-thumbs overflow-hidden">
+        class="position-relative product-thumb-slide swiper-container swiper-container-initialized swiper-container-horizontal swiper-container-pointer-events swiper-container-thumbs mt-4 overflow-hidden">
         <div class="swiper-wrapper">
           @foreach ($subImages as $subImage)
             <div onclick="selectThumbnail({{ $subImage->id }})" id="{{ $subImage->id }}"
@@ -19,15 +19,30 @@
           @endforeach
 
         </div>
+        <div class="swiper-button-prev thumb_detail_prev swiper-button-disabled"></div>
+        <div class="swiper-button-next thumb_detail_next"></div>
         <div class="swiper-pagination mew_slide_p"></div>
-        <script>
-          const selectThumbnail = (id) => {
-            const subThumb = document.getElementById(id);
-            const img = subThumb.querySelector('img').getAttribute('src');
-            const mainThumb = document.querySelector('#mainThumb');
-            mainThumb.querySelector('img').setAttribute('src', img);
-          }
-        </script>
+        @push('scripts')
+          <script>
+            window.addEventListener('initGalery', event => {
+              var swiperThumbImage = new Swiper('.product-thumb-slide', {
+                spaceBetween: 4,
+                slidesPerView: 5,
+                navigation: {
+                  nextEl: 'thumb_detail_next',
+                  prevEl: 'thumb_detail_prev',
+                },
+                grabCursor: true,
+              });
+            })
+            const selectThumbnail = (id) => {
+              const subThumb = document.getElementById(id);
+              const img = subThumb.querySelector('img').getAttribute('src');
+              const mainThumb = document.querySelector('#mainThumb');
+              mainThumb.querySelector('img').setAttribute('src', img);
+            }
+          </script>
+        @endpush
       </div>
     @endif
   </div>
@@ -55,7 +70,7 @@
 
     <livewire:client.products.product-detail-price :product="$product" wire:key="$product->regular_price" />
     {{-- Attrubute --}}
-    <form action="#" enctype="multipart/form-data" spellcheck="false" autocomplete="off">
+    <div spellcheck="false" autocomplete="off">
       @if ($product->attributeValues->count() > 0)
         @foreach ($product->attributeValues->unique('product_attribute_id') as $av)
           <div class="d-flex align-items-center swatch clearfix mt-4 flex-wrap">
@@ -64,7 +79,7 @@
               <div wire:click="getAttributeValueId({{ $pav->id }})"
                 data-value="{{ $pav->product_attribute_value }}"
                 class="swatch-element X position-relative float-left mb-2 me-2">
-                <input id="swatch-1-x" class="position-absolute w-100 m-0" type="radio" checked
+                <input id="swatch-1-x" class="position-absolute w-100 m-0" type="radio"
                   name="{{ $product->name }}" value="{{ $pav->id }}">
                 <label title="{{ $pav->product_attribute_value }}" for="swatch-1-x"
                   class="text-uppercase float-left m-0 rounded border pe-1 ps-1 text-center">{{ $pav->product_attribute_value }}</label>
@@ -83,32 +98,18 @@
                 100px;">Số lượng
         </header>
         <div class="custom-btn-number form-inline border-0">
-          <button id="decrement" type="button">
+          <button wire:click.prevent="decreaseQty" id="decrement" type="button">
             <i class="fa-solid fa-minus icon"></i>
           </button>
-          <input type="number" name="quantity" min="1" value="1" class="form-control product_qtn"
+          <input type="number" wire:model="quantity" name="quantity" min="1" class="form-control product_qtn"
             id="qtym">
-          <button id="increment" type="button">
+          <button wire:click.prevent="increaseQty" id="increment" type="button">
             <i class="fa-solid fa-plus icon"></i>
           </button>
         </div>
       </div>
-      <div class="product-add row mb-3 py-2">
-        <div class="col-12">
-          @if ($product->stock_qty != 0)
-            <button type="submit" class="btn btn-primary btn-add-to-cart btn-block">
-              <i class="fa-solid fa-shopping-cart icon"></i>
-              <span>Thêm vào giỏ hàng</span>
-            </button>
-          @else
-            <button type="submit" class="btn btn-primary btn-add-to-cart btn-block" disabled>
-              <i class="fa-solid fa-shopping-cart icon"></i>
-              <span>Hết hàng</span>
-            </button>
-          @endif
-        </div>
-      </div>
-    </form>
+      <livewire:client.cart.product-add-to-cart :product="$product" :quantity="$quantity" wire:key="$product->id" />
+    </div>
     <div class="linehot_pro alert alert-warning">
       <img alt="1900 123 321" src="{{ asset('storage/images/customer-service.webp') }}">
       <div class="b_cont fw-bold">

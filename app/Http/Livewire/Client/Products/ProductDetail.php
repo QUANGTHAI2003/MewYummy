@@ -8,6 +8,27 @@ class ProductDetail extends Component
 {
     public $product;
     public $attributeId;
+    public $quantity = 1;
+
+    public function decreaseQty() {
+        $this->quantity--;
+
+        if ($this->quantity < 1) {
+            $this->quantity = 1;
+        }
+
+        $this->emit('updateCartQty', $this->quantity);
+    }
+
+    public function increaseQty() {
+        $this->quantity++;
+
+        if ($this->quantity > $this->product->stock_qty) {
+            $this->quantity = $this->product->stock_qty;
+        }
+
+        $this->emit('updateCartQty', $this->quantity);
+    }
 
     public function getAttributeValue()
     {
@@ -26,6 +47,10 @@ class ProductDetail extends Component
         $this->emit('updateQuantity', $this->attributeId);
     }
 
+    public function dehydrate()
+    {
+        $this->dispatchBrowserEvent('initGalery');
+    }
 
     public function render()
     {

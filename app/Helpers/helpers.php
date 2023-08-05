@@ -7,13 +7,13 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 if (!function_exists('formatNumber')) {
     /**
-     * @param float  $num
+     * @param int  $num
      * @param int    $digits
      * @param string $unit
      *
      * @return string
      */
-    function formatNumber(float $num, int $digits = 0, string $unit = '₫')
+    function formatNumber(int $num, int $digits = 0, string $unit = '₫')
         : string {
         try {
             if ($digits < 0) {

@@ -213,29 +213,4 @@ window.addEventListener("DOMContentLoaded", (event) => {
             }
         }
     });
-
-    var swiperThumbImage = new Swiper('.product-thumb-slide', {
-        spaceBetween: 4,
-        slidesPerView: 3,
-        watchSlidesProgress: true,
-        //navigation: {
-        //	nextEl: '.mew_product_thumb_next',
-        //	prevEl: '.mew_product_thumb_prev',
-        //},
-        breakpoints: {
-            575: {
-                slidesPerView: 3,
-            },
-            768: {
-                slidesPerView: 3,
-            },
-            992: {
-                slidesPerView: 4,
-            },
-            1200: {
-                slidesPerView: 4,
-                allowTouchMove: false
-            }
-        }
-    });
 });
