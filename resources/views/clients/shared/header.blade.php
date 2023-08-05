@@ -11,46 +11,7 @@
       <div class="col-9 col-lg-10">
         <div class="d-lg-flex align-items-center position-static ps-menu">
           <div class="search__block me-xl-5 me-3">
-            <form action="#" class="search__block-form" spellcheck="false" autocomplete="off">
-              <input type="text" class="search__block-input form-control" role="search" spellcheck="false"
-                autocomplete="off" placeholder="Tìm kiếm sản phẩm ..." />
-              <button type="submit" class="search__block-btn d-sm-none d-lg-block" value="">
-                <i class="fa-solid fa-magnifying-glass icon"></i>
-              </button>
-              <!-- Search Result -->
-              <div id="searchResult" class="w-100 searchResult mx-lg-0 px-2">
-                <div class="search-result-warpper overflow-auto">
-                  <div class="d-block h6 searchResult__product text-left text-white"> Sản phẩm ( <span>0</span>)
-                  </div>
-                  <div class="searchResult-products">
-                    <div class="w-100">
-                      <a href="#" title="Ba Chỉ Bò Mỹ , Short Plate (500gr)"
-                        class="d-flex align-items-start w-100 result-item border-bottom align-item js-link py-2">
-                        <div class="result-item_image d-flex h-100 align-items-center justify-content-center">
-                          <img alt="Ba Chỉ Bò Mỹ , Short Plate (500gr)"
-                            src="{{ asset('storage/images/products/pro6.webp') }}"
-                            class="result-item_image img-fluid js-img">
-                        </div>
-                        <div class="result-item_detail px-2">
-                          <h3 class="result-item_name fwb js-title mb-1">Ba Chỉ Bò Mỹ , Short Plate (500gr)</h3>
-                          <div class="item-price d-flex align-items-center">
-                            <div class="special-price fw-bold me-2">180.000₫</div>
-                            <del class="old-price">135.000₫</del>
-                          </div>
-                        </div>
-                      </a>
-                    </div>
-                  </div>
-                  <div class="d-block h6 searchResult__article text-left text-white"> Tin tức ( <span>0</span>)
-                  </div>
-                  <div class="searchResult_articles"></div>
-                  <div class="d-block h6 searchResult__text text-left text-white"> Trang nội dung ( <span>0</span>)
-                  </div>
-                  <div class="searchResult_pages"></div>
-                  <a href="#" class="btn all-result fw-bold my-0">Xem tất cả kết quả</a>
-                </div>
-              </div>
-            </form>
+            <livewire:client.products.livesearch />
           </div>
           <div class="info__block d-none d-lg-block me-2 ms-2">
             <a href="tel:0774060610">

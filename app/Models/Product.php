@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Traits\Search;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Product extends Model{
 
     use HasFactory;
+    use Search;
 
     // use DateScopes;
 
@@ -25,6 +27,10 @@ class Product extends Model{
         'description',
         'created_at',
         'updated_at',
+    ];
+
+    protected $searchable = [
+        'name',
     ];
 
     public function categories()

@@ -9,10 +9,6 @@ $(document).ready(function () {
         }
     });
 
-    $('.search__block-input').on('input', function () {
-        $('.searchResult').toggleClass('show', this.value.length > 0);
-    });
-
     $(document).on('click', '.open_video', function (e) {
         e.preventDefault();
         const videoId = $(this).data('video');
