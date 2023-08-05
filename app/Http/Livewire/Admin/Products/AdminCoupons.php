@@ -130,8 +130,12 @@ class AdminCoupons extends Component
     public function render()
     {
         $coupons = Coupon::query()
-            ->orderBy($this->sortColumnName, $this->sortDirection)
-            ->paginate($this->perPage);
+            ->when($this->search, function ($query) {
+                $query->where('code', 'like', '%' . $this->search . '%')
+                      ->orWhere('type', 'like', '%' . $this->search . '%');
+            })
+                     ->orderBy($this->sortColumnName, $this->sortDirection)
+                     ->paginate($this->perPage);
         return view('livewire.admin.products.admin-coupons', [
             'coupons' => $coupons
         ]);
