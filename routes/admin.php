@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\CategoriesController;
 use App\Http\Controllers\Admin\RoleManagementController;
 use App\Http\Controllers\Admin\UserManagementController;
 use App\Http\Controllers\Admin\AttributesController;
+use App\Http\Controllers\CouponController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,6 +24,7 @@ Route::prefix('admin')->middleware(['auth', 'checkIsAdmin'])->name('admin.')->gr
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::resource('/products', ProductsController::class, ['except' => ['show', 'destroy']]);
+    Route::resource('/coupons', CouponController::class, ['except' => ['show', 'destroy']]);
     Route::resource('/attributes', AttributesController::class, ['except' => ['show', 'destroy']]);
     Route::resource('/categories', CategoriesController::class, ['except' => ['show', 'destroy']]);
     Route::prefix('authorizations')->group(function () {
