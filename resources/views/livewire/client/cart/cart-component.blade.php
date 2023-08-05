@@ -2,7 +2,7 @@
   <div class="container">
     <h2>Giỏ hàng của bạn có {{ Cart::count() }} sản phẩm</h2>
     <div class="cart-product">
-      @foreach (Cart::content() as $item)
+      @foreach (Cart::instance('cart')->content() as $item)
         <div class="cart__item row mx-0">
           <div class="cart__item-product col-lg-6">
             <div class="cart__img">

@@ -35,7 +35,7 @@ class ProductAddToCart extends Component
         }
 
         if ($product->stock_qty != 0) {
-            Cart::add([
+            Cart::instance('cart')->add([
                 'id'      => $product->id,
                 'name'    => $name,
                 'qty'     => $this->quantity,
