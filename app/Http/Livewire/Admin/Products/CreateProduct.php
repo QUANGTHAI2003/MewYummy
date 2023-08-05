@@ -12,12 +12,14 @@ use App\Models\AttributeValue;
 use App\Models\ProductAttribute;
 use App\Traits\uploadImageTrait;
 use App\Traits\CreateProductData;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class CreateProduct extends Component
 {
     use WithFileUploads;
     use uploadImageTrait;
     use CreateProductData;
+    use AuthorizesRequests;
 
     public string $name       = '';
     public string $slug       = '';
@@ -65,6 +67,7 @@ class CreateProduct extends Component
 
     public function addProduct()
     {
+        $this->authorize('Create product');
         $this->validate();
 
         $product = Product::create([

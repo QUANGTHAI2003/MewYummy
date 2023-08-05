@@ -8,6 +8,11 @@ use App\Http\Requests\CouponRequest;
 
 class CouponController extends Controller
 {
+     function __construct() {
+        $this->middleware('permission:View coupons', ['only' => ['index']]);
+        $this->middleware('permission:Create coupon', ['only' => ['create', 'store']]);
+        $this->middleware('permission:Update coupon', ['only' => ['edit', 'update']]);
+    }
     public function index()
     {
         return view('admin.products.coupons.index');

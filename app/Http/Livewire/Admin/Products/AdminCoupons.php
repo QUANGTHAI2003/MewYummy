@@ -33,7 +33,7 @@ class AdminCoupons extends Component
     {
         try {
             try {
-                // $this->authorize('Delete coupon');
+                $this->authorize('Delete coupon');
                 $coupon     = Coupon::findOrFail($this->couponId);
                 $couponName = "Test";
                 $coupon->delete();
@@ -67,7 +67,7 @@ class AdminCoupons extends Component
     {
         try {
             try {
-                // $this->authorize('Delete coupon');
+                $this->authorize('Delete coupon');
                 $coupon = Coupon::whereIn('id', $this->selectedCoupons)->get();
                 foreach ($coupon as $coupon) {
                     $coupon->delete();

@@ -8,6 +8,13 @@ use Illuminate\Http\Request;
 
 class AttributesController extends Controller
 {
+    public function __construct() {
+        $this->middleware('permission:View attributes|Create attributes|Edit attributes|Delete attributes', ['only' => ['index', 'show']]);
+        $this->middleware('permission:Create attributes', ['only' => ['create', 'store']]);
+        $this->middleware('permission:Edit attributes', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:Delete attributes', ['only' => ['destroy']]);
+    }
+
     public function index() {
         return view('admin.products.attributes.index');
     }

@@ -30,7 +30,7 @@ class ProductAttribute extends Component
     public function deleteSelected() {
         try {
             try {
-                // $this->authorize('Delete product attribute');
+                $this->authorize('Delete attribute');
                 $productAttributes = ModelsProductAttribute::whereIn('id', $this->selectedProductAttribute)->get();
                 if($productAttributes !== null) {
                     foreach ($productAttributes as $attribute) {
@@ -61,7 +61,7 @@ class ProductAttribute extends Component
     public function destroyAttribute() {
         try {
             try {
-                // $this->authorize('Delete product attribute');
+                $this->authorize('Delete attribute');
                 $attribute = ModelsProductAttribute::where('id', $this->attributeId)->first();
                 if($attribute !== null) {
                     $attributeName = $attribute->name;

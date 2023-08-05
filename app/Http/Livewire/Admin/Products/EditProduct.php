@@ -11,11 +11,13 @@ use Livewire\WithFileUploads;
 use App\Models\AttributeValue;
 use App\Models\ProductAttribute;
 use App\Traits\uploadImageTrait;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class EditProduct extends Component
 {
     use WithFileUploads;
     use uploadImageTrait;
+    use AuthorizesRequests;
 
     public string $name       = '';
     public string $slug       = '';
@@ -81,6 +83,7 @@ class EditProduct extends Component
 
     public function updateProduct()
     {
+        $this->authorize('Update product');
         $product                = Product::find($this->product_id);
         $product->name          = $this->name;
         $product->slug          = $this->slug;
