@@ -2,8 +2,8 @@
 
 namespace App\Http\Livewire\Client\Cart;
 
-use App\Models\Coupon;
 use Carbon\Carbon;
+use App\Models\Coupon;
 use Livewire\Component;
 use Gloudemans\Shoppingcart\Facades\Cart;
 
@@ -46,6 +46,37 @@ class CartComponent extends Component
         session()->forget('coupon');
     }
 
+    public function checkout()
+    {
+        if (auth()->check()) {
+            return redirect()->route('checkout');
+        } else {
+            return redirect()->route('login');
+        }
+    }
+
+    public function setAmountForCheckout()
+    {
+        if (!Cart::instance('cart')->count() > 0) {
+            session()->forget('checkout');
+            return;
+        }
+
+        if (session()->has('coupon')) {
+            session()->put('checkout', [
+                'discount' => $this->discount,
+                'subtotal' => $this->subtotalAfterDiscount,
+                'total'    => $this->totalAfterDiscount
+            ]);
+        } else {
+            session()->put('checkout', [
+                'discount' => 0,
+                'subtotal' => Cart::instance('cart')->subtotal(),
+                'total'    => Cart::instance('cart')->total()
+            ]);
+        }
+    }
+
     public function calculateDiscounts()
     {
         if (session()->has('coupon')) {
@@ -55,7 +86,7 @@ class CartComponent extends Component
                 $this->discount = (Cart::instance('cart')->subtotal() * session()->get('coupon')['value']) / 100;
             }
 
-            $this->subtotalAfterDiscount = Cart::instance('cart')->subtotal() - $this->discount;
+            $this->subtotalAfterDiscount = Cart::instance('cart')->subtotal();
             $this->totalAfterDiscount    = $this->subtotalAfterDiscount + Cart::instance('cart')->tax();
         }
     }
@@ -91,6 +122,9 @@ class CartComponent extends Component
             }
         }
         $coupons = Coupon::all();
+
+        $this->setAmountForCheckout();
+
         return view('livewire.client.cart.cart-component', [
             'coupons' => $coupons
         ]);

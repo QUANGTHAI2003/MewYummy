@@ -28,7 +28,7 @@
 </head>
 
 <body>
-  @if (!in_array(Route::currentRouteName(), ['login', 'register']))
+  @if (!in_array(Route::currentRouteName(), ['login', 'register', 'checkout']))
     @include('clients.shared.header')
   @endif
 
@@ -38,7 +38,7 @@
   @yield('content')
   <x-alert />
 
-  @if (!in_array(Route::currentRouteName(), ['login', 'register']))
+  @if (!in_array(Route::currentRouteName(), ['login', 'register','checkout']))
     @include('clients.shared.footer')
   @endif
 

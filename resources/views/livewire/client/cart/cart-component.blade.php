@@ -111,7 +111,7 @@
       </div>
       <div class="cart__btn">
         <a href="{{ route('product') }}" class="btn btn-primary cart__btn-continue">Tiếp tục mua hàng</a>
-        <a href="#" class="btn btn-primary cart__btn-checkout">Thanh toán</a>
+        <a wire:click="checkout" href="#" class="btn btn-primary cart__btn-checkout">Thanh toán</a>
       </div>
     @endif
     <div class="giftbox mb-3 mt-4">

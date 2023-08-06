@@ -5,8 +5,10 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Clients\CartController;
 use App\Http\Controllers\Clients\HomeController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Client\ThankYouController;
 use App\Http\Controllers\Clients\AccountController;
 use App\Http\Controllers\Clients\ProductController;
+use App\Http\Controllers\Clients\CheckoutController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 /*
@@ -29,10 +31,8 @@ Route::get('/about', function () {
 Route::prefix('product')->group(function () {
     Route::get('/collections', [ProductController::class, 'index'])->name('product');
     Route::get('/{slug}-p{id}.html', [ProductController::class, 'show'])->name('show')
-    ->where(['slug' => '[a-z0-9-]+', 'id' => '[0-9]+']);
+                                                                        ->where(['slug' => '[a-z0-9-]+', 'id' => '[0-9]+']);
 });
-
-Route::get('/cart', [CartController::class, 'index'])->name('cart');
 
 Route::get('/news', function () {
     return view('clients.pages.news');
@@ -50,6 +50,9 @@ Route::prefix('account')->name('account.')->group(function () {
         ->name('updatePassword');
     Route::put('/update-password/{id}', [AccountController::class, 'postUpdatePassword'])->name('postUpdatePassword');
 });
+Route::get('/cart', [CartController::class, 'index'])->name('cart');
+Route::get('checkout', [CheckoutController::class, 'index'])->name('checkout')->middleware('auth');
+Route::get('thankyou', [ThankYouController::class, 'index'])->name('thankyou')->middleware('auth');
 
 // Authentication routes
 Route::get('/login', [LoginController::class, 'login'])->name('login');
