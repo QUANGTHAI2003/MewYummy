@@ -1,79 +1,127 @@
 <section class="cart-layout">
   <div class="container">
-    <h2>Giỏ hàng của bạn có {{ Cart::count() }} sản phẩm</h2>
+    @if (Cart::instance('cart')->count() > 0)
+      <h2>Giỏ hàng của bạn có {{ Cart::count() }} sản phẩm</h2>
+    @else
+      <h2>Giỏ hàng của bạn trống</h2>
+    @endif
     <div class="cart-product">
-      @foreach (Cart::instance('cart')->content() as $item)
-        <div class="cart__item row mx-0">
-          <div class="cart__item-product col-lg-6">
-            <div class="cart__img">
-              <img src="{{ getProductImage($item->options->image) }}" alt="" />
-            </div>
-            <div class="cart__info">
-              <div class="cart__info-name">{{ $item->name }}</div>
-              <div class="cart__info-price">
-                <div class="special-price">{{ formatNumber($item->price) }}</div>
-                {{-- <del class="old-price">{{ formatNumber($item->sale_prices) }}</del> --}}
+      @if (Cart::instance('cart')->count() > 0)
+        @foreach (Cart::instance('cart')->content() as $item)
+          <div class="cart__item row mx-0">
+            <div class="cart__item-product col-lg-6">
+              <div class="cart__img">
+                <img src="{{ getProductImage($item->options->image) }}" alt="" />
               </div>
-            </div>
-          </div>
-          <div class="cart__item-update col-lg-6 justify-content-lg-end">
-            <div class="cart__item-quantity">
-              <div class="product-quantity align-items-center clearfix d-sm-flex">
-                <div class="custom-btn-number form-inline border-0">
-                  <button wire:click.prevent="decreaseQuantity('{{ $item->rowId }}')" id="decrement" type="button">
-                    <i class="fa-solid fa-minus icon"></i>
-                  </button>
-                  <input type="number" name="quantity" min="1" value="{{ $item->qty }}"
-                    class="form-control product_qtn" id="qtym">
-                  <button wire:click.prevent="increaseQuantity('{{ $item->rowId }}')" id="increment" type="button">
-                    <i class="fa-solid fa-plus icon"></i>
-                  </button>
+              <div class="cart__info">
+                <div class="cart__info-name">{{ $item->name }}</div>
+                <div class="cart__info-price">
+                  <div class="special-price">{{ formatNumber($item->price) }}</div>
+                  {{-- <del class="old-price">{{ formatNumber($item->sale_prices) }}</del> --}}
                 </div>
               </div>
             </div>
-            <div class="cart__total">
-              <div class="cart__total-price">{{ formatNumber($item->subtotal) }}</div>
-              <div wire:click.prevent="deleteCartItem('{{ $item->rowId }}')" class="cart__total-delete btn btn-danger">Xóa</div>
+            <div class="cart__item-update col-lg-6 justify-content-lg-end">
+              <div class="cart__item-quantity">
+                <div class="product-quantity align-items-center clearfix d-sm-flex">
+                  <div class="custom-btn-number form-inline border-0">
+                    <button wire:click.prevent="decreaseQuantity('{{ $item->rowId }}')" id="decrement" type="button">
+                      <i class="fa-solid fa-minus icon"></i>
+                    </button>
+                    <input type="number" name="quantity" min="1" value="{{ $item->qty }}"
+                      class="form-control product_qtn" id="qtym">
+                    <button wire:click.prevent="increaseQuantity('{{ $item->rowId }}')" id="increment" type="button">
+                      <i class="fa-solid fa-plus icon"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="cart__total">
+                <div class="cart__total-price">{{ formatNumber($item->subtotal) }}</div>
+                <div wire:click.prevent="deleteCartItem('{{ $item->rowId }}')"
+                  class="cart__total-delete btn btn-danger">
+                  Xóa</div>
+              </div>
             </div>
           </div>
+        @endforeach
+      @else
+        <div class="alert alert-warning">Không có sản phẩm nào trong giỏ hàng</div>
+      @endif
+    </div>
+    @if (Cart::instance('cart')->count() > 0)
+      <div class="cart-bottom">
+        @if (!Session::has('coupon'))
+          <div class="cart-coupon">
+            <label class="cart-coupon-title">Mã giảm giá</label>
+            @if (session()->has('coupon_message'))
+              <div class="alert alert-danger">
+                {{ session('coupon_message') }}
+              </div>
+            @endif
+            <div class="cart-coupon-input mb-3">
+              <input wire:model="couponCode" type="text" class="form-control" placeholder="Nhập mã giảm giá" />
+              <button wire:click.prevent="applyCouponCode" class="btn btn-primary">Áp dụng</button>
+            </div>
+          </div>
+        @endif
+        <div class="cart-price">
+          <div class="subtotal">
+            <div class="subtotal-title">Tạm tính:</div>
+            <div class="subtotal-value">{{ Cart::subtotal() }}₫</div>
+          </div>
+          @if (Session::has('coupon'))
+            <div class="discount">
+              <div class="discount-title">Giảm giá :</div>
+              <div class="discount-value">
+                {{ formatNumber($discount) }}
+              </div>
+            </div>
+            <div class="discount">
+              <div class="discount-title">Tạm tính sau giảm giá</div>
+              <div class="discount-value">
+                {{ formatNumber($subtotalAfterDiscount) }}
+              </div>
+            </div>
+            <div class="total-price">
+              <div class="total-price-title">Thành tiền:</div>
+              <div class="total-price-value">
+                {{ formatNumber($totalAfterDiscount) }}
+              </div>
+            </div>
+          @else
+            <div class="shipping">
+              <div class="shipping-title">Phí vận chuyển:</div>
+              <div class="shipping-value">0₫</div>
+            </div>
+            <div class="total-price">
+              <div class="total-price-title">Thành tiền:</div>
+              <div class="total-price-value">{{ Cart::total() }}₫</div>
+            </div>
+          @endif
+
         </div>
-      @endforeach
-    </div>
-    <div class="total-price">
-      <div class="total-price-title">Thành tiền:</div>
-      <div class="total-price-value">{{ Cart::total() }}₫</div>
-    </div>
-    <div class="cart__btn">
-      <a href="#" class="btn btn-primary cart__btn-continue">Tiếp tục mua hàng</a>
-      <a href="#" class="btn btn-primary cart__btn-checkout">Thanh toán</a>
-    </div>
+      </div>
+      <div class="cart__btn">
+        <a href="{{ route('product') }}" class="btn btn-primary cart__btn-continue">Tiếp tục mua hàng</a>
+        <a href="#" class="btn btn-primary cart__btn-checkout">Thanh toán</a>
+      </div>
+    @endif
     <div class="giftbox mb-3 mt-4">
       <fieldset class="free-gifts pb-md-3">
         <legend>
           <img alt="Code Ưu Đãi" src="{{ asset('storage/images/gift.webp') }}"> Code Ưu Đãi
         </legend>
         <div class="row">
-          <div class="col-12 col-md-6 col-lg-4">
-            <div class="item line_b pb-2">
-              <span>Nhập mã <b>MewYummy2023</b> để được giảm ngay 120k (áp dụng cho các đơn hàng trên 500k) <button
-                  class="btn btn-sm copy" data-copy="MewYummy2023"> Sao chép </button>
-              </span>
+          @foreach ($coupons as $key => $coupon)
+            <div class="col-12 col-md-6 col-lg-4">
+              <div class="item line_b pb-2">
+                <span>Nhập mã <b>{{ $coupon->code }}</b> để được giảm ngay {{ $coupon->type == 'percent' ? $coupon->value . '%' : formatNumberType($coupon->value)}} (áp dụng cho các đơn hàng trên {{ formatNumberType($coupon->cart_value) }}) <button
+                    class="btn btn-sm copy" data-copy="{{ $coupon->code }}"> Sao chép </button>
+                </span>
+              </div>
             </div>
-          </div>
-          <div class="col-12 col-md-6 col-lg-4">
-            <div class="item line_b none_mb pb-2">
-              <span>Nhập mã <b>TETQUYMAO</b> để được giảm ngay 20% tổng giá trị đơn hàng. Số lượng có hạn <button
-                  class="btn btn-sm copy" data-copy="TETQUYMAO"> Sao chép </button>
-              </span>
-            </div>
-          </div>
-          <div class="col-12 col-md-6 col-lg-4">
-            <div class="item line_b none_mb pb-2">
-              <span>Nhập mã <b>FREESHIP</b> để được miễn phí ship đơn hàng từ 200k <button class="btn btn-sm copy"
-                  data-copy="FREESHIP"> Sao chép </button>
-              </span>
-            </div>
-          </div>
+          @endforeach
           <div class="position-absolute vmore_c w-100 d-md-none">
             <a href="javascript:;" class="d-block v_more_coupon text-center">
               <b class="t1">Xem thêm mã ưu đãi</b>

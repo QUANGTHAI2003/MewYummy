@@ -32,11 +32,11 @@
     @include('clients.shared.header')
   @endif
 
-  <x-notifications z-index="z-50" />
+  {{-- <x-notifications z-index="z-50" /> --}}
   {{-- <x-dialog z-index="z-50" blur="sm" align="center"/> --}}
-  {{-- <x-alert></x-alert> --}}
 
   @yield('content')
+  <x-alert />
 
   @if (!in_array(Route::currentRouteName(), ['login', 'register']))
     @include('clients.shared.footer')

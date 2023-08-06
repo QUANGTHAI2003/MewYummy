@@ -49,10 +49,7 @@ class ProductAddToCart extends Component
             ])->associate('App\Models\Product');
         }
 
-        $this->notification()->success(
-            $title = 'Đã lưu !!!',
-            $description = 'Đã cập nhật trạng thái sang <strong>Hiển thị</strong>'
-        );
+        session()->flash('success_message', 'Item added in Cart.');
 
         $this->emit('cartAdded');
     }

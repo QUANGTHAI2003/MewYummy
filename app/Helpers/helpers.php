@@ -26,6 +26,20 @@ if (!function_exists('formatNumber')) {
         }
     }
 }
+if (!function_exists('formatNumberType')) {
+    function formatNumberType($number)
+    {
+        $suffixes    = ['', 'k', 'M', 'B', 'T'];
+        $suffixIndex = 0;
+
+        while ($number >= 1000 && $suffixIndex < count($suffixes) - 1) {
+            $number /= 1000;
+            $suffixIndex++;
+        }
+
+        return number_format($number, ($number < 10 ? 1 : 0)) . $suffixes[$suffixIndex];
+    }
+}
 
 if (!function_exists('formatDate')) {
     /**
@@ -280,7 +294,6 @@ if (!function_exists('avatarUrl')) {
         if ($user->avatar == '') {
             $name   = urlencode($user->name);
             $avatar = "https://ui-avatars.com/api/?name={$name}";
-
         } else {
             $avatar = asset('storage/' . $user->avatar);
         }
