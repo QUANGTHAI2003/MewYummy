@@ -1958,6 +1958,10 @@ footer .footer-mid .store:hover .tit {
   font-size: 18px;
   margin-bottom: 8px;
 }
+.cart-price .remove-coupon {
+  cursor: pointer;
+  color: red;
+}
 
 .cart__btn {
   display: flex;

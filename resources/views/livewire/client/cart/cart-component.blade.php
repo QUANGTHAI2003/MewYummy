@@ -68,11 +68,14 @@
         <div class="cart-price">
           <div class="subtotal">
             <div class="subtotal-title">Tạm tính:</div>
-            <div class="subtotal-value">{{ Cart::subtotal() }}₫</div>
+            <div class="subtotal-value">{{ formatNumber(Cart::subtotal()) }}</div>
           </div>
           @if (Session::has('coupon'))
             <div class="discount">
-              <div class="discount-title">Giảm giá :</div>
+              <div class="discount-title">
+                Giảm giá ({{ Session::get('coupon')['code'] }})
+                <i wire:click="removeCoupon" class="fa-solid fa-xmark close remove-coupon"></i>:
+              </div>
               <div class="discount-value">
                 {{ formatNumber($discount) }}
               </div>
@@ -82,6 +85,10 @@
               <div class="discount-value">
                 {{ formatNumber($subtotalAfterDiscount) }}
               </div>
+            </div>
+            <div class="shipping">
+              <div class="shipping-title">Phí vận chuyển:</div>
+              <div class="shipping-value">0₫</div>
             </div>
             <div class="total-price">
               <div class="total-price-title">Thành tiền:</div>
@@ -96,7 +103,7 @@
             </div>
             <div class="total-price">
               <div class="total-price-title">Thành tiền:</div>
-              <div class="total-price-value">{{ Cart::total() }}₫</div>
+              <div class="total-price-value">{{ formatNumber(Cart::total()) }}</div>
             </div>
           @endif
 
@@ -116,8 +123,10 @@
           @foreach ($coupons as $key => $coupon)
             <div class="col-12 col-md-6 col-lg-4">
               <div class="item line_b pb-2">
-                <span>Nhập mã <b>{{ $coupon->code }}</b> để được giảm ngay {{ $coupon->type == 'percent' ? $coupon->value . '%' : formatNumberType($coupon->value)}} (áp dụng cho các đơn hàng trên {{ formatNumberType($coupon->cart_value) }}) <button
-                    class="btn btn-sm copy" data-copy="{{ $coupon->code }}"> Sao chép </button>
+                <span>Nhập mã <b>{{ $coupon->code }}</b> để được giảm ngay
+                  {{ $coupon->type == 'percent' ? $coupon->value . '%' : formatNumberType($coupon->value) }} (áp dụng
+                  cho các đơn hàng trên {{ formatNumberType($coupon->cart_value) }}) <button class="btn btn-sm copy"
+                    data-copy="{{ $coupon->code }}"> Sao chép </button>
                 </span>
               </div>
             </div>

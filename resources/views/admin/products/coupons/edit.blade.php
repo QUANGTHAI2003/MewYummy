@@ -34,7 +34,7 @@
               </div>
             </div>
             <div class="grid grid-cols-3 gap-6 md:grid-cols-6">
-              <div class="col-span-6 md:col-span-3">
+              <div class="col-span-6 md:col-span-2">
                 <label for="value" class="block text-sm font-medium text-gray-700">Giá trị coupon</label>
                 <input type="text" name="value" id="value" value="{{ old('value', $coupon->value) }}"
                   class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
@@ -42,12 +42,19 @@
                   <span class="text-sm text-red-500">{{ $message }}</span>
                 @enderror
               </div>
-              <div class="col-span-6 md:col-span-3">
+              <div class="col-span-6 md:col-span-2">
                 <label for="cart_value" class="block text-sm font-medium text-gray-700">Giỏ hàng tối thiểu</label>
                 <input type="text" name="cart_value" id="cart_value"
                   value="{{ old('cart_value', $coupon->cart_value) }}"
                   class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                 @error('cart_value')
+                  <span class="text-sm text-red-500">{{ $message }}</span>
+                @enderror
+              </div>
+              <div class="col-span-6 md:col-span-2">
+                <label for="expiry_date" class="block text-sm font-medium text-gray-700">Ngày hết hạn</label>
+                  <input type="date" name="expiry_date" value="{{ old('expiry_date', $coupon->expiry_date) }}" id="expiry_date" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                @error('expiry_date')
                   <span class="text-sm text-red-500">{{ $message }}</span>
                 @enderror
               </div>

@@ -29,7 +29,8 @@ class CouponRequest extends FormRequest
                     'code'       => 'required|unique:coupons,code',
                     'type'       => 'required|in:percent,fixed',
                     'value'      => 'required',
-                    'cart_value' => 'required'
+                    'cart_value' => 'required',
+                    'expiry_date' => 'required'
                 ];
             case 'update':
                 $couponId = $this->route()->parameter('coupon');
@@ -38,7 +39,8 @@ class CouponRequest extends FormRequest
                     'code'       => 'required|unique:coupons,code,' . $couponId,
                     'type'       => 'required|in:percent,fixed',
                     'value'      => 'required',
-                    'cart_value' => 'required'
+                    'cart_value' => 'required',
+                    'expiry_date' => 'required'
                 ];
             default:
                 return [];

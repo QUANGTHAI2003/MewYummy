@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Client\Cart;
 
 use App\Models\Coupon;
+use Carbon\Carbon;
 use Livewire\Component;
 use Gloudemans\Shoppingcart\Facades\Cart;
 
@@ -22,20 +23,27 @@ class CartComponent extends Component
         $this->calculateDiscounts();
     }
 
-    public function applyCouponCode() {
-        // validate
-        $coupon = Coupon::where('code', $this->couponCode)->where('cart_value', '<=', Cart::instance('cart')->subtotal())->first();
+    public function applyCouponCode()
+    {
+        $coupon = Coupon::where('code', $this->couponCode)
+            ->where('expiry_date', '>=', Carbon::today())
+            ->where('cart_value', '<=', Cart::instance('cart')->subtotal())->first();
         if (!$coupon) {
             session()->flash('coupon_message', 'Coupon code is invalid!');
             return;
         }
 
         session()->put('coupon', [
-            'code' => $coupon->code,
-            'type' => $coupon->type,
-            'value' => $coupon->value,
-            'cart_value' => $coupon->cart_value,
+            'code'       => $coupon->code,
+            'type'       => $coupon->type,
+            'value'      => $coupon->value,
+            'cart_value' => $coupon->cart_value
         ]);
+    }
+
+    public function removeCoupon()
+    {
+        session()->forget('coupon');
     }
 
     public function calculateDiscounts()
@@ -48,7 +56,7 @@ class CartComponent extends Component
             }
 
             $this->subtotalAfterDiscount = Cart::instance('cart')->subtotal() - $this->discount;
-            $this->totalAfterDiscount = $this->subtotalAfterDiscount + Cart::instance('cart')->tax();
+            $this->totalAfterDiscount    = $this->subtotalAfterDiscount + Cart::instance('cart')->tax();
         }
     }
 
@@ -75,7 +83,7 @@ class CartComponent extends Component
 
     public function render()
     {
-        if(session()->has('coupon')) {
+        if (session()->has('coupon')) {
             if (Cart::instance('cart')->subtotal() < session()->get('coupon')['cart_value']) {
                 session()->forget('coupon');
             } else {

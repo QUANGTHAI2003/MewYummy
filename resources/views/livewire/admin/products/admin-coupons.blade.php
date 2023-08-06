@@ -39,7 +39,7 @@
               <th class="table-head">
                 <input wire:model="selectAllCoupon" id="checkAllProduct" type="checkbox" class="checkbox">
               </th>
-              <th wire:click.prevent="sortBy('code')" class="table-head w-72">
+              <th wire:click.prevent="sortBy('code')" class="table-head">
                 Mã giảm giá
                 <x-sort-arrow name="code" :sortColumnName="$sortColumnName" :sortDirection="$sortDirection" />
               </th>
@@ -54,6 +54,10 @@
               <th wire:click.prevent="sortBy('cart_value')" class="table-head">
                 Giá trị tối thiểu giỏ hàng
                 <x-sort-arrow name="cart_value" :sortColumnName="$sortColumnName" :sortDirection="$sortDirection" />
+              </th>
+              <th wire:click.prevent="sortBy('expiry_date')" class="table-head">
+                Ngày hết hạn
+                <x-sort-arrow name="expiry_date" :sortColumnName="$sortColumnName" :sortDirection="$sortDirection" />
               </th>
               <th
                 class="w-32 border-b border-gray-200 bg-gray-50 px-6 py-3 pr-12 text-center text-xs font-medium uppercase leading-4 tracking-wider text-gray-500">
@@ -87,6 +91,9 @@
                   </td>
                   <td class="table-body">
                     <div class="line-clamp-2 leading-5 text-gray-900">{{ formatNumber($coupon->cart_value) }}</div>
+                  </td>
+                  <td class="table-body">
+                    <div class="line-clamp-2 leading-5 text-gray-900">{{ \Carbon\Carbon::parse($coupon->expiry_date)->format('d-m-Y') }}</div>
                   </td>
                   <td class="whitespace-no-wrap right justify-content-end border-b border-gray-200 px-6 py-4 text-right">
                     <div class="flex">

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->enum('type', ['fixed', 'percent']);
             $table->unsignedInteger('value');
             $table->unsignedInteger('cart_value');
+            $table->date('expiry_date')->default(now());
             $table->timestamps();
         });
     }
