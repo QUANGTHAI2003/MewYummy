@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string("email");
             $table->string("address");
             $table->text("note")->nullable();
-            $table->enum("status", ["pending", "processing", "completed", "decline"])->default("pending");
+            $table->enum("status", ["pending", "processing", "completed", "cancelled"])->default("pending");
             $table->string('sub_total');
             $table->string("shipping_fee")->default(0);
             $table->string("discount")->default(0);

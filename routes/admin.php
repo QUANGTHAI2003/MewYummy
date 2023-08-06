@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\CategoriesController;
 use App\Http\Controllers\Admin\RoleManagementController;
 use App\Http\Controllers\Admin\UserManagementController;
 use App\Http\Controllers\Admin\AttributesController;
+use App\Http\Controllers\Admin\OrdersController;
 use App\Http\Controllers\CouponController;
 
 /*
@@ -33,7 +34,5 @@ Route::prefix('admin')->middleware(['auth', 'checkIsAdmin'])->name('admin.')->gr
     Route::get('users/roles/{role}/permissions', [UserManagementController::class, 'getPermissions']);
     });
 
-    Route::get('orders', function () {
-        return view('admin.orders.index');
-    })->name('orders');
+    Route::resource('/orders', OrdersController::class, ['except' => ['destroy']]);
 });

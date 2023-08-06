@@ -23,11 +23,7 @@
         <i class="bi bi-layout-text-window-reverse"></i><span>Quản lý đơn hàng</span><i class="bi bi-chevron-down ms-auto"></i>
       </a>
       <ul id="tables-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
-        <li>
-            <a href="charts-chartjs.html">
-              <i class="bi bi-circle"></i><span>Quản lý đơn hàng</span>
-            </a>
-          </li>
+        <x-item-sidebar route="admin.orders.index" name="Quản lý đơn hàng" permisson="View attrbutes" />
       </ul>
     </li>
     <li class="nav-item">
