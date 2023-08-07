@@ -17,7 +17,7 @@ class Kernel extends ConsoleKernel{
      */
     protected function schedule(Schedule $schedule){
         // $schedule->command('inspire')->hourly();
-        $schedule->call([OrderController::class, 'cancelUnacceptedOrders'])->everyMinute()->runInBackground();
+        $schedule->call([OrderController::class, 'cancelUnacceptedOrders'])->everyMinute();
     }
 
     /**

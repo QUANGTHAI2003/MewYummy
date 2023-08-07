@@ -130,7 +130,12 @@
           </div>
         </div>
         <div class="checkout-btn">
-          <button wire:click="placeOrder" class="btn btn-primary">Thanh toán</button>
+          <button wire:click="placeOrder" class="btn btn-primary">
+            {{-- add loading --}}
+            <span wire:loading wire:target="placeOrder" class="spinner-border spinner-border-sm" role="status"
+              aria-hidden="true"></span>
+            Đặt hàng
+          </button>
         </div>
       </div>
     </div>

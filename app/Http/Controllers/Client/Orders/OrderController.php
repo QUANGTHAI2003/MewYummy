@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Client\Orders;
 use App\Models\Order;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Http\Controllers\Controller;
+use App\Mail\Order\OrderShipped;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Mail;
 
 class OrderController extends Controller
 {
