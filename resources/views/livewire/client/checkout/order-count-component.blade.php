@@ -1,0 +1,1 @@
+<span class="total-order">{{ $order_count }}</span>

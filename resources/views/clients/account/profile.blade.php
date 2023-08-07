@@ -18,7 +18,7 @@
               <button class="nav-link" id="nav-orders-tab" data-bs-toggle="tab" data-bs-target="#nav-orders"
                 type="button" role="tab" aria-controls="nav-orders" aria-selected="false">
                 <img src="{{ asset('storage/images/orders.webp') }}" alt="Order">
-                <span class="position-relative mt-2"> Lịch sử đơn hàng <span class="total-order">3</span>
+                <span class="position-relative mt-2"> Lịch sử đơn hàng <livewire:client.checkout.order-count-component />
                 </span>
               </button>
             </div>
@@ -68,63 +68,7 @@
               </div>
             </div>
             <div class="tab-pane fade" id="nav-orders" role="tabpanel" aria-labelledby="nav-orders-tab" tabindex="0">
-              <div class="order__info mt-4 rounded">
-                <h1 class="order__info-title">Danh sách đơn hàng</h1>
-                <div class="order__info-recent">
-                  <div class="item-order mt-3 rounded border">
-                    <a href="#" class="row">
-                      <div class="col-12 col-md-8">
-                        <div class="status-order">
-                          <b class="order-id">#1032</b> - <span class="span_pending text-danger">Chưa thanh toán</span> -
-                          <span class="span_ text-danger">Chưa giao hàng</span>
-                        </div>
-                        <div class="addr_order">
-                          <b> Địa chỉ giao hàng: Quận Hà Đông, Hà Nội, Vietnam </b>
-                        </div>
-                        <p class="time_order m-0"> Ngày: 30/12/2022 </p>
-                      </div>
-                      <div class="col-12 col-md-4 text-end">
-                        <b class="price">105.000₫</b>
-                      </div>
-                    </a>
-                  </div>
-                  <div class="item-order mt-3 rounded border">
-                    <a href="#" class="row">
-                      <div class="col-12 col-md-8">
-                        <div class="status-order">
-                          <b class="order-id">#1032</b> - <span class="span_pending text-danger">Chưa thanh toán</span> -
-                          <span class="span_ text-danger">Chưa giao hàng</span>
-                        </div>
-                        <div class="addr_order">
-                          <b> Địa chỉ giao hàng: Quận Hà Đông, Hà Nội, Vietnam </b>
-                        </div>
-                        <p class="time_order m-0"> Ngày: 30/12/2022 </p>
-                      </div>
-                      <div class="col-12 col-md-4 text-end">
-                        <b class="price">105.000₫</b>
-                      </div>
-                    </a>
-                  </div>
-                  <div class="item-order mt-3 rounded border">
-                    <a href="#" class="row">
-                      <div class="col-12 col-md-8">
-                        <div class="status-order">
-                          <b class="order-id">#1032</b> - <span class="span_pending text-danger">Chưa thanh toán</span>
-                          -
-                          <span class="span_ text-danger">Chưa giao hàng</span>
-                        </div>
-                        <div class="addr_order">
-                          <b> Địa chỉ giao hàng: Quận Hà Đông, Hà Nội, Vietnam </b>
-                        </div>
-                        <p class="time_order m-0"> Ngày: 30/12/2022 </p>
-                      </div>
-                      <div class="col-12 col-md-4 text-end">
-                        <b class="price">105.000₫</b>
-                      </div>
-                    </a>
-                  </div>
-                </div>
-              </div>
+              <livewire:client.checkout.user-order-component />
             </div>
           </div>
         </div>

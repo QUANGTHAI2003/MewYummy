@@ -1527,6 +1527,9 @@ input:checked + .toggle-bg {
 .m-auto {
   margin: auto !important;
 }
+.-m-1 {
+  margin: -0.25rem !important;
+}
 .-my-2 {
   margin-top: -0.5rem !important;
   margin-bottom: -0.5rem !important;
@@ -1680,6 +1683,9 @@ input:checked + .toggle-bg {
 }
 .mt-16 {
   margin-top: 4rem !important;
+}
+.ml-1 {
+  margin-left: 0.25rem !important;
 }
 .line-clamp-2 {
   overflow: hidden !important;

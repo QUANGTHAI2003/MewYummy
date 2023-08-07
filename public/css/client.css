@@ -2158,6 +2158,41 @@ footer .footer-mid .store:hover .tit {
   padding: 0.7rem 0.75rem !important;
 }
 
+.order-info {
+  box-shadow: 0px 0px 3px #d7d7d7;
+}
+.order-info .head-title h1 {
+  font-size: 1.25rem;
+  color: #2e9f3c;
+}
+.order-info .title-head {
+  font-size: 1.25rem;
+  color: #2e9f3c;
+}
+.order-info .i_main {
+  font-size: 17px;
+  text-transform: capitalize;
+}
+.order-info .i_sup {
+  font-size: 14px;
+}
+.order-info .item_order {
+  transition: all 0.5s;
+}
+.order-info .item_order a {
+  color: #515151;
+}
+.order-info .item_order img {
+  max-height: 90px;
+}
+.order-info .item_order:hover {
+  box-shadow: 0px 0px 7px -2px #ffc107;
+  border-color: #ffc107 !important;
+}
+.order-info .price {
+  color: #f00;
+}
+
 .toast {
   position: absolute;
   top: 25px;

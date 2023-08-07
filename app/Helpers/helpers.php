@@ -291,12 +291,12 @@ if (!function_exists('getProductImage')) {
 if (!function_exists('avatarUrl')) {
     function avatarUrl($user)
     {
-        if ($user->avatar == '') {
-            $name   = urlencode($user->name);
-            $avatar = "https://ui-avatars.com/api/?name={$name}";
-        } else {
-            $avatar = asset('storage/' . $user->avatar);
+        if (file_exists(public_path('storage/' . ltrim($user->avatar, '/')))) {
+            $avatar = asset('storage/' . ltrim($user->avatar, '/'));
+            return $avatar;
         }
-        return $avatar;
+        $name       = urlencode($user->username ?: $user->name);
+        $avatar_api = "https://ui-avatars.com/api/?name=" . urlencode($name);
+        return $avatar_api;
     }
 }

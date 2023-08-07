@@ -9,6 +9,7 @@ use App\Http\Controllers\Client\ThankYouController;
 use App\Http\Controllers\Clients\AccountController;
 use App\Http\Controllers\Clients\ProductController;
 use App\Http\Controllers\Clients\CheckoutController;
+use App\Http\Controllers\Client\Orders\OrderController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 /*
@@ -49,7 +50,12 @@ Route::prefix('account')->name('account.')->group(function () {
     Route::get('/update-password', [AccountController::class, 'updatePassword'])
         ->name('updatePassword');
     Route::put('/update-password/{id}', [AccountController::class, 'postUpdatePassword'])->name('postUpdatePassword');
+    Route::get('orders/{id}', [OrderController::class, 'detail'])->name('order_detail');
+    Route::get('/invoice/{orderId}', [OrderController::class, 'viewInvoice'])->name('viewInvoice');
+    Route::get('/invoice/{orderId}/generate', [OrderController::class, 'generateInvoice'])->name('generateInvoice');
 });
+
+
 Route::get('/cart', [CartController::class, 'index'])->name('cart');
 Route::get('checkout', [CheckoutController::class, 'index'])->name('checkout')->middleware('auth');
 Route::get('thankyou', [ThankYouController::class, 'index'])->name('thankyou')->middleware('auth');

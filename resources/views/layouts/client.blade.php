@@ -12,7 +12,7 @@
   {{-- Favicon --}}
   <link rel="icon" type="image/x-icon" href="{{ asset('storage/images/favicon.ico') }}" />
 
-  {{-- <link href="{{ asset('storage/vendor/font/fontawesome-free-6.2.1-web/css/all.min.css') }}" rel="stylesheet"> --}}
+  <link href="{{ asset('storage/vendor/font/fontawesome-free-6.2.1-web/css/all.min.css') }}" rel="stylesheet">
   <link href="https://kit-pro.fontawesome.com/releases/v6.2.0/css/pro.min.css" rel="stylesheet">
   <link href="{{ asset('storage/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" >
   <link href="{{ asset('plugins/swiperjs/swiper-bundle.min.css') }}" rel="stylesheet">
@@ -28,7 +28,10 @@
 </head>
 
 <body>
-  @if (!in_array(Route::currentRouteName(), ['login', 'register', 'checkout']))
+    @php
+        $exceptRoute = ['login', 'register', 'checkout','viewInvoice','generateInvoice'];
+    @endphp
+  @if (!in_array(Route::currentRouteName(), $exceptRoute))
     @include('clients.shared.header')
   @endif
 
@@ -38,7 +41,7 @@
   @yield('content')
   <x-alert />
 
-  @if (!in_array(Route::currentRouteName(), ['login', 'register','checkout']))
+  @if (!in_array(Route::currentRouteName(), $exceptRoute))
     @include('clients.shared.footer')
   @endif
 

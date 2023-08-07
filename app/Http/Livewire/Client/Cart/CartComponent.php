@@ -86,7 +86,7 @@ class CartComponent extends Component
                 $this->discount = (Cart::instance('cart')->subtotal() * session()->get('coupon')['value']) / 100;
             }
 
-            $this->subtotalAfterDiscount = Cart::instance('cart')->subtotal();
+            $this->subtotalAfterDiscount = Cart::instance('cart')->subtotal() - $this->discount;
             $this->totalAfterDiscount    = $this->subtotalAfterDiscount + Cart::instance('cart')->tax();
         }
     }
@@ -96,6 +96,9 @@ class CartComponent extends Component
         $item = Cart::instance('cart')->get($rowId);
         $qty  = $item->qty + 1;
         Cart::instance('cart')->update($rowId, $qty);
+
+        $this->checkCouponWhenUpdateCart();
+
         $this->emit('cartUpdated');
     }
 
@@ -104,7 +107,21 @@ class CartComponent extends Component
         $item = Cart::instance('cart')->get($rowId);
         $qty  = $item->qty - 1;
         Cart::instance('cart')->update($rowId, $qty);
+
+        $this->checkCouponWhenUpdateCart();
+
         $this->emit('cartUpdated');
+    }
+
+    private function checkCouponWhenUpdateCart()
+    {
+        if (session()->has('coupon')) {
+            if (Cart::instance('cart')->subtotal() < session()->get('coupon')['cart_value']) {
+                session()->forget('coupon');
+            } else {
+                $this->calculateDiscounts();
+            }
+        }
     }
 
     public function deleteCartItem($rowId)
@@ -114,13 +131,7 @@ class CartComponent extends Component
 
     public function render()
     {
-        if (session()->has('coupon')) {
-            if (Cart::instance('cart')->subtotal() < session()->get('coupon')['cart_value']) {
-                session()->forget('coupon');
-            } else {
-                $this->calculateDiscounts();
-            }
-        }
+        $this->checkCouponWhenUpdateCart();
         $coupons = Coupon::all();
 
         $this->setAmountForCheckout();
