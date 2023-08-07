@@ -26,6 +26,7 @@ return new class extends Migration
             $table->string("shipping_fee")->default(0);
             $table->string("discount")->default(0);
             $table->string("total_price");
+            $table->string("token")->nullable()->unique();
             $table->timestamps();
 
             $table->foreign("user_id")->references("id")->on("users")->onDelete("cascade");

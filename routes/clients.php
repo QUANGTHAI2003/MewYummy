@@ -53,6 +53,7 @@ Route::prefix('account')->name('account.')->group(function () {
     Route::get('orders/{id}', [OrderController::class, 'detail'])->name('order_detail');
     Route::get('/invoice/{orderId}', [OrderController::class, 'viewInvoice'])->name('viewInvoice');
     Route::get('/invoice/{orderId}/generate', [OrderController::class, 'generateInvoice'])->name('generateInvoice');
+    Route::get('/accept-order/{orderId}/{token}', [OrderController::class, 'acceptOrder'])->name('acceptOrder');
 });
 
 

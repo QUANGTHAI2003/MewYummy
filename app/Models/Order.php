@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Order extends Model
 {
@@ -11,6 +11,11 @@ class Order extends Model
 
     protected $table   = "orders";
     protected $guarded = [];
+    // order status
+    public const PENDING    = 'pending';
+    public const PROCESSING = 'processing';
+    public const COMPLETED  = 'completed';
+    public const CANCELLED  = 'cancelled';
 
     public function user()
     {

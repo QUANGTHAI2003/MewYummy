@@ -2,12 +2,14 @@
 
 namespace App\Http\Livewire\Client\Checkout;
 
+use App\Mail\Order\OrderShipped;
 use App\Models\Order;
 use App\Models\Product;
 use Livewire\Component;
 use App\Models\OrderItem;
 use App\Models\Transaction;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Gloudemans\Shoppingcart\Facades\Cart;
 
 class CheckoutComponent extends Component
@@ -29,6 +31,19 @@ class CheckoutComponent extends Component
         'payment_method' => 'required'
     ];
 
+    public function mount()
+    {
+        if (Auth::check()) {
+            $this->name    = Auth::user()->name;
+            $this->phone   = Auth::user()->phone;
+            $this->email   = Auth::user()->email;
+            $this->address = Auth::user()->address;
+        }
+
+        $this->thankyou = false;
+
+    }
+
     public function updated($propertyName)
     {
         $this->validateOnly($propertyName);
@@ -49,6 +64,7 @@ class CheckoutComponent extends Component
         $order->shipping_fee = 0;
         $order->discount     = session()->get('checkout')['discount'];
         $order->total_price  = session()->get('checkout')['total'];
+        $order->token       = uniqid() . time() . $order->user_id;
         $order->save();
 
         foreach (Cart::instance('cart')->content() as $item) {
@@ -75,9 +91,15 @@ class CheckoutComponent extends Component
             $transaction->save();
         }
 
+        // get current order
+        $order = Order::find($order->id);
+
+        Mail::to($order->email)->send(new OrderShipped($order));
+
         $this->thankyou = 1;
 
         Cart::instance('cart')->destroy();
+        session()->forget('coupon');
         session()->forget('checkout');
     }
 

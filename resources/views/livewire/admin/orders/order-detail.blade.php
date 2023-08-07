@@ -56,163 +56,159 @@
             </div>
             <hr>
           @endforeach
-          @if ($order->status == 'pending' || $order->status == 'processing' || $order->status == 'completed')
-            <div class="border-t border-gray-200 px-4 py-6 sm:px-6 lg:p-8">
-              <h4 class="sr-only">Status</h4>
-              <p class="text-sm font-medium text-gray-900">
-                Trạng thái đơn hàng:
+          <div class="border-t border-gray-200 px-4 py-6 sm:px-6 lg:p-8">
+            <h4 class="sr-only">Status</h4>
+            <p class="text-sm font-medium text-gray-900">
+              Trạng thái đơn hàng:
+              @if ($order->status == 'pending')
+                <span class="text-blue-600">Đang chờ xử lý</span>
+              @elseif($order->status == 'processing')
+                <span class="text-blue-600">Đang xử lý</span>
+              @elseif($order->status == 'completed')
+                <span class="text-blue-600">Đã hoàn thành</span>
+              @else
+                <span class="text-red-600">Đã hủy</span>
+              @endif
+            </p>
+            <div class="mt-6" aria-hidden="true">
+              <div class="overflow-hidden rounded-full bg-gray-200">
                 @if ($order->status == 'pending')
-                  <span class="text-blue-600">Đang chờ xử lý</span>
+                  <div class="h-2 rounded-full bg-blue-600" style="width: 0"></div>
                 @elseif($order->status == 'processing')
-                  <span class="text-blue-600">Đang xử lý</span>
+                  <div class="h-2 rounded-full bg-blue-600" style="width: calc((1 / 2) * 100%);"></div>
                 @elseif($order->status == 'completed')
-                  <span class="text-blue-600">Đã hoàn thành</span>
+                  <div class="h-2 rounded-full bg-blue-600" style="width: 100%;"></div>
                 @else
-                  <span class="text-blue-600">Đã hủy</span>
+                  <div class="h-2 rounded-full bg-red-600" style="width: 100%"></div>
                 @endif
-              </p>
+              </div>
+              <div class="mt-6 hidden grid-cols-3 text-sm font-medium text-gray-600 sm:grid">
+
+                @if ($order->status == 'pendicancelledng')
+                  <div class="text-blue-600">Đang chờ xử lý</div>
+                  <div class="text-center">Đang xử lý</div>
+                  <div class="text-right">Hoàn thành</div>
+                @elseif($order->status == 'processing')
+                  <div class="text-blue-600">Đang chờ xử lý</div>
+                  <div class="text-center">Đang xử lý</div>
+                  <div class="text-right">Hoàn thành</div>
+                @elseif($order->status == 'completed')
+                  <div class="text-blue-600">Đang chờ xử lý</div>
+                  <div class="text-center">Đang xử lý</div>
+                  <div class="text-right">Hoàn thành</div>
+                @endif
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Billing -->
+    <section aria-labelledby="summary-heading" class="mt-16">
+      <div class="bg-gray-100 px-4 py-6 sm:rounded-lg sm:px-6 lg:grid lg:grid-cols-12 lg:gap-x-8 lg:px-8 lg:py-8">
+        <dl class="grid grid-cols-2 gap-6 text-sm sm:grid-cols-2 md:gap-x-8 lg:col-span-7">
+          <div>
+            <dt class="font-medium text-gray-900">Địa chỉ giao hàng</dt>
+            <dd class="mb-3 mt-3 text-gray-500">
+              <span class="block"><strong>Tên khách hàng:</strong> {{ $order->name }}</span>
+              <span class="block"><strong>Địac chỉ giao hàng: </strong>{{ $order->address }}</span>
+              <span class="block"><strong>Số điện thoại: </strong>{{ $order->phone }}</span>
+              <span class="block"><strong>Email: </strong>{{ $order->email }}</span>
+            </dd>
+            @if ($order->note)
+              <dd class="mt-4 text-gray-500">
+                <span class="block"><strong>Chú thích thêm: </strong> {{ $order->note }}</span>
+              </dd>
+            @endif
+          </div>
+
+          <div>
+            <td class="font-medium text-gray-900">Thông tin thành toán</td>
+            @if ($order->status !== 'cancelled')
+              <div class="mt-3">
+                @if ($order->transaction->type === 'cod')
+                  <dd class="-ml-4">
+                    <div class="ml-3 mt-0 flex-shrink-0">
+                      <td class="hidden whitespace-nowrap px-6 py-4 text-sm text-gray-500 md:block">
+                        <span
+                          class="inline-flex items-center rounded-full bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-800">
+                          Thanh toán khi nhận hàng
+                        </span>
+                      </td>
+                    </div>
+                    <div class="ml-3 mt-3">
+                      <h5 class="mb-2"><strong>Phương thức thành toán: </strong></h5>
+                      <img src="{{ asset('storage/images/cod.png') }}" style="height:60px">
+                    </div>
+                  </dd>
+                @endif
+                @if ($order->transaction->type === 'momo')
+                  <dd class="-ml-4">
+                    <div class="ml-3 mt-0 flex-shrink-0">
+                      <td class="hidden whitespace-nowrap px-6 py-4 text-sm text-gray-500 md:block">
+                        <span
+                          class="inline-flex items-center rounded-full bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-800">
+                          Thanh toán bằng ví điện tử Momo
+                        </span>
+                      </td>
+                    </div>
+                    <div class="ml-3 mt-3">
+                      <h5 class="mb-2"><strong>Phương thức thành toán: </strong></h5>
+                      <img src="{{ asset('storage/images/momo.jpg') }}" style="height:70px">
+                    </div>
+                  </dd>
+                @endif
+                @if ($order->transaction->type === 'vnpay')
+                  <dd class="-ml-4">
+                    <div class="ml-3 mt-0 flex-shrink-0">
+                      <td class="hidden whitespace-nowrap px-6 py-4 text-sm text-gray-500 md:block">
+                        <span
+                          class="inline-flex items-center rounded-full bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-800">
+                          Thanh toán bằng ví điện tử VNPAY
+                        </span>
+                      </td>
+                    </div>
+                    <div class="ml-3 mt-3">
+                      <h5 class="mb-2"><strong>Phương thức thành toán: </strong></h5>
+                      <img src="{{ asset('storage/images/vnpay.png') }}" style="height:50px">
+                    </div>
+                  </dd>
+                @endif
+              </div>
+            @else
+              <div class="mt-3">
+                <span
+                  class="inline-flex items-center rounded-full bg-red-100 px-2.5 py-0.5 text-xs font-medium text-red-800">
+                  Đơn hàng đã hủy
+                </span>
+              </div>
+            @endif
+          </div>
+        </dl>
+
+        <dl class="mt-8 divide-y divide-gray-200 text-sm lg:col-span-5 lg:mt-0">
+
+          <div class="flex items-center justify-between py-4">
+            <dt class="text-gray-600">Phí giao hàng<br></dt>
+            <dd class="font-medium text-gray-900"><br> + 0</dd>
+          </div>
+          @if ($order->discount)
+            <div class="flex items-center justify-between py-4">
+              <dt class="text-gray-600">Coupon</dt>
+              <dd class="font-medium text-gray-900"><br>- {{ formatNumber($order->discount) }}</dd>
+            </div>
           @endif
-          <div class="mt-6" aria-hidden="true">
-            <div class="overflow-hidden rounded-full bg-gray-200">
-              @if ($order->status == 'pending')
-                <div class="h-2 rounded-full bg-blue-600" style="width: 0"></div>
-              @elseif($order->status == 'processing')
-                <div class="h-2 rounded-full bg-blue-600" style="width: calc((1 / 2) * 100%);"></div>
-              @elseif($order->status == 'completed')
-                <div class="h-2 rounded-full bg-blue-600" style="width: 100%;"></div>
-              @else
-                <div class="h-2 rounded-full bg-blue-600" style="width: 0"></div>
-              @endif
-            </div>
-            <div class="mt-6 hidden grid-cols-3 text-sm font-medium text-gray-600 sm:grid">
-
-              @if ($order->status == 'pending')
-                <div class="text-blue-600">Đang chờ xử lý</div>
-                <div class="text-center">Đang xử lý</div>
-                <div class="text-right">Hoàn thành</div>
-              @elseif($order->status == 'processing')
-                <div class="text-blue-600">Đang chờ xử lý</div>
-                <div class="text-center">Đang xử lý</div>
-                <div class="text-right">Hoàn thành</div>
-              @elseif($order->status == 'completed')
-                <div class="text-blue-600">Đang chờ xử lý</div>
-                <div class="text-center">Đang xử lý</div>
-                <div class="text-right">Hoàn thành</div>
-              @else
-              <div class="text-center text-red-500">Đã hủy</div>
-              @endif
-            </div>
+          <div class="flex items-center justify-between pt-4">
+            <dt class="font-medium text-gray-900">Tổng giá trị đơn hàng</dt>
+            <dd class="font-medium text-blue-600">
+              {{ formatNumber($order->total_price) }}
+            </dd>
           </div>
-        </div>
+        </dl>
       </div>
-</div>
-</section>
+    </section>
+    <x-forms.feature-button back="{{ route('admin.orders.index') }}" />
 
-<!-- Billing -->
-<section aria-labelledby="summary-heading" class="mt-16">
-  <div class="bg-gray-100 px-4 py-6 sm:rounded-lg sm:px-6 lg:grid lg:grid-cols-12 lg:gap-x-8 lg:px-8 lg:py-8">
-    <dl class="grid grid-cols-2 gap-6 text-sm sm:grid-cols-2 md:gap-x-8 lg:col-span-7">
-      <div>
-        <dt class="font-medium text-gray-900">Địa chỉ giao hàng</dt>
-        <dd class="mb-3 mt-3 text-gray-500">
-          <span class="block"><strong>Tên khách hàng:</strong> {{ $order->name }}</span>
-          <span class="block"><strong>Địac chỉ giao hàng: </strong>{{ $order->address }}</span>
-          <span class="block"><strong>Số điện thoại: </strong>{{ $order->phone }}</span>
-          <span class="block"><strong>Email: </strong>{{ $order->email }}</span>
-        </dd>
-        @if ($order->note)
-          <dd class="mt-4 text-gray-500">
-            <span class="block"><strong>Chú thích thêm: </strong> {{ $order->note }}</span>
-          </dd>
-        @endif
-      </div>
-
-      <div>
-        <td class="font-medium text-gray-900">Thông tin thành toán</td>
-        @if ($order->status !== 'cancelled')
-          <div class="mt-3">
-            @if ($order->transaction->type === 'cod')
-              <dd class="-ml-4">
-                <div class="ml-3 mt-0 flex-shrink-0">
-                  <td class="hidden whitespace-nowrap px-6 py-4 text-sm text-gray-500 md:block">
-                    <span
-                      class="inline-flex items-center rounded-full bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-800">
-                      Thanh toán khi nhận hàng
-                    </span>
-                  </td>
-                </div>
-                <div class="ml-3 mt-3">
-                  <h5 class="mb-2"><strong>Phương thức thành toán: </strong></h5>
-                  <img src="{{ asset('storage/images/cod.png') }}" style="height:60px">
-                </div>
-              </dd>
-            @endif
-            @if ($order->transaction->type === 'momo')
-              <dd class="-ml-4">
-                <div class="ml-3 mt-0 flex-shrink-0">
-                  <td class="hidden whitespace-nowrap px-6 py-4 text-sm text-gray-500 md:block">
-                    <span
-                      class="inline-flex items-center rounded-full bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-800">
-                      Thanh toán bằng ví điện tử Momo
-                    </span>
-                  </td>
-                </div>
-                <div class="ml-3 mt-3">
-                  <h5 class="mb-2"><strong>Phương thức thành toán: </strong></h5>
-                  <img src="{{ asset('storage/images/momo.jpg') }}" style="height:70px">
-                </div>
-              </dd>
-            @endif
-            @if ($order->transaction->type === 'vnpay')
-              <dd class="-ml-4">
-                <div class="ml-3 mt-0 flex-shrink-0">
-                  <td class="hidden whitespace-nowrap px-6 py-4 text-sm text-gray-500 md:block">
-                    <span
-                      class="inline-flex items-center rounded-full bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-800">
-                      Thanh toán bằng ví điện tử VNPAY
-                    </span>
-                  </td>
-                </div>
-                <div class="ml-3 mt-3">
-                  <h5 class="mb-2"><strong>Phương thức thành toán: </strong></h5>
-                  <img src="{{ asset('storage/images/vnpay.png') }}" style="height:50px">
-                </div>
-              </dd>
-            @endif
-          </div>
-        @else
-          <div class="mt-3">
-            <span
-              class="inline-flex items-center rounded-full bg-red-100 px-2.5 py-0.5 text-xs font-medium text-red-800">
-              Đơn hàng đã hủy
-            </span>
-          </div>
-        @endif
-      </div>
-    </dl>
-
-    <dl class="mt-8 divide-y divide-gray-200 text-sm lg:col-span-5 lg:mt-0">
-
-      <div class="flex items-center justify-between py-4">
-        <dt class="text-gray-600">Phí giao hàng<br></dt>
-        <dd class="font-medium text-gray-900"><br> + 0</dd>
-      </div>
-      @if ($order->discount)
-        <div class="flex items-center justify-between py-4">
-          <dt class="text-gray-600">Coupon</dt>
-          <dd class="font-medium text-gray-900"><br>- {{ formatNumber($order->discount) }}</dd>
-        </div>
-      @endif
-      <div class="flex items-center justify-between pt-4">
-        <dt class="font-medium text-gray-900">Tổng giá trị đơn hàng</dt>
-        <dd class="font-medium text-blue-600">
-          {{ formatNumber($order->total_price) }}
-        </dd>
-      </div>
-    </dl>
-  </div>
-</section>
-<x-forms.feature-button back="{{ route('admin.orders.index') }}" />
-
-</main>
+  </main>
 </div>
