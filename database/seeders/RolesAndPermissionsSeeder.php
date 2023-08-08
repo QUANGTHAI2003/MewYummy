@@ -102,7 +102,7 @@ class RolesAndPermissionsSeeder extends Seeder
                 ]
             ]);
 
-            User::create($users->toArray());
+            User::insert($users->toArray());
 
             // Assign roles to users
             User::find(1)->assignRole('admin');

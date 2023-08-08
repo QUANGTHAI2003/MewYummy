@@ -33,6 +33,8 @@ class Product extends Model{
         'name',
     ];
 
+    protected $with = ['categories', 'product_images', 'attributeValues'];
+
     public function categories()
     {
         return $this->belongsTo(Category::class, 'category_id');

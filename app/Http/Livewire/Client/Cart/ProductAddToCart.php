@@ -14,10 +14,11 @@ class ProductAddToCart extends Component
     public $quantity;
     protected $listeners = [
         'updateQuantity' => 'updateQuantity',
-        'updateCartQty'  => 'updateCartQty'
+        'cartQuantity'   => 'cartQuantity'
     ];
 
-    public function updateCartQty($quantity) {
+    public function cartQuantity($quantity)
+    {
         $this->quantity = $quantity;
     }
 
@@ -51,7 +52,7 @@ class ProductAddToCart extends Component
 
         session()->flash('success_message', 'Item added in Cart.');
 
-        $this->emit('cartAdded');
+        $this->emit('cartUpdated');
     }
 
     public function updateQuantity($attributeId)

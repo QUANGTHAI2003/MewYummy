@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Client\Orders;
 
+use Carbon\Carbon;
 use App\Models\Order;
 use Barryvdh\DomPDF\Facade\Pdf;
-use App\Http\Controllers\Controller;
 use App\Mail\Order\OrderShipped;
-use Carbon\Carbon;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Mail;
 
 class OrderController extends Controller
@@ -38,10 +38,15 @@ class OrderController extends Controller
     {
         $order = Order::findOrFail($orderId);
 
-        if ($order->token == $token) {
-            $order->update([
-                'status' => Order::PROCESSING
-            ]);
+        if ($order->status !== Order::CANCELLED) {
+            if ($order->token == $token) {
+                $order->update([
+                    'status' => Order::PROCESSING,
+                    'token'  => null
+                ]);
+            }
+        } else {
+            return redirect()->route('home')->with('error', 'Đơn hàng đã bị hủy');
         }
 
         return redirect()->route('home')->with('error', 'Đã có lỗi xảy ra');
@@ -51,6 +56,6 @@ class OrderController extends Controller
     {
         Order::where('status', Order::PENDING)
             ->where('created_at', '<', Carbon::now()->subMinute())
-            ->update(['status' => Order::CANCELLED]);
+            ->update(['status' => Order::CANCELLED, 'token' => null]);
     }
 }

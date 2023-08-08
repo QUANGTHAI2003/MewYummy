@@ -36,6 +36,15 @@
 				width: 18px;
 			}
 
+            .remain {
+                background: #ffbda6;
+                right: 0;
+                top: 0;
+                z-index: 1;
+                border-top-right-radius: 20px;
+                border-bottom-right-radius: 20px;
+            }
+
 			.sold {
 				font-size: 12px;
 				color: #fff;

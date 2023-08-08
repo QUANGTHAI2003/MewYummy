@@ -30,10 +30,16 @@ class ProductList extends Component
         'sortCategory' => 'sortCategory',
         'applySortPrice' => 'applySortPrice',
         'clearAllSort' => 'clearAllSort',
+        'clearSort' => 'clearSort'
     ];
 
     public function clearAllSort() {
         $this->reset(['categoryId', 'minPrice', 'maxPrice', 'sortColumn', 'sortDirection']);
+    }
+
+    public function clearSort($keySort)
+    {
+        $this->reset($keySort);
     }
 
     public function sortCategory($id) {
@@ -49,6 +55,8 @@ class ProductList extends Component
         $sortData = explode('|', $sort);
         $this->sortColumn = $sortData[0];
         $this->sortDirection = $sortData[1];
+
+        $this->emitTo('client.products.product-sidebar', 'sortRadio', $this->sortColumn, $this->sortDirection);
     }
 
     public function mount($products)
@@ -59,6 +67,7 @@ class ProductList extends Component
     public function render()
     {
         $this->products = Product::query()
+            ->with(['product_images:id,image,product_id', 'categories'])
             ->when($this->categoryId, function ($query) {
                 return $query->where('category_id', $this->categoryId);
             })
@@ -68,6 +77,7 @@ class ProductList extends Component
             ->when($this->maxPrice, function ($query) {
                 return $query->where('regular_price', '<=', $this->maxPrice);
             })
+            ->where('is_active', true)
             ->orderBy($this->sortColumn, $this->sortDirection)
             ->paginate(12);
 

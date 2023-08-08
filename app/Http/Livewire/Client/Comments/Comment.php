@@ -13,13 +13,13 @@ class Comment extends Component
     public $product;
     public $comment = '';
 
-    public $commentChild = '';
+    public $commentChild      = '';
     public $commentChildChild = '';
     public $commentId;
 
     protected $listeners = [
         'sendCommentChild'      => 'sendCommentChild',
-        'sendCommentChildChild' => 'sendCommentChildChild',
+        'sendCommentChildChild' => 'sendCommentChildChild'
     ];
 
     // public function repliesMain($id)
@@ -51,7 +51,7 @@ class Comment extends Component
             'commentChild' => 'required|min:3'
         ]);
 
-        $comment = ModelsComment::findOrFail($commentId);
+        $comment  = ModelsComment::findOrFail($commentId);
         $username = $this->getUserName($commentId);
         $comment->create([
             'user_id'    => auth()->id(),
@@ -59,7 +59,6 @@ class Comment extends Component
             'parent_id'  => $comment->id,
             'content'    => "<a href='#' class='text-primary'>@" . $username . "</a>: " . $this->commentChild
         ]);
-
 
         $this->commentChild = '';
     }
@@ -70,7 +69,7 @@ class Comment extends Component
             'commentChildChild' => 'required|min:3'
         ]);
 
-        $comment = ModelsComment::findOrFail($commendChildId);
+        $comment  = ModelsComment::findOrFail($commendChildId);
         $username = $this->getUserName($commendChildId);
         $comment->create([
             'user_id'    => auth()->id(),
@@ -88,17 +87,30 @@ class Comment extends Component
         return $comment->user->name;
     }
 
-    public function mount() {
-        $this->comment = '';
-        $this->commentChild = '';
+    public function mount()
+    {
+        $this->comment           = '';
+        $this->commentChild      = '';
         $this->commentChildChild = '';
     }
 
-
     public function render()
     {
+        $comments = $this->product->comments()
+                         ->with([
+                             'replies' => function ($query) {
+                                 $query->with('user:id,name,avatar')
+                                       ->orderBy('created_at', 'DESC');
+                             },
+                             'user:id,name,avatar',
+                             'replies.user:id,name,avatar'
+                         ])
+                         ->whereNull('parent_id')
+                         ->orderBy('created_at', 'DESC')
+                         ->select(['id', 'product_id', 'user_id', 'content', 'created_at'])
+                         ->paginate(5);
         return view('livewire.client.comments.comment', [
-            'comments' => $this->product->comments()->where('parent_id', null)->orderBy('created_at', "DESC")->paginate(5),
+            'comments' => $comments
         ]);
     }
 }

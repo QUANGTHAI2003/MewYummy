@@ -249,361 +249,52 @@
             <div class="b_product">
               <div class="flash__slide-container overflow-hidden">
                 <div class="swiper-wrapper">
-                  <div class="swiper-slide swiper-slide-prev">
-                    <div class="card-item">
-                      <div class="sale-label sale-top-right position-absolute">
-                        <span class="fw-bold">- 20% </span>
-                      </div>
-                      <a href="./detail.html" class="thumb d-block modal-open">
-                        <div class="zoom">
-                          <img src="{{ asset('storage/images/products/pro1.webp') }}" loading="lazy" decoding=""
-                            class="d-block img img-cover position-absolute lazy" />
-                        </div>
-                      </a>
-                      <div class="item-info">
-                        <div class="clearfix">
-                          <div class="sold-module modal-open">
-                            <img src="{{ asset('storage/images/hot-sale.webp') }}" loading="lazy" decoding=""
-                              class="position-absolute" />
-                            <div class="sold">Sắp cháy hàng</div>
-                            <div class="remain position-absolute h-100"></div>
+                  @foreach ($saleProduct as $saleItem)
+                    <div class="swiper-slide swiper-slide-prev">
+                      <div class="card-item">
+                        @php
+                          $sale_percent = getSalePercent($saleItem->regular_price, $saleItem->sale_price);
+                        @endphp
+                        @if ($sale_percent)
+                          <div class="sale-label sale-top-right position-absolute">
+                            <span class="fw-bold">{{ $sale_percent }}</span>
                           </div>
-                        </div>
-                        <h3 class="item-title">
-                          <a class="d-block modal-open" href="#"> Ớt ngọt Đà Lạt </a>
-                        </h3>
-                        <div class="item-price">
-                          <span class="special-price fw-bold me-2">35.000₫</span>
-                          <del class="old-price"> 28.000₫</del>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="swiper-slide">
-                    <div class="card-item">
-                      <div class="sale-label sale-top-right position-absolute">
-                        <span class="fw-bold">- 40% </span>
-                      </div>
-                      <a href="./detail.html" class="thumb d-block modal-open">
-                        <div class="zoom">
-                          <img src="{{ asset('storage/images/products/pro2.webp') }}" loading="lazy" decoding=""
-                            class="d-block img img-cover position-absolute lazy" />
-                        </div>
-                      </a>
-                      <div class="item-info">
-                        <div class="clearfix">
-                          <div class="sold-module modal-open">
-                            <img src="{{ asset('storage/images/hot-sale.webp') }}" loading="lazy" decoding=""
-                              class="position-absolute" />
-                            <div class="sold">Sắp cháy hàng</div>
-                            <div class="remain position-absolute h-100"></div>
+                        @endif
+                        <a href="{{ route('show', ['slug' => $saleItem->slug, 'id' => $saleItem->id]) }}"
+                          class="thumb d-block modal-open">
+                          <div class="zoom">
+                            <img src="{{ getProductImage($saleItem->product_images[0]->image) }}" loading="lazy"
+                              class="d-block img img-cover position-absolute lazy" alt="{{ $saleItem->name }}" />
                           </div>
-                        </div>
-                        <h3 class="item-title">
-                          <a class="d-block modal-open" href="#"> Hành tây củ </a>
-                        </h3>
-                        <div class="item-price">
-                          <span class="special-price fw-bold me-2">15.000₫</span>
-                          <del class="old-price"> 25.000₫</del>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="swiper-slide swiper-slide-next">
-                    <div class="card-item">
-                      <div class="sale-label sale-top-right position-absolute">
-                        <span class="fw-bold">- 20% </span>
-                      </div>
-                      <a href="./detail.html" class="thumb d-block modal-open">
-                        <div class="zoom">
-                          <img src="{{ asset('storage/images/products/pro3.webp') }}" loading="lazy" decoding=""
-                            class="d-block img img-cover position-absolute lazy" />
-                        </div>
-                      </a>
-                      <div class="item-info">
-                        <div class="clearfix">
-                          <div class="sold-module modal-open">
-                            <img src="{{ asset('storage/images/hot-sale.webp') }}" loading="lazy" decoding=""
-                              class="position-absolute" />
-                            <div class="sold">Sắp cháy hàng</div>
-                            <div class="remain position-absolute h-100" style="width: 22.5%"></div>
-                          </div>
-                        </div>
-                        <h3 class="item-title">
-                          <a class="d-block modal-open" href="#"> Snack lá ngắn </a>
-                        </h3>
-                        <div class="item-price">
-                          <span class="special-price fw-bold me-2">60.000₫</span>
-                          <del class="old-price"> 75.000₫</del>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="swiper-slide">
-                    <div class="card-item">
-                      <div class="sale-label sale-top-right position-absolute">
-                        <span class="fw-bold">- 15% </span>
-                      </div>
-                      <a href="./detail.html" class="thumb d-block modal-open">
-                        <div class="zoom">
-                          <img src="{{ asset('storage/images/products/pro4.webp') }}" loading="lazy" decoding=""
-                            class="d-block img img-cover position-absolute lazy" />
-                        </div>
-                      </a>
-                      <div class="item-info">
-                        <div class="clearfix">
-                          <div class="sold-module modal-open">
-                            <img src="{{ asset('storage/images/hot-sale.webp') }}" loading="lazy" decoding=""
-                              class="position-absolute" />
-                            <div class="sold">Sắp cháy hàng</div>
-                            <div class="remain position-absolute h-100" style="width: 12.666666666666666666666666667%">
+                        </a>
+                        <div class="item-info">
+                          <div class="clearfix">
+                            <div class="sold-module modal-open">
+                              @if ($saleItem->stock_qty <= 10)
+                                <img src="{{ asset('storage/images/hot-sale.webp') }}" loading="lazy" decoding=""
+                                  class="position-absolute" alt="Hot sale" />
+                              @endif
+                              <div class="sold">Sắp cháy hàng</div>
+                              <div class="remain position-absolute h-100"></div>
                             </div>
                           </div>
-                        </div>
-                        <h3 class="item-title">
-                          <a class="d-block modal-open" href="#"> Cam canh Hà Giang </a>
-                        </h3>
-                        <div class="item-price">
-                          <span class="special-price fw-bold me-2">55.000₫</span>
-                          <del class="old-price"> 65.000₫</del>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="swiper-slide">
-                    <div class="card-item">
-                      <div class="sale-label sale-top-right position-absolute">
-                        <span class="fw-bold">- 17% </span>
-                      </div>
-                      <a href="./detail.html" class="thumb d-block modal-open">
-                        <div class="zoom">
-                          <img src="{{ asset('storage/images/products/pro5.webp') }}" loading="lazy" decoding=""
-                            class="d-block img img-cover position-absolute lazy" />
-                        </div>
-                      </a>
-                      <div class="item-info">
-                        <div class="clearfix">
-                          <div class="sold-module modal-open">
-                            <div class="sold">Đã bán: 30</div>
-                            <div class="remain position-absolute h-100" style="width: 40%"></div>
+                          <h3 class="item-title">
+                            <a class="d-block modal-open" href="#">{{ $saleItem->name }}</a>
+                          </h3>
+                          <div class="item-price">
+                            @php
+                              $price = getPrice($saleItem->regular_price, $saleItem->sale_price);
+                            @endphp
+                            <span class="special-price fw-bold me-2">{{ $price }}</span>
+                            @if ($sale_percent)
+                              <span
+                                class="old-price text-decoration-line-through">{{ formatNumber($saleItem->regular_price) }}</span>
+                            @endif
                           </div>
                         </div>
-                        <h3 class="item-title">
-                          <a class="d-block modal-open" href="#"> Nho không hạt </a>
-                        </h3>
-                        <div class="item-price">
-                          <span class="special-price fw-bold me-2">250.000₫</span>
-                          <del class="old-price"> 300.000₫</del>
-                        </div>
                       </div>
                     </div>
-                  </div>
-                  <div class="swiper-slide">
-                    <div class="card-item">
-                      <div class="sale-label sale-top-right position-absolute">
-                        <span class="fw-bold">- 10% </span>
-                      </div>
-                      <a href="./detail.html" class="thumb d-block modal-open">
-                        <div class="zoom">
-                          <img src="{{ asset('storage/images/products/pro6.webp') }}" loading="lazy" decoding=""
-                            class="d-block img img-cover position-absolute lazy" />
-                        </div>
-                      </a>
-                      <div class="item-info">
-                        <div class="clearfix">
-                          <div class="sold-module modal-open">
-                            <img src="{{ asset('storage/images/hot-sale.webp') }}" loading="lazy" decoding=""
-                              class="position-absolute" />
-                            <div class="sold">Sắp cháy hàng</div>
-                            <div class="remain position-absolute h-100" style="width: 25%"></div>
-                          </div>
-                        </div>
-                        <h3 class="item-title">
-                          <a class="d-block modal-open" href="#"> Thăn Lưng Bò Mỹ Black Angus , Rib Eye (500gr)
-                          </a>
-                        </h3>
-                        <div class="item-price">
-                          <span class="special-price fw-bold me-2">450.000₫</span>
-                          <del class="old-price"> 500.000₫</del>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="swiper-slide">
-                    <div class="card-item">
-                      <div class="sale-label sale-top-right position-absolute">
-                        <span class="fw-bold">- 13% </span>
-                      </div>
-                      <a href="./detail.html" class="thumb d-block modal-open">
-                        <div class="zoom">
-                          <img src="{{ asset('storage/images/products/pro7.webp') }}" loading="lazy" decoding=""
-                            class="d-block img img-cover position-absolute lazy" />
-                        </div>
-                      </a>
-                      <div class="item-info">
-                        <div class="clearfix">
-                          <div class="sold-module modal-open">
-                            <img src="{{ asset('storage/images/hot-sale.webp') }}" loading="lazy" decoding=""
-                              class="position-absolute" />
-                            <div class="sold">Sắp cháy hàng</div>
-                            <div class="remain position-absolute h-100" style="width: 23.333333333333333333333333333%">
-                            </div>
-                          </div>
-                        </div>
-                        <h3 class="item-title">
-                          <a class="d-block modal-open" href="#"> Bẹ Vai Bò Mỹ , Chuck Flap (500gr) </a>
-                        </h3>
-                        <div class="item-price">
-                          <span class="special-price fw-bold me-2">260.000₫</span>
-                          <del class="old-price"> 300.000₫</del>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="swiper-slide">
-                    <div class="card-item">
-                      <div class="sale-label sale-top-right position-absolute">
-                        <span class="fw-bold">- 13% </span>
-                      </div>
-                      <a href="./detail.html" class="thumb d-block modal-open">
-                        <div class="zoom">
-                          <img src="{{ asset('storage/images/products/pro8.webp') }}" loading="lazy" decoding=""
-                            class="d-block img img-cover position-absolute lazy" />
-                        </div>
-                      </a>
-                      <div class="item-info">
-                        <div class="clearfix">
-                          <div class="sold-module modal-open">
-                            <img src="{{ asset('storage/images/hot-sale.webp') }}" loading="lazy" decoding=""
-                              class="position-absolute" />
-                            <div class="sold">Sắp cháy hàng</div>
-                            <div class="remain position-absolute h-100" style="width: 15%"></div>
-                          </div>
-                        </div>
-                        <h3 class="item-title">
-                          <a class="d-block modal-open" href="#"> Đầu Thăn Ngoại Bò Mỹ , Rib Eye (500gr) </a>
-                        </h3>
-                        <div class="item-price">
-                          <span class="special-price fw-bold me-2">305.000₫</span>
-                          <del class="old-price"> 350.000₫</del>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="swiper-slide">
-                    <div class="card-item">
-                      <div class="sale-label sale-top-right position-absolute">
-                        <span class="fw-bold">- 7% </span>
-                      </div>
-                      <a href="./detail.html" class="thumb d-block modal-open">
-                        <div class="zoom">
-                          <img src="{{ asset('storage/images/products/pro9.webp') }}" loading="lazy" decoding=""
-                            class="d-block img img-cover position-absolute lazy" />
-                        </div>
-                      </a>
-                      <div class="item-info">
-                        <div class="clearfix">
-                          <div class="sold-module modal-open">
-                            <div class="sold">Đã bán: 192</div>
-                            <div class="remain position-absolute h-100"></div>
-                          </div>
-                        </div>
-                        <h3 class="item-title">
-                          <a class="d-block modal-open" href="#"> Thăn Ngoại Bò Mỹ , Striploin (500gr) </a>
-                        </h3>
-                        <div class="item-price">
-                          <span class="special-price fw-bold me-2">325.000₫</span>
-                          <del class="old-price"> 350.000₫</del>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="swiper-slide">
-                    <div class="card-item">
-                      <div class="sale-label sale-top-right position-absolute">
-                        <span class="fw-bold">- 23% </span>
-                      </div>
-                      <a href="./detail.html" class="thumb d-block modal-open">
-                        <div class="zoom">
-                          <img src="{{ asset('storage/images/products/pro10.webp') }}" loading="lazy" decoding=""
-                            class="d-block img img-cover position-absolute lazy" />
-                        </div>
-                      </a>
-                      <div class="item-info">
-                        <div class="clearfix">
-                          <div class="sold-module modal-open">
-                            <img src="{{ asset('storage/images/hot-sale.webp') }}" loading="lazy" decoding=""
-                              class="position-absolute" />
-                            <div class="sold">Sắp cháy hàng</div>
-                            <div class="remain position-absolute h-100" style="width: 15%"></div>
-                          </div>
-                        </div>
-                        <h3 class="item-title">
-                          <a class="d-block modal-open" href="#"> Tôm Càng Xanh Sống </a>
-                        </h3>
-                        <div class="item-price">
-                          <span class="special-price fw-bold me-2">340.000₫</span>
-                          <del class="old-price"> 440.000₫</del>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="swiper-slide">
-                    <div class="card-item">
-                      <div class="sale-label sale-top-right position-absolute">
-                        <span class="fw-bold">- 58% </span>
-                      </div>
-                      <a href="./detail.html" class="thumb d-block modal-open">
-                        <div class="zoom">
-                          <img src="{{ asset('storage/images/products/pro11.webp') }}" loading="lazy" decoding=""
-                            class="d-block img img-cover position-absolute lazy" />
-                        </div>
-                      </a>
-                      <div class="item-info">
-                        <div class="clearfix">
-                          <div class="sold-module modal-open">
-                            <div class="sold">Đã bán: 29</div>
-                            <div class="remain position-absolute h-100" style="width: 45%"></div>
-                          </div>
-                        </div>
-                        <h3 class="item-title">
-                          <a class="d-block modal-open" href="#"> Ốc Hương Sống (70-80con) </a>
-                        </h3>
-                        <div class="item-price">
-                          <span class="special-price fw-bold me-2">125.000₫</span>
-                          <del class="old-price"> 295.000₫</del>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="swiper-slide">
-                    <div class="card-item">
-                      <div class="sale-label sale-top-right position-absolute">
-                        <span class="fw-bold">- 4% </span>
-                      </div>
-                      <a href="./detail.html" class="thumb d-block modal-open">
-                        <div class="zoom">
-                          <img src="{{ asset('storage/images/products/pro12.webp') }}" loading="lazy" decoding=""
-                            class="d-block img img-cover position-absolute lazy" />
-                        </div>
-                      </a>
-                      <div class="item-info">
-                        <div class="clearfix">
-                          <div class="sold-module modal-open">
-                            <div class="sold">Đã bán: 11</div>
-                            <div class="remain position-absolute h-100" style="width: 45%"></div>
-                          </div>
-                        </div>
-                        <h3 class="item-title">
-                          <a class="d-block modal-open" href="#"> Tôm Hùm Alaska Sống Lớn </a>
-                        </h3>
-                        <div class="item-price">
-                          <span class="special-price fw-bold me-2">1.290.000₫</span>
-                          <del class="old-price"> 1.350.000₫</del>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                  @endforeach
                 </div>
                 <div class="swiper-button-prev mf_prev"></div>
                 <div class="swiper-button-next mf_next"></div>
@@ -636,86 +327,42 @@
           <div class="b_product">
             <div class="product-container overflow-hidden">
               <div class="swiper-wrapper">
-                <div class="swiper-slide swiper-slide-prev">
-                  <div class="card-item">
-                    <div class="sale-label sale-top-right position-absolute">
-                      <span class="fw-bold">- 10% </span>
-                    </div>
-                    <a href="./detail.html" class="thumb d-block modal-open">
-                      <div class="zoom">
-                        <img src="{{ asset('storage/images/products/pro6.webp') }}" loading="lazy" decoding=""
-                          class="d-block img img-cover position-absolute lazy" />
-                      </div>
-                    </a>
-                    <div class="item-info">
-                      <h3 class="item-title">
-                        <a class="d-block modal-open" href="#">Thăn Lưng Bò Mỹ Black Angus , Rib Eye (500gr)</a>
-                      </h3>
-                      <div class="item-price">
-                        <span class="special-price fw-bold me-2">450.000₫</span>
-                        <del class="old-price">500.000₫</del>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="swiper-slide">
-                  <div class="card-item">
-                    <a href="./detail.html" class="thumb d-block modal-open">
-                      <div class="zoom">
-                        <img src="{{ asset('storage/images/products/pro13.webp') }}" loading="lazy" decoding=""
-                          class="d-block img img-cover position-absolute lazy" />
-                      </div>
-                    </a>
-                    <div class="item-info">
-                      <h3 class="item-title">
-                        <a class="d-block modal-open" href="#">Sườn Non Bò Mỹ , Short Ribs (500gr)</a>
-                      </h3>
-                      <div class="item-price">
-                        <span class="special-price fw-bold me-2">259.000₫</span>
+                @foreach ($meatProduct as $meatItem)
+                  <div class="swiper-slide swiper-slide-prev">
+                    <div class="card-item">
+                      @php
+                        $sale_percent = getSalePercent($meatItem->regular_price, $meatItem->sale_price);
+                      @endphp
+                      @if ($sale_percent)
+                        <div class="sale-label sale-top-right position-absolute">
+                          <span class="fw-bold">{{ $sale_percent }}</span>
+                        </div>
+                      @endif
+                      <a href="{{ route('show', ['slug' => $meatItem->slug, 'id' => $meatItem->id]) }}"
+                        class="thumb d-block modal-open">
+                        <div class="zoom">
+                          <img src="{{ getProductImage($meatItem->product_images[0]->image) }}" loading="lazy"
+                            class="d-block img img-cover position-absolute lazy" alt="{{ $meatItem->name }}" />
+                        </div>
+                      </a>
+                      <div class="item-info">
+                        <h3 class="item-title">
+                          <a class="d-block modal-open" href="#">{{ $meatItem->name }}</a>
+                        </h3>
+                        <div class="item-price">
+                          @php
+                            $price = getPrice($meatItem->regular_price, $meatItem->sale_price);
+                          @endphp
+                          <span class="special-price fw-bold me-2">{{ $price }}</span>
+                          @if ($sale_percent)
+                            <span
+                              class="old-price text-decoration-line-through">{{ formatNumber($meatItem->regular_price) }}</span>
+                          @endif
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-                <div class="swiper-slide swiper-slide-next">
-                  <div class="card-item">
-                    <a href="./detail.html" class="thumb d-block modal-open">
-                      <div class="zoom">
-                        <img src="{{ asset('storage/images/products/pro14.webp') }}" loading="lazy" decoding=""
-                          class="d-block img img-cover position-absolute lazy" />
-                      </div>
-                    </a>
-                    <div class="item-info">
-                      <h3 class="item-title">
-                        <a class="d-block modal-open" href="#">Dẻ Sườn Bò Mỹ , Rib Finger (500gr)</a>
-                      </h3>
-                      <div class="item-price">
-                        <span class="special-price fw-bold me-2">205.000₫</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="swiper-slide">
-                  <div class="card-item">
-                    <div class="sale-label sale-top-right position-absolute">
-                      <span class="fw-bold">- 22% </span>
-                    </div>
-                    <a href="./detail.html" class="thumb d-block modal-open">
-                      <div class="zoom">
-                        <img src="{{ asset('storage/images/products/pro15.webp') }}" loading="lazy" decoding=""
-                          class="d-block img img-cover position-absolute lazy" />
-                      </div>
-                    </a>
-                    <div class="item-info">
-                      <h3 class="item-title">
-                        <a class="d-block modal-open" href="#">Lõi Nạc Vai Bò Mỹ , Top Blade (500gr)</a>
-                      </h3>
-                      <div class="item-price">
-                        <span class="special-price fw-bold me-2">194.000₫</span>
-                        <del class="old-price">250.000₫</del>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                @endforeach
               </div>
               <div class="swiper-button-prev mf_prev"></div>
               <div class="swiper-button-next mf_next"></div>
@@ -734,94 +381,42 @@
           <div class="b_product">
             <div class="product-container overflow-hidden">
               <div class="swiper-wrapper">
-                <div class="swiper-slide swiper-slide-prev">
-                  <div class="card-item">
-                    <div class="sale-label sale-top-right position-absolute">
-                      <span class="fw-bold">- 20% </span>
-                    </div>
-                    <a href="./detail.html" class="thumb d-block modal-open">
-                      <div class="zoom">
-                        <img src="{{ asset('storage/images/products/pro16.webp') }}" loading="lazy" decoding=""
-                          class="d-block img img-cover position-absolute lazy" />
-                      </div>
-                    </a>
-                    <div class="item-info">
-                      <h3 class="item-title">
-                        <a class="d-block modal-open" href="#"> Ớt ngọt Đà Lạt </a>
-                      </h3>
-                      <div class="item-price">
-                        <span class="special-price fw-bold me-2">35.000₫</span>
-                        <del class="old-price"> 28.000₫</del>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="swiper-slide">
-                  <div class="card-item">
-                    <div class="sale-label sale-top-right position-absolute">
-                      <span class="fw-bold">- 40% </span>
-                    </div>
-                    <a href="./detail.html" class="thumb d-block modal-open">
-                      <div class="zoom">
-                        <img src="{{ asset('storage/images/products/pro10.webp') }}" loading="lazy" decoding=""
-                          class="d-block img img-cover position-absolute lazy" />
-                      </div>
-                    </a>
-                    <div class="item-info">
-                      <h3 class="item-title">
-                        <a class="d-block modal-open" href="#"> Hành tây củ </a>
-                      </h3>
-                      <div class="item-price">
-                        <span class="special-price fw-bold me-2">15.000₫</span>
-                        <del class="old-price"> 25.000₫</del>
+                @foreach ($seaFoodProduct as $seafoodItem)
+                  <div class="swiper-slide swiper-slide-prev">
+                    <div class="card-item">
+                      @php
+                        $sale_percent = getSalePercent($seafoodItem->regular_price, $seafoodItem->sale_price);
+                      @endphp
+                      @if ($sale_percent)
+                        <div class="sale-label sale-top-right position-absolute">
+                          <span class="fw-bold">{{ $sale_percent }}</span>
+                        </div>
+                      @endif
+                      <a href="{{ route('show', ['slug' => $seafoodItem->slug, 'id' => $seafoodItem->id]) }}"
+                        class="thumb d-block modal-open">
+                        <div class="zoom">
+                          <img src="{{ getProductImage($seafoodItem->product_images[0]->image) }}" loading="lazy"
+                            class="d-block img img-cover position-absolute lazy" alt="{{ $seafoodItem->name }}" />
+                        </div>
+                      </a>
+                      <div class="item-info">
+                        <h3 class="item-title">
+                          <a class="d-block modal-open" href="#">{{ $seafoodItem->name }}</a>
+                        </h3>
+                        <div class="item-price">
+                          @php
+                            $price = getPrice($seafoodItem->regular_price, $seafoodItem->sale_price);
+                          @endphp
+                          <span class="special-price fw-bold me-2">{{ $price }}</span>
+                          @if ($sale_percent)
+                            <span
+                              class="old-price text-decoration-line-through">{{ formatNumber($seafoodItem->regular_price) }}</span>
+                          @endif
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-                <div class="swiper-slide swiper-slide-next">
-                  <div class="card-item">
-                    <div class="sale-label sale-top-right position-absolute">
-                      <span class="fw-bold">- 20% </span>
-                    </div>
-                    <a href="./detail.html" class="thumb d-block modal-open">
-                      <div class="zoom">
-                        <img src="{{ asset('storage/images/products/pro17.webp') }}" loading="lazy" decoding=""
-                          class="d-block img img-cover position-absolute lazy" />
-                      </div>
-                    </a>
-                    <div class="item-info">
-                      <h3 class="item-title">
-                        <a class="d-block modal-open" href="#"> Snack lá ngắn </a>
-                      </h3>
-                      <div class="item-price">
-                        <span class="special-price fw-bold me-2">60.000₫</span>
-                        <del class="old-price"> 75.000₫</del>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="swiper-slide">
-                  <div class="card-item">
-                    <div class="sale-label sale-top-right position-absolute">
-                      <span class="fw-bold">- 15% </span>
-                    </div>
-                    <a href="./detail.html" class="thumb d-block modal-open">
-                      <div class="zoom">
-                        <img src="{{ asset('storage/images/products/pro18.webp') }}" loading="lazy" decoding=""
-                          class="d-block img img-cover position-absolute lazy" />
-                      </div>
-                    </a>
-                    <div class="item-info">
-                      <h3 class="item-title">
-                        <a class="d-block modal-open" href="#"> Cam canh Hà Giang </a>
-                      </h3>
-                      <div class="item-price">
-                        <span class="special-price fw-bold me-2">55.000₫</span>
-                        <del class="old-price"> 65.000₫</del>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                @endforeach
               </div>
               <div class="swiper-button-prev mf_prev"></div>
               <div class="swiper-button-next mf_next"></div>
@@ -850,94 +445,42 @@
           <div class="b_product">
             <div class="product-container overflow-hidden">
               <div class="swiper-wrapper">
-                <div class="swiper-slide swiper-slide-prev">
-                  <div class="card-item">
-                    <div class="sale-label sale-top-right position-absolute">
-                      <span class="fw-bold">- 20% </span>
-                    </div>
-                    <a href="./detail.html" class="thumb d-block modal-open">
-                      <div class="zoom">
-                        <img src="{{ asset('storage/images/products/pro1.webp') }}" loading="lazy" decoding=""
-                          class="d-block img img-cover position-absolute lazy" />
-                      </div>
-                    </a>
-                    <div class="item-info">
-                      <h3 class="item-title">
-                        <a class="d-block modal-open" href="#"> Ớt ngọt Đà Lạt </a>
-                      </h3>
-                      <div class="item-price">
-                        <span class="special-price fw-bold me-2">35.000₫</span>
-                        <del class="old-price"> 28.000₫</del>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="swiper-slide">
-                  <div class="card-item">
-                    <div class="sale-label sale-top-right position-absolute">
-                      <span class="fw-bold">- 40% </span>
-                    </div>
-                    <a href="./detail.html" class="thumb d-block modal-open">
-                      <div class="zoom">
-                        <img src="{{ asset('storage/images/products/pro2.webp') }}" loading="lazy" decoding=""
-                          class="d-block img img-cover position-absolute lazy" />
-                      </div>
-                    </a>
-                    <div class="item-info">
-                      <h3 class="item-title">
-                        <a class="d-block modal-open" href="#"> Hành tây củ </a>
-                      </h3>
-                      <div class="item-price">
-                        <span class="special-price fw-bold me-2">15.000₫</span>
-                        <del class="old-price"> 25.000₫</del>
+                @foreach ($vegetableProduct as $vegaItem)
+                  <div class="swiper-slide swiper-slide-prev">
+                    <div class="card-item">
+                      @php
+                        $sale_percent = getSalePercent($vegaItem->regular_price, $vegaItem->sale_price);
+                      @endphp
+                      @if ($sale_percent)
+                        <div class="sale-label sale-top-right position-absolute">
+                          <span class="fw-bold">{{ $sale_percent }}</span>
+                        </div>
+                      @endif
+                      <a href="{{ route('show', ['slug' => $vegaItem->slug, 'id' => $vegaItem->id]) }}"
+                        class="thumb d-block modal-open">
+                        <div class="zoom">
+                          <img src="{{ getProductImage($vegaItem->product_images[0]->image) }}" loading="lazy"
+                            class="d-block img img-cover position-absolute lazy" alt="{{ $vegaItem->name }}" />
+                        </div>
+                      </a>
+                      <div class="item-info">
+                        <h3 class="item-title">
+                          <a class="d-block modal-open" href="#">{{ $vegaItem->name }}</a>
+                        </h3>
+                        <div class="item-price">
+                          @php
+                            $price = getPrice($vegaItem->regular_price, $vegaItem->sale_price);
+                          @endphp
+                          <span class="special-price fw-bold me-2">{{ $price }}</span>
+                          @if ($sale_percent)
+                            <span
+                              class="old-price text-decoration-line-through">{{ formatNumber($vegaItem->regular_price) }}</span>
+                          @endif
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-                <div class="swiper-slide swiper-slide-next">
-                  <div class="card-item">
-                    <div class="sale-label sale-top-right position-absolute">
-                      <span class="fw-bold">- 20% </span>
-                    </div>
-                    <a href="./detail.html" class="thumb d-block modal-open">
-                      <div class="zoom">
-                        <img src="{{ asset('storage/images/products/pro3.webp') }}" loading="lazy" decoding=""
-                          class="d-block img img-cover position-absolute lazy" />
-                      </div>
-                    </a>
-                    <div class="item-info">
-                      <h3 class="item-title">
-                        <a class="d-block modal-open" href="#"> Snack lá ngắn </a>
-                      </h3>
-                      <div class="item-price">
-                        <span class="special-price fw-bold me-2">60.000₫</span>
-                        <del class="old-price"> 75.000₫</del>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="swiper-slide">
-                  <div class="card-item">
-                    <div class="sale-label sale-top-right position-absolute">
-                      <span class="fw-bold">- 15% </span>
-                    </div>
-                    <a href="./detail.html" class="thumb d-block modal-open">
-                      <div class="zoom">
-                        <img src="{{ asset('storage/images/products/pro19.webp') }}" loading="lazy" decoding=""
-                          class="d-block img img-cover position-absolute lazy" />
-                      </div>
-                    </a>
-                    <div class="item-info">
-                      <h3 class="item-title">
-                        <a class="d-block modal-open" href="#"> Cam canh Hà Giang </a>
-                      </h3>
-                      <div class="item-price">
-                        <span class="special-price fw-bold me-2">55.000₫</span>
-                        <del class="old-price"> 65.000₫</del>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                @endforeach
               </div>
               <div class="swiper-button-prev mf_prev"></div>
               <div class="swiper-button-next mf_next"></div>

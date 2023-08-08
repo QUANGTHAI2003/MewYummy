@@ -127,6 +127,8 @@ class CartComponent extends Component
     public function deleteCartItem($rowId)
     {
         Cart::instance('cart')->remove($rowId);
+
+        $this->emit('cartUpdated');
     }
 
     public function render()

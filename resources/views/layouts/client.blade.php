@@ -12,7 +12,7 @@
   {{-- Favicon --}}
   <link rel="icon" type="image/x-icon" href="{{ asset('storage/images/favicon.ico') }}" />
 
-  <link href="{{ asset('storage/vendor/font/fontawesome-free-6.2.1-web/css/all.min.css') }}" rel="stylesheet">
+  {{-- <link href="{{ asset('storage/vendor/font/fontawesome-free-6.2.1-web/css/all.min.css') }}" rel="stylesheet"> --}}
   <link href="https://kit-pro.fontawesome.com/releases/v6.2.0/css/pro.min.css" rel="stylesheet">
   <link href="{{ asset('storage/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" >
   <link href="{{ asset('plugins/swiperjs/swiper-bundle.min.css') }}" rel="stylesheet">

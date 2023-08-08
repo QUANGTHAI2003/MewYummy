@@ -3,7 +3,7 @@
     autocomplete="off" placeholder="Tìm kiếm sản phẩm ..." />
   <button  type="submit" class="search__block-btn d-sm-none d-lg-block" value="">
     <i wire:loading.remove class="fa-solid fa-magnifying-glass icon"></i>
-    <i wire:loading class="fa-solid fa-spinner fa-spin-pulse fa-lg"></i>
+    <i wire:loading class="fa-duotone fa-spinner fa-spin-pulse fa-lg icon" style="--fa-primary-opacity: 1; --fa-secondary-opacity: 0.2;"></i>
   </button>
   <!-- Search Result -->
   <div wire:ignore.self id="searchResult" class="w-100 searchResult mx-lg-0 px-2">
@@ -56,11 +56,9 @@
 @push('scripts')
   <script>
     document.addEventListener('product-search', function(e) {
-      console.log(e.detail);
       $('.searchResult').addClass('show');
     })
     document.addEventListener('product-search-failed', function(e) {
-      console.log('failed');
       $('.searchResult').removeClass('show');
     })
   </script>

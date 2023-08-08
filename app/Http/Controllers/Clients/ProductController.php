@@ -16,12 +16,6 @@ class ProductController extends Controller
     public function show($slug, $id)
     {
         $product = Product::with('categories')
-            ->with([
-                'comments.user:id,name,avatar',
-                'comments.replies' => function ($query) {
-                    $query->orderBy('created_at', 'desc');
-                },
-            ])
             ->withCount('comments')
             ->findOrFail($id);
 

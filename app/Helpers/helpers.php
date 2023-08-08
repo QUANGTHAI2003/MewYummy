@@ -296,7 +296,7 @@ if (!function_exists('avatarUrl')) {
             return $avatar;
         }
         $name       = urlencode($user->username ?: $user->name);
-        $avatar_api = "https://ui-avatars.com/api/?name=" . urlencode($name);
+        $avatar_api = "https://ui-avatars.com/api/?name=" . urlencode($name) . "&background=f2f2f2&color=999";
         return $avatar_api;
     }
 }

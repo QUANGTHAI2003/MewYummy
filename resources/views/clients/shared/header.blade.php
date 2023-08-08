@@ -15,7 +15,7 @@
           </div>
           <div class="info__block d-none d-lg-block me-2 ms-2">
             <a href="tel:0774060610">
-              <i class="fa-solid fa-phone-volume icon icon-outline"></i>
+                <i class="fa-solid fa-phone-volume icon" style="transform: rotate(320deg);"></i>
               <b>Hotline: <br />0774060610 </b>
             </a>
           </div>
@@ -48,9 +48,9 @@
               </div>
               <a href="{{ route('cart') }}" class="btn-cart">
                 <span class="box-icon p-1">
-                  <i class="fa-solid fa-cart-shopping icon"></i>
+                    <i class="fa-regular fa-cart-shopping-fast fa-bounce icon"></i>
                 </span>
-                <span class="cart__count">{{ Cart::count() }}</span>
+                <livewire:client.cart.cart-count-component />
               </a>
             </div>
           </div>

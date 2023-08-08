@@ -7,31 +7,26 @@
     @endforeach
   </div>
   <div class="aside-filter modal-open pr-md-2 order-lg-3">
-    {{-- <div class="filter-container__selected-filter">
-      <div class="filter-container__selected-filter-header d-flex clearfix pb-1 pt-1">
-        <span class="filter-container__selected-filter-header-title">Lọc theo:</span>
-      </div>
-      <ul class="filter-container__selected-filter-list list-unstyled d-block w-100 m-0 pl-0">
-        @if ($sortData)
-          @if ($minPrice)
-            <li class="filter-container__selected-filter-item d-inline-flex align-items-center">
-              <a wire:click.prevent="clearMinPrice" href="javascript:void(0)" class="p-1 pl-2 pr-2">Giá từ:
-                {{ formatNumber($minPrice, 0, '') }}đ</a>
+    @if ($selectedFilters)
+      <div class="filter-container__selected-filter">
+        <div class="filter-container__selected-filter-header d-flex clearfix pb-1 pt-1">
+          <span class="filter-container__selected-filter-header-title">Lọc theo:</span>
+        </div>
+        <ul class="filter-container__selected-filter-list list-unstyled d-block w-100 m-0 pl-0">
+          @foreach ($selectedFilters as $key => $value)
+            <li class="filter-container__selected-filter-item d-inline-flex align-items-center mb-2">
+              <a wire:click.prevent="clearSort('{{ $key }}')" href="javascript:void(0)" class="p-1 pl-2 pr-2">
+                {{ $value }}
+                {{-- <i class="fa fa-times icon ms-2"></i> --}}
+              </a>
             </li>
-          @endif
-
-          @if ($maxPrice)
-            <li class="filter-container__selected-filter-item d-inline-flex align-items-center">
-              <a wire:click.prevent="clearMaxPrice" href="javascript:void(0)" class="p-1 pl-2 pr-2">Giá đến:
-                {{ formatNumber($maxPrice, 0, '') }}đ</a>
-            </li>
-          @endif
-        @endif
+          @endforeach
           <li class="filter-container__selected-filter-item d-inline-flex align-items-center">
             <a wire:click.prevent="clearAllSort" href="javascript:void(0)" class="p-1 pl-2 pr-2">Xoá hết </a>
           </li>
-      </ul>
-    </div> --}}
+        </ul>
+      </div>
+    @endif
     <div class="filter-container row">
       <aside class="aside-item filter-price col-12 col-sm-12 col-lg-12 mb-3">
         <h3 class="title-body">Lọc giá</h3>

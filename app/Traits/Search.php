@@ -4,34 +4,48 @@ namespace App\Traits;
 
 trait Search
 {
-    private function buildWildCards($term) {
-        if ($term == "") {
-            return $term;
-        }
-
-        // Strip MySQL reserved symbols
+    /**
+     * Replaces spaces with full text search wildcards
+     *
+     * @param string $term
+     * @return string
+     */
+    protected function fullTextWildcards($term)
+    {
+        // removing symbols used by MySQL
         $reservedSymbols = ['-', '+', '<', '>', '@', '(', ')', '~'];
         $term = str_replace($reservedSymbols, '', $term);
 
         $words = explode(' ', $term);
-        foreach($words as $idx => $word) {
-            // Add operators so we can leverage the boolean mode of
-            // fulltext indices.
-            $words[$idx] = "+" . $word . "*";
+
+        foreach ($words as $key => $word) {
+            /*
+             * applying + operator (required word) only big words
+             * because smaller ones are not indexed by mysql
+             */
+            if (strlen($word) >= 2) {
+                $words[$key] = '+' . $word . '*';
+            }
         }
-        $term = implode(' ', $words);
-        return $term;
+
+        $searchTerm = implode(' ', $words);
+
+        return $searchTerm;
     }
 
-    protected function scopeSearch($query, $term) {
+    /**
+     * Scope a query that matches a full text search of term.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param string $term
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeSearch($query, $term)
+    {
         $columns = implode(',', $this->searchable);
 
-        // Boolean mode allows us to match john* for words starting with john
-        // (https://dev.mysql.com/doc/refman/5.6/en/fulltext-boolean.html)
-        $query->whereRaw(
-            "MATCH ({$columns}) AGAINST (? IN BOOLEAN MODE)",
-            $this->buildWildCards($term)
-        );
+        $query->whereRaw("MATCH ({$columns}) AGAINST (? IN BOOLEAN MODE)", $this->fullTextWildcards($term));
+
         return $query;
     }
 }

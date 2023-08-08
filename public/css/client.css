@@ -146,6 +146,8 @@ li {
   line-height: inherit;
 }
 .header .search__block-btn {
+  display: flex !important;
+  align-items: center !important;
   position: absolute;
   background: transparent;
   height: 27px;
@@ -162,6 +164,7 @@ li {
   }
 }
 .header .search__block-btn .icon {
+  color: black;
   font-size: 20px;
 }
 .header .search__block .searchResult {
@@ -2719,6 +2722,14 @@ button:hover {
   left: 2px;
   top: -2px;
   width: 18px;
+}
+.card-item .item-info .sold-module .remain {
+  background: #ffbda6;
+  right: 0;
+  top: 0;
+  z-index: 1;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
 }
 .card-item .item-info .sold-module .sold {
   font-size: 12px;

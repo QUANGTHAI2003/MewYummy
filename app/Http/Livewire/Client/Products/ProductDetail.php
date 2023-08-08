@@ -8,7 +8,7 @@ class ProductDetail extends Component
 {
     public $product;
     public $attributeId;
-    public $quantity = 1;
+    public int $quantity = 1;
 
     public function decreaseQty() {
         $this->quantity--;
@@ -17,7 +17,8 @@ class ProductDetail extends Component
             $this->quantity = 1;
         }
 
-        $this->emit('updateCartQty', $this->quantity);
+        $this->emit('cartUpdated', $this->quantity);
+        $this->emit('cartQuantity', $this->quantity);
     }
 
     public function increaseQty() {
@@ -27,12 +28,13 @@ class ProductDetail extends Component
             $this->quantity = $this->product->stock_qty;
         }
 
-        $this->emit('updateCartQty', $this->quantity);
+        $this->emit('cartUpdated', $this->quantity);
+        $this->emit('cartQuantity', $this->quantity);
     }
 
     public function getAttributeValue()
     {
-        return $this->product->attributeValues->unique('product_attribute_id');
+        return $this->product->attributeValues->pluck('product_attribute_id')->unique();
     }
 
     public function getSubImage()
