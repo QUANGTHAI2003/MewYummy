@@ -20,6 +20,9 @@
                     <a href="{{ route('account.generateInvoice', $order->id) }}"  class="btn btn-sm btn-outline-primary">
                         In đơn hàng
                     </a>
+                    <a href="{{ route('account.cancelOrder', $order->id) }}"  class="btn btn-sm btn-danger">
+                        Hủy đơn hàng
+                    </a>
                     <a href="{{ route('account.index') }}" class="btn btn-sm btn-outline-primary">Quay lại</a>
                 </div>
               </div>

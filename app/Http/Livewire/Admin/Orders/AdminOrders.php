@@ -19,6 +19,31 @@ class AdminOrders extends Component
     public string $search = '';
     public $orderId;
 
+    public function updateOrderStatus($orderId, $status)
+    {
+        // $this->authorize('update', Order::class);
+        $order = Order::findOrFail($orderId);
+        if($status == Order::COMPLETED && $order->status == Order::CANCELLED) {
+            $this->notification()->error(
+                $title = 'Lỗi !!!',
+                $description = 'Đơn hàng đã bị hủy, không thể cập nhật trạng thái thành hoàn thành.'
+            );
+            return;
+        }
+        $order->status = $status;
+        if($status == Order::COMPLETED) {
+            $order->delivered_date = now();
+        } else if ($status == Order::CANCELLED) {
+            $order->cancelled_date = now();
+        }
+        $order->save();
+
+        $this->notification()->success(
+            $title = 'Đã lưu !!!',
+            $description = 'Đã cập nhật trạng thái đơn hàng thành công.'
+        );
+    }
+
     public function render()
     {
         $orders = Order::query()

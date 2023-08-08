@@ -58,4 +58,23 @@ class OrderController extends Controller
             ->where('created_at', '<', Carbon::now()->subMinute())
             ->update(['status' => Order::CANCELLED, 'token' => null]);
     }
+
+    public function cancelOrder($orderId)
+    {
+        $order = Order::findOrFail($orderId);
+
+        if ($order->status === Order::COMPLETED && $order->token === null) {
+            $order->update([
+                'status' => Order::CANCELLED,
+                'token'  => null
+            ]);
+
+            session()->flash('success', 'Đơn hàng đã huỷ thành công');
+
+        } else {
+            return redirect()->route('account.index')->with('error', 'Đơn hàng đã bị hủy');
+        }
+
+        return redirect()->route('account.index')->with('error', 'Đã có lỗi xảy ra');
+    }
 }

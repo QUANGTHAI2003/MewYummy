@@ -103,6 +103,8 @@ class StatisticCardComponent extends Component
             ->when($filter === self::TODAY, fn ($query) => $query->dayToNow())
             ->when($filter === self::THIS_MONTH, fn ($query) => $query->monthToDate())
             ->when($filter === self::THIS_YEAR, fn ($query) => $query->yearToDate())
+            ->where('status', '!=', Order::CANCELLED)
+            ->where('status', Order::COMPLETED)
             ->count();
     }
 
@@ -112,6 +114,8 @@ class StatisticCardComponent extends Component
             ->when($filter === self::TODAY, fn ($query) => $query->dayToNow())
             ->when($filter === self::THIS_MONTH, fn ($query) => $query->monthToDate())
             ->when($filter === self::THIS_YEAR, fn ($query) => $query->yearToDate())
+            ->where('status', '!=', Order::CANCELLED)
+            ->where('status', Order::COMPLETED)
             ->sum('total_price');
     }
 

@@ -135,18 +135,33 @@
                 <td class="whitespace-no-wrap right justify-content-end border-b border-gray-200 px-6 py-4 text-right">
                   <div class="flex">
                     <a data-toggle="tooltip" data-placement="bottom"
-                      class="hover:shadow-lg focus:bg-blue-700 focus:ring-active:bg-red-800 ml-2 rounded bg-blue-600 px-4 py-2.5 text-xs font-medium uppercase leading-tight text-white shadow-md transition duration-150 ease-in-out hover:bg-blue-700 focus:shadow-lg focus:outline-none active:shadow-lg"
+                      class="focus:ring-active:bg-red-800 ml-2 rounded bg-blue-600 px-4 py-2.5 text-xs font-medium uppercase leading-tight text-white shadow-md transition duration-150 ease-in-out hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none active:shadow-lg"
                       title="Sửa" href="{{ route('admin.orders.show', $order->id) }}" id="btLeft">
                       <i class="fas fa-eye" title="Sửa"></i>
                     </a>
-                    <a data-toggle="tooltip" data-placement="bottom"
-                      class="ml-2 rounded bg-yellow-600 px-4 py-2.5 text-xs font-medium uppercase leading-tight text-white shadow-md transition duration-150 ease-in-out hover:bg-yellow-700 hover:shadow-lg focus:bg-yellow-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-yellow-800 active:shadow-lg"
-                      title="Sửa" href="{{ route('admin.orders.edit', $order->id) }}" id="btLeft">
-                      <i class="fas fa-edit" title="Sửa"></i>
-                    </a>
-                    <button wire:click="deleteSelectedProduct({{ $order->id }})" type="button" id="deleteProductBtn"
+                    <button data-toggle="tooltip" data-placement="bottom"
+                    id="dropdownAvatarNameButton" data-dropdown-toggle="editStatusOrder-{{ $order->id }}"
+                      class="flex items-center ml-2 rounded bg-yellow-600 px-4 py-2.5 text-xs font-medium uppercase leading-tight text-white shadow-md transition duration-150 ease-in-out hover:bg-yellow-700 hover:shadow-lg focus:bg-yellow-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-yellow-800 active:shadow-lg"
+                      title="Sửa" id="btLeft">
+                      <span>Status</span>
+                      <svg class="w-3 ml-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                        fill="none" viewBox="0 0 10 6">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="m1 1 4 4 4-4" />
+                      </svg>
+                    </button>
+                    <div id="editStatusOrder-{{ $order->id }}" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
+                        <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownInformdropdownAvatarNameButtonationButton">
+                          <li>
+                            <a wire:click.prevent="updateOrderStatus({{ $order->id }}, 'completed')" href="#" class=" text-gray-700 block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Đã giao</a>
+                          </li>
+                          <li>
+                            <a wire:click.prevent="updateOrderStatus({{ $order->id }}, 'cancelled')" href="#" class=" text-gray-700 block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Đã hủy</a>
+                          </li>
+                        </ul>
+                    </div>
+                    <button
                       title="Xóa" data-toggle="tooltip" data-placement="bottom"
-                      data-modal-target="deleteProductModal" data-modal-toggle="deleteProductModal"
                       class="hover:shadow-lgfocus:bg-blue-700 focus:ring-0active:bg-red-800 active:shadow-lgtransition ml-2 mr-4 rounded bg-red-600 px-4 py-2.5 text-xs font-medium uppercase leading-tight text-white shadow-md duration-150 ease-in-out hover:bg-red-700 focus:shadow-lg focus:outline-none">
                       <i class="fas fa-trash-alt"></i>
                     </button>

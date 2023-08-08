@@ -49,3 +49,14 @@
     </script>
   @endpush --}}
 @endif
+@if(session()->has('success'))
+<script>
+    alert("{{ session()->get('success') }}" );
+</script>
+@endif
+
+@if(session()->has('error'))
+<script>
+    alert("{{ session()->get('error') }}" );
+</script>
+@endif
