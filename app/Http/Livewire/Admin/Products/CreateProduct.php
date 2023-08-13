@@ -149,6 +149,11 @@ class CreateProduct extends Component
         unset($this->attribute_arr[$index]);
     }
 
+    public function dehydrate()
+    {
+        $this->dispatchBrowserEvent('initEditor');
+    }
+
     public function render()
     {
         $categories = Category::where('is_active', true)->get();

@@ -2,6 +2,7 @@
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 
@@ -22,23 +23,10 @@ use Illuminate\Contracts\Database\Eloquent\Builder;
 
 
 // get all users json
-Route::get('/users', function (Request $request){
-    return User::query()
-               ->select('id', 'name', 'email')
-               ->orderBy('name')
-               ->when(
-                   $request->search,
-                   fn(Builder $query) => $query
-                       ->where('name', 'like', "%{$request->search}%")
-                       ->orWhere('email', 'like', "%{$request->search}%")
-               )
-               ->when(
-                   $request->exists('selected'),
-                   fn(Builder $query) => $query->whereIn('id', $request->input('selected', [])),
-                   fn(Builder $query) => $query->limit(10)
-               )
-               ->get()
-               ->map(function (User $user){
-                   return $user;
-               });
-})->name('api.users.index');
+Route::get('/address', function() {
+    $address = Http::withHeaders([
+        'Accept-Charset' => 'utf-8'
+    ])->get('https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json');
+
+    return $address->json();
+});

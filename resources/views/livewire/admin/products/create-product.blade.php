@@ -185,7 +185,7 @@
     <div class="overflow-hidden">
       <div class="mb-8 bg-white px-4 py-5 shadow sm:rounded-md sm:p-6">
         <div class="col-span-9 sm:col-span-4">
-          <div class="col-span-6 sm:col-span-6">
+          <div wire:ignore class="col-span-6 sm:col-span-6">
             <label for="editor" class="my-2 block text-sm font-medium text-gray-700">Mô tả sản phẩm</label>
             <textarea id="editor" wire:model="description" name="description" rows="3"
               class="mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"

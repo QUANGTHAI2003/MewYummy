@@ -1843,6 +1843,9 @@ input:checked + .toggle-bg {
 .w-4 {
   width: 1rem !important;
 }
+.w-44 {
+  width: 11rem !important;
+}
 .w-48 {
   width: 12rem !important;
 }
@@ -2181,6 +2184,10 @@ input:checked + .toggle-bg {
   --tw-divide-y-reverse: 0 !important;
   border-top-width: calc(1px * calc(1 - var(--tw-divide-y-reverse))) !important;
   border-bottom-width: calc(1px * var(--tw-divide-y-reverse)) !important;
+}
+.divide-gray-100 > :not([hidden]) ~ :not([hidden]) {
+  --tw-divide-opacity: 1 !important;
+  border-color: rgb(243 244 246 / var(--tw-divide-opacity)) !important;
 }
 .divide-gray-200 > :not([hidden]) ~ :not([hidden]) {
   --tw-divide-opacity: 1 !important;
@@ -5161,6 +5168,11 @@ input[type="number"].appearance-number-none {
 
 .peer:focus ~ .peer-focus\:ring-offset-2 {
   --tw-ring-offset-width: 2px !important;
+}
+
+:is(.dark .dark\:divide-gray-600) > :not([hidden]) ~ :not([hidden]) {
+  --tw-divide-opacity: 1 !important;
+  border-color: rgb(75 85 99 / var(--tw-divide-opacity)) !important;
 }
 
 :is(.dark .dark\:border) {

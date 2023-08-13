@@ -2,12 +2,12 @@
 
 namespace App\Http\Livewire\Client\Checkout;
 
-use App\Mail\Order\OrderShipped;
 use App\Models\Order;
 use App\Models\Product;
 use Livewire\Component;
 use App\Models\OrderItem;
 use App\Models\Transaction;
+use App\Mail\Order\OrderShipped;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Gloudemans\Shoppingcart\Facades\Cart;
@@ -17,9 +17,12 @@ class CheckoutComponent extends Component
     public $name;
     public $phone;
     public $email;
+    public $city;
+    public $district;
+    public $ward;
     public $address;
     public $note;
-    public $payment_method;
+    public $payment_method = 'cod';
     public $thankyou;
 
     protected $rules = [
@@ -35,13 +38,17 @@ class CheckoutComponent extends Component
     {
         if (Auth::check()) {
             $this->name    = Auth::user()->name;
-            $this->phone   = Auth::user()->phone;
+            $this->phone   = Auth::user()->phone_number;
             $this->email   = Auth::user()->email;
             $this->address = Auth::user()->address;
         }
 
         $this->thankyou = false;
+    }
 
+    public function selectAddress()
+    {
+        $this->address =  $this->ward . ' - ' . $this->district . ' - ' . $this->city;
     }
 
     public function updated($propertyName)
@@ -57,14 +64,14 @@ class CheckoutComponent extends Component
         $order->name         = $validatedData['name'];
         $order->phone        = $validatedData['phone'];
         $order->email        = $validatedData['email'];
-        $order->address      = $validatedData['address'];
+        $order->address      = $this->address ?: auth()->user()->address;
         $order->note         = $validatedData['note'];
         $order->status       = 'pending';
         $order->sub_total    = session()->get('checkout')['subtotal'];
         $order->shipping_fee = 0;
         $order->discount     = session()->get('checkout')['discount'];
         $order->total_price  = session()->get('checkout')['total'];
-        $order->token       = uniqid() . time() . $order->user_id;
+        $order->token        = uniqid() . time() . $order->user_id;
         $order->save();
 
         foreach (Cart::instance('cart')->content() as $item) {

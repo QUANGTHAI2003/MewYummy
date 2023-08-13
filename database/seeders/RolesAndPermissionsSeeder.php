@@ -78,19 +78,19 @@ class RolesAndPermissionsSeeder extends Seeder
             $users = collect([
                 [
                     'name'         => 'Admin',
-                    'email'        => 'admin@example.com',
+                    'email'        => 'admin@gmail.com',
                     'password'     => Hash::make('12345678'),
                     'last_seen_at' => '2023-07-25 02:11:36'
                 ],
                 [
                     'name'         => 'Owner',
-                    'email'        => 'owner@example.com',
+                    'email'        => 'owner@gmail.com',
                     'password'     => Hash::make('12345678'),
                     'last_seen_at' => '2023-07-25 02:11:36'
                 ],
                 [
                     'name'         => 'Editor',
-                    'email'        => 'editor@example.com',
+                    'email'        => 'editor@gmail.com',
                     'password'     => Hash::make('12345678'),
                     'last_seen_at' => '2023-07-25 02:11:36'
                 ],

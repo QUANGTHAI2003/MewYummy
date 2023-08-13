@@ -171,3 +171,39 @@
         margin-bottom: 1rem;
     }
 }
+
+.address-container {
+    display: block;
+    width: 100%;
+    padding: 8px 16px;
+    color: #4b566b;
+    background-color: #fff;
+    outline: none;
+    border: none;
+    border: 1px solid #dae1e7;
+    border-radius: 0.5rem;
+    margin-bottom: 2.4rem;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+
+    >span {
+        font-size: 16px;
+        margin-right: 4px;
+    }
+
+    .address {
+        line-height: 24px;
+        font-weight: 500;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .address-change {
+        color: rgb(11, 116, 229);
+        font-size: 16px;
+        line-height: 24px;
+        font-weight: 500;
+        flex-shrink: 0;
+        cursor: pointer;
+    }
+}

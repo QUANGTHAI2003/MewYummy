@@ -45,7 +45,6 @@ class RoleManagementController extends Controller
     public function edit($id)
     {
         $role          = Role::find($id);
-        dd($role);
         $permissions   = Permission::all();
         $permissionsId = $role->permissions->pluck('id')->toArray();
 

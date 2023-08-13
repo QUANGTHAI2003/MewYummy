@@ -3,7 +3,7 @@
     <h4 class="title">Thanh Toán</h4>
     <div class="row">
       <div class="col-lg-8">
-        <form action="">
+        <form action="#">
           <div class="row">
             <div class="col-md-6">
               <label for="name" class="form-label">Tên</label>
@@ -26,12 +26,21 @@
                 <div class="text-danger">{{ $message }}</div>
               @enderror
             </div>
+
             <div class="col-md-12">
               <label for="address" class="form-label">Address</label>
-              <input wire:model="address" type="text" class="form-control" id="address">
-              @error('address')
-                <div class="text-danger">{{ $message }}</div>
-              @enderror
+              <div class="address-container">
+                <span>Giao đến: </span>
+                <span class="address" id="address">
+                    @if ($address)
+                        {{ $address }}
+                    @else
+                        Vui lòng chọn địa chỉ
+                    @endif
+                </span>
+                -
+                <span data-bs-toggle="modal" data-bs-target="#exampleModal" class="address-change">Đổi địa chỉ</span>
+            </div>
             </div>
             <div class="col-md-12">
               <label for="note" class="form-label">Note</label>
@@ -63,7 +72,7 @@
                 <label class="form-check-label method" for="momo">
                   <img class="method-icon" src="{{ asset('storage/images/momo.jpg') }}" width="32" height="32"
                     alt="icon">
-                  <span>Thanh toán tiền mặt khi nhận hàng</span>
+                  <span>Thanh toán bằng ví điện tử MoMo</span>
                 </label>
               </div>
             </div>
@@ -74,12 +83,52 @@
                 <label class="form-check-label method" for="vnpay">
                   <img class="method-icon" src="{{ asset('storage/images/vnpay.png') }}" width="32" height="32"
                     alt="icon">
-                  <span>Thanh toán tiền mặt khi nhận hàng</span>
+                  <span>Thanh toán bằng ví điện tử VNPAY</span>
                 </label>
               </div>
             </div>
           </div>
         </section>
+      </div>
+      <div wire:ignore.self class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <p>Chọn khu vực giao hàng</p>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <div class="select-address">
+                <div class="row-select">
+                  <p class="location-type">Tỉnh/Thành phố</p>
+                  <select wire:model.defer="city"  class="form-select-sm form-select mb-3" id="city" name="city"
+                    aria-label=".form-select-sm">
+                    <option value="" selected>Vui lòng chọn tỉnh/thành phố</option>
+                  </select>
+                </div>
+
+                <div class="row-select">
+                  <p class="location-type">Quận/Huyện</p>
+                  <select wire:model.defer="district" class="form-select-sm form-select mb-3" id="district" name="district"
+                    aria-label=".form-select-sm">
+                    <option value="" selected>Vui lòng chọn quận/huyện</option>
+                  </select>
+                </div>
+
+                <div class="row-select">
+                  <p class="location-type">Phường/Xã</p>
+                  <select wire:model.defer="ward" class="form-select-sm form-select" id="ward" name="ward"
+                    aria-label=".form-select-sm">
+                    <option value="" selected>Vui lòng chọn phường/xã</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button wire:click.prevent="selectAddress()" data-bs-dismiss="modal" aria-label="Close" type="button" class="btn btn-primary">Save changes</button>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="col-lg-4">
         <div class="order-product mb-3">
@@ -94,7 +143,7 @@
                       SL: {{ $item->qty }}
                     </div>
                     <div class="product-price">
-                        {{ formatNumber($item->price) }}
+                      {{ formatNumber($item->price) }}
                     </div>
                   </div>
                 </div>
@@ -141,3 +190,8 @@
     </div>
   </div>
 </div>
+@push('styles')
+  <style>
+
+  </style>
+@endpush
