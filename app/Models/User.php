@@ -73,4 +73,9 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->attributes['avatar'] ?? 'https://ui-avatars.com/api/?name=' . $this->attributes['name'];
     }
+
+    public function receivesBroadcastNotificationsOn(): string
+    {
+        return 'users.'.$this->id;
+    }
 }

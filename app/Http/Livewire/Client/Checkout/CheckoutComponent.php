@@ -2,6 +2,8 @@
 
 namespace App\Http\Livewire\Client\Checkout;
 
+use App\Events\NewOrder;
+use App\Listeners\SendInvoicePaidNotification;
 use App\Models\Order;
 use App\Models\Product;
 use Livewire\Component;
@@ -102,7 +104,7 @@ class CheckoutComponent extends Component
         $order = Order::find($order->id);
 
         Mail::to($order->email)->send(new OrderShipped($order));
-
+        event(new NewOrder($order));
         $this->thankyou = 1;
 
         Cart::instance('cart')->destroy();
