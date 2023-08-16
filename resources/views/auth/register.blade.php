@@ -67,8 +67,8 @@
           <div class="social-account">
             <a href="{{ route('login.google') }}" class="btn btn-light login_with w-100 mb-3">
               <img alt="Logo" src="{{ asset('storage/images/google.png') }}" class="img-fluid me-3">Google</a>
-            {{-- <a href="#" class="btn btn-light login_with w-100 mb-3">
-              <img alt="Logo" src="{{ asset('storage/images/facebook.png') }}" class="img-fluid me-3">Facebook</a> --}}
+            <a href="#" class="btn btn-light login_with w-100 mb-3">
+              <img alt="Logo" src="{{ asset('storage/images/facebook.png') }}" class="img-fluid me-3">Facebook</a>
           </div>
           <div class="form-check d-flex align-items-center">
             <input class="form-check-input" name="terms_of_service" type="checkbox" id="gridCheck" required>

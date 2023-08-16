@@ -25,6 +25,7 @@ class LoginController extends Controller
     public function authenticate(LoginRequest $request)
     {
         $credentials = $request->validated();
+        $remember = $request->filled('remember_me');
 
         $roles = Role::all()->pluck('name')->toArray();
 
@@ -35,7 +36,7 @@ class LoginController extends Controller
             $user->save();
         }
 
-        if (auth()->attempt($credentials)) {
+        if (auth()->attempt($credentials, $remember)) {
             if ($user->hasAnyRole($roles)) {
                 return redirect()->route('admin.dashboard');
             } else {

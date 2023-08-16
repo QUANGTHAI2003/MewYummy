@@ -1,10 +1,12 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Clients\CartController;
 use App\Http\Controllers\Clients\HomeController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Auth\ForgotPassController;
 use App\Http\Controllers\Client\ThankYouController;
 use App\Http\Controllers\Clients\AccountController;
 use App\Http\Controllers\Clients\ProductController;
@@ -55,6 +57,8 @@ Route::prefix('account')->name('account.')->group(function () {
     Route::get('/invoice/{orderId}/generate', [OrderController::class, 'generateInvoice'])->name('generateInvoice');
     Route::get('/accept-order/{orderId}/{token}', [OrderController::class, 'acceptOrder'])->name('acceptOrder');
     Route::get('/cancel-order/{orderId}', [OrderController::class, 'cancelOrder'])->name('cancelOrder');
+
+    Route::post('/vnpay/{order}', [OrderController::class, 'vnpay_checkout'])->name('vnpay_checkout');
 });
 
 
@@ -67,6 +71,10 @@ Route::get('/login', [LoginController::class, 'login'])->name('login');
 Route::post('/login', [LoginController::class, 'authenticate'])->name('authenticate');
 Route::get('/register', [RegisterController::class, 'register'])->name('register');
 Route::post('/register', [RegisterController::class, 'postRegister'])->name('postRegister');
+Route::get('/forgot-password', [ForgotPassController::class, 'forgotPassword'])->name('forgotPassword');
+Route::post('/forgot-password', [ForgotPassController::class, 'postForgotPassword'])->name('postForgotPassword');
+Route::get('/reset-password/{token}', [ForgotPassController::class, 'resetPassword'])->name('resetPassword');
+Route::post('/reset-password/{token}', [ForgotPassController::class, 'postResetPassword'])->name('postResetPassword');
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::get('/login/google', [LoginController::class, 'redirectToGoogle'])->name('login.google');
@@ -87,3 +95,8 @@ Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $requ
 
     return redirect('/home');
 })->middleware(['auth', 'signed'])->name('verification.verify');
+
+
+Route::get('schedule', function() {
+    Artisan::call('schedule:run');
+});

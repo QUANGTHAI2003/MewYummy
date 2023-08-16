@@ -33,18 +33,18 @@
           </div>
           <div class="mt-4 d-flex justify-content-between text-end">
             <div class="form-check d-flex align-items-center">
-                <input class="form-check-input" name="terms_of_service" type="checkbox" id="gridCheck" required>
+                <input class="form-check-input" {{ old('remember_me') ? 'checked' : '' }} name="remember_me" type="checkbox" id="gridCheck">
                 <label class="form-check-label ms-2" for="gridCheck">Ghi nhớ</label>
               </div>
-            <a href="#" class="text-primary fw-bold">Quên mật khẩu?</a>
+            <a href="{{ route("forgotPassword") }}" class="text-primary fw-bold">Quên mật khẩu?</a>
           </div>
           <button type="submit" class="btn btn-primary submit_btn w-100 my-4" id="btnSubmit">Đăng nhập</button>
           <div class="other text-muted text-uppercase mb-3 text-center"><span>hoặc</span></div>
           <div class="social-account">
             <a href="{{ route('login.google') }}" class="btn btn-light login_with w-100 mb-3">
               <img alt="Logo" src="{{ asset('storage/images/google.png') }}" class="img-fluid me-3">Google</a>
-            {{-- <a href="{{ route('login.facebook') }}" class="btn btn-light login_with w-100 mb-3">
-              <img alt="Logo" src="{{ asset('storage/images/facebook.png') }}" class="img-fluid me-3">Facebook</a> --}}
+            <a href="{{ route('login.facebook') }}" class="btn btn-light login_with w-100 mb-3">
+              <img alt="Logo" src="{{ asset('storage/images/facebook.png') }}" class="img-fluid me-3">Facebook</a>
           </div>
         </form>
       </div>

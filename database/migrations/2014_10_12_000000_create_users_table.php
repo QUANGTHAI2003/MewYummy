@@ -20,11 +20,12 @@ return new class extends Migration{
             $table->string('avatar')->nullable();
             $table->string('phone_number')->nullable()->unique();
             $table->string('address')->nullable();
+            $table->string('password');
             $table->timestamp('email_verified_at')->nullable();
             $table->boolean('is_active')->default(0)->comment('0: Offline, 1: Online');
             $table->timestamp('last_seen_at')->nullable();
             $table->string('provider_id')->nullable();
-            $table->string('password');
+            $table->string('token')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

@@ -27,6 +27,8 @@ return new class extends Migration
             $table->string("discount")->default(0);
             $table->string("total_price");
             $table->string("token")->nullable()->unique();
+            $table->date('delivered_date')->nullable();
+            $table->date('cancelled_date')->nullable();
             $table->timestamps();
 
             $table->foreign("user_id")->references("id")->on("users")->onDelete("cascade");

@@ -32,15 +32,15 @@
               <div class="address-container">
                 <span>Giao đến: </span>
                 <span class="address" id="address">
-                    @if ($address)
-                        {{ $address }}
-                    @else
-                        Vui lòng chọn địa chỉ
-                    @endif
+                  @if ($address)
+                    {{ $address }}
+                  @else
+                    Vui lòng chọn địa chỉ
+                  @endif
                 </span>
                 -
                 <span data-bs-toggle="modal" data-bs-target="#exampleModal" class="address-change">Đổi địa chỉ</span>
-            </div>
+              </div>
             </div>
             <div class="col-md-12">
               <label for="note" class="form-label">Note</label>
@@ -90,7 +90,7 @@
           </div>
         </section>
       </div>
-      <div wire:ignore.self class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
             <div class="modal-header">
@@ -101,16 +101,16 @@
               <div class="select-address">
                 <div class="row-select">
                   <p class="location-type">Tỉnh/Thành phố</p>
-                  <select wire:model.defer="city"  class="form-select-sm form-select mb-3" id="city" name="city"
-                    aria-label=".form-select-sm">
+                  <select wire:model.defer="city" class="form-select-sm form-select mb-3" id="city"
+                    name="city" aria-label=".form-select-sm">
                     <option value="" selected>Vui lòng chọn tỉnh/thành phố</option>
                   </select>
                 </div>
 
                 <div class="row-select">
                   <p class="location-type">Quận/Huyện</p>
-                  <select wire:model.defer="district" class="form-select-sm form-select mb-3" id="district" name="district"
-                    aria-label=".form-select-sm">
+                  <select wire:model.defer="district" class="form-select-sm form-select mb-3" id="district"
+                    name="district" aria-label=".form-select-sm">
                     <option value="" selected>Vui lòng chọn quận/huyện</option>
                   </select>
                 </div>
@@ -125,7 +125,8 @@
               </div>
             </div>
             <div class="modal-footer">
-              <button wire:click.prevent="selectAddress()" data-bs-dismiss="modal" aria-label="Close" type="button" class="btn btn-primary">Save changes</button>
+              <button wire:click.prevent="selectAddress()" data-bs-dismiss="modal" aria-label="Close" type="button"
+                class="btn btn-primary">Save changes</button>
             </div>
           </div>
         </div>
@@ -179,12 +180,21 @@
           </div>
         </div>
         <div class="checkout-btn">
-          <button wire:click="placeOrder" class="btn btn-primary">
-            {{-- add loading --}}
-            <span wire:loading wire:target="placeOrder" class="spinner-border spinner-border-sm" role="status"
-              aria-hidden="true"></span>
-            Đặt hàng
-          </button>
+          @if ($payment_method == 'cod')
+            <button wire:click="placeOrder" class="btn btn-primary">
+              {{-- add loading --}}
+              <span wire:loading wire:target="placeOrder" class="spinner-border spinner-border-sm" role="status"
+                aria-hidden="true"></span>
+              Đặt hàng
+            </button>
+          @elseif($payment_method == 'vnpay')
+            <form action="{{ route('account.vnpay_checkout') }}">
+              <button type="submit" class="btn btn-primary">
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                Đặt hàng
+              </button>
+            </form>
+          @endif
         </div>
       </div>
     </div>

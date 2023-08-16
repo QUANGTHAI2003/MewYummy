@@ -2,11 +2,10 @@
 
 namespace App\Http\Livewire\Client\Checkout;
 
-use App\Events\NewOrder;
-use App\Listeners\SendInvoicePaidNotification;
 use App\Models\Order;
 use App\Models\Product;
 use Livewire\Component;
+use App\Events\NewOrder;
 use App\Models\OrderItem;
 use App\Models\Transaction;
 use App\Mail\Order\OrderShipped;
@@ -50,7 +49,7 @@ class CheckoutComponent extends Component
 
     public function selectAddress()
     {
-        $this->address =  $this->ward . ' - ' . $this->district . ' - ' . $this->city;
+        $this->address = $this->ward . ' - ' . $this->district . ' - ' . $this->city;
     }
 
     public function updated($propertyName)
@@ -98,6 +97,8 @@ class CheckoutComponent extends Component
             $transaction->type     = $this->payment_method;
             $transaction->status   = 'pending';
             $transaction->save();
+        } else if ($this->payment_method == 'vnpay') {
+            // return redirect()->route('vnpay_checkout', $order);
         }
 
         // get current order

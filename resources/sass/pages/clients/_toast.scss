@@ -6,10 +6,14 @@
     background: #fff;
     padding: 20px 35px 20px 25px;
     box-shadow: 0 5px 10px rgba(0,0,0,0.1);
-    border-left: 6px solid #4070f4;
+    border-left: 6px solid #47d864;
     overflow: hidden;
     transform: translateX(calc(100% + 30px));
     transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.35);
+}
+
+.toast.error {
+    border-left-color: #ff4d4d !important;
 }
 
 .toast.active{
@@ -28,10 +32,14 @@
     justify-content: center;
     height: 30px;
     width: 30px;
-    background-color: #4070f4;
+    background-color: #47d864;
     color: #fff;
     font-size: 20px;
     border-radius: 50%;
+}
+
+.toast-content .check.error {
+    background-color: #ff4d4d !important;
 }
 
 .toast-content .message{
@@ -80,7 +88,11 @@
     right: 2px;
     height: 100%;
     width: 100%;
-    background-color: #4070f4;
+    background-color: #47d864;
+}
+
+.toast .progress.error:before {
+    background-color: #ff4d4d !important;
 }
 
 .progress.active:before{
@@ -91,24 +103,4 @@
     100%{
         right: 100%;
     }
-}
-
-button{
-    padding: 12px 20px;
-    font-size: 20px;
-    outline: none;
-    border: none;
-    background-color: #4070f4;
-    color: #fff;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-button:hover{
-    background-color: #0e4bf1;
-}
-
-.toast.active ~ button{
-    pointer-events: none;
 }

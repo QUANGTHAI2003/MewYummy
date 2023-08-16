@@ -29,7 +29,7 @@
 
 <body>
     @php
-        $exceptRoute = ['login', 'register', 'checkout','viewInvoice','generateInvoice'];
+        $exceptRoute = ['login', 'register', 'forgotPassword', 'resetPassword', 'checkout','viewInvoice','generateInvoice'];
     @endphp
   @if (!in_array(Route::currentRouteName(), $exceptRoute))
     @include('clients.shared.header')
