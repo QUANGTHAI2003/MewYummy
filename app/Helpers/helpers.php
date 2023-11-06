@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Storage;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
+use function PHPUnit\Framework\isNull;
+
 if (!function_exists('formatNumber')) {
     /**
      * @param int  $num
@@ -295,6 +297,11 @@ if (!function_exists('avatarUrl')) {
             $avatar = asset('storage/' . ltrim($user->avatar, '/'));
             return $avatar;
         }
+
+        if(!isNull($user->provider_id)) {
+            return $user->avatar;
+        }
+
         $name       = urlencode($user->username ?: $user->name);
         $avatar_api = "https://ui-avatars.com/api/?name=" . urlencode($name) . "&background=f2f2f2&color=999";
         return $avatar_api;

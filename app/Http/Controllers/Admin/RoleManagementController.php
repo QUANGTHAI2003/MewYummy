@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Exception;
 use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\RoleRequest;
 use Spatie\Permission\Models\Permission;
@@ -29,17 +31,24 @@ class RoleManagementController extends Controller
 
     public function store(RoleRequest $request)
     {
-        $data = $request->validated();
+        try {
+            $data = $request->validated();
 
-        $role = Role::create([
-            'name'        => $data['name'],
-            'description' => $data['description'] ?? 'Đang cập nhật',
-            'guard_name'  => 'web'
-        ]);
+            $role = Role::create([
+                'name'        => $data['name'],
+                'description' => $data['description'] ?? 'Đang cập nhật',
+                'guard_name'  => 'web'
+            ]);
 
-        $role->givePermissionTo($data['permissions']);
+            $role->givePermissionTo($data['permissions']);
 
-        return redirect()->route('admin.roles.index')->with('success', 'User created successfully');
+            Log::info(auth()->user()->name . ' đã tạo vai trò ' . $data['name'] . '.');
+
+            return redirect()->route('admin.roles.index')->with('success', 'User created successfully');
+        } catch (Exception $ex) {
+            Log::alert(auth()->user()->name . ' đã tạo vai trò thất bại. ' . $ex->getMessage());
+            return redirect()->route('admin.roles.index')->with('error', 'User created failed');
+        }
     }
 
     public function edit($id)
@@ -61,17 +70,24 @@ class RoleManagementController extends Controller
 
     public function update(RoleRequest $request, $id)
     {
-        $data = $request->validated();
+        try {
+            $data = $request->validated();
 
-        $role = Role::find($id);
-        $role->update([
-            'name'        => $data['name'],
-            'description' => $data['description'] ?? 'Đang cập nhật',
-            'guard_name'  => 'web'
-        ]);
+            $role = Role::find($id);
+            $role->update([
+                'name'        => $data['name'],
+                'description' => $data['description'] ?? 'Đang cập nhật',
+                'guard_name'  => 'web'
+            ]);
 
-        $role->syncPermissions($data['permissions']);
+            $role->syncPermissions($data['permissions']);
 
-        return redirect()->route('admin.roles.index')->with('success', 'User updated successfully');
+            Log::info(auth()->user()->name . ' đã cập nhật vai trò ' . $data['name'] . '.');
+
+            return redirect()->route('admin.roles.index')->with('success', 'User updated successfully');
+        } catch (Exception $ex) {
+            Log::alert(auth()->user()->name . ' đã cập nhật vai trò thất bại. ' . $ex->getMessage());
+            return redirect()->route('admin.roles.index')->with('error', 'User updated failed');
+        }
     }
 }

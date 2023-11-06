@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Client\Orders;
+namespace App\Http\Controllers\Clients\Orders;
 
 use Carbon\Carbon;
 use App\Models\Order;
@@ -21,58 +21,65 @@ class OrderController extends Controller
     {
         $order = Order::findOrFail($orderId);
 
-        return view('clients.account.invoice', compact('order'));
+        $pdf = Pdf::loadView('clients.account.invoice', compact('order'));
+
+        return $pdf->stream();
     }
 
     public function generateInvoice($orderId)
     {
-        $order = Order::findOrFail($orderId);
+        $order = Order::with(['transaction', 'orderItems'])->findOrFail($orderId);
 
         $pdf = Pdf::loadView('clients.account.invoice', compact('order'));
 
-        set_time_limit(300);
-        return $pdf->download('invoice.pdf');
+        return $pdf->download($order->name . '-' . $order->id . '.pdf');
     }
 
     public function acceptOrder($orderId, $token)
     {
         $order = Order::findOrFail($orderId);
-
-        if ($order->status !== Order::CANCELLED) {
+        if ($order->status != Order::CANCELLED) {
             if ($order->token == $token) {
                 $order->update([
                     'status' => Order::PROCESSING,
                     'token'  => null
                 ]);
+
+                session()->flash('success', 'Đơn hàng đã được xác nhận thành công');
             }
+            return redirect()->route('home')->with('error', 'Đơn hàng đã bị hủy trước đó');
+
         } else {
-            return redirect()->route('home')->with('error', 'Đơn hàng đã bị hủy');
+            return redirect()->route('home')->with('error', 'Đã có lỗi xảy ra');
         }
 
-        return redirect()->route('home')->with('error', 'Đã có lỗi xảy ra');
     }
 
     public static function cancelUnacceptedOrders()
     {
-        Order::where('status', Order::PENDING)
+        $order = Order::where('status', Order::PENDING)
             ->where('created_at', '<', Carbon::now()->subMinute())
             ->update(['status' => Order::CANCELLED, 'token' => null]);
+
+            Mail::to($order->email)->send(new OrderShipped($order));
     }
 
     public function cancelOrder($orderId)
     {
         $order = Order::findOrFail($orderId);
 
-        if ($order->status === Order::COMPLETED && $order->token === null) {
+        if ($order->status !== Order::COMPLETED && $order->token === null) {
             $order->update([
                 'status' => Order::CANCELLED,
                 'token'  => null
             ]);
 
-            session()->flash('success', 'Đơn hàng đã huỷ thành công');
+            Mail::to($order->email)->send(new OrderShipped($order));
+
+            session()->flash('success', 'Đã huỷ đơn hàng thành công');
 
         } else {
-            return redirect()->route('account.index')->with('error', 'Đơn hàng đã bị hủy');
+            return redirect()->route('account.index')->with('error', 'Đơn hàng đã bị hủy trước đó');
         }
 
         return redirect()->route('account.index')->with('error', 'Đã có lỗi xảy ra');

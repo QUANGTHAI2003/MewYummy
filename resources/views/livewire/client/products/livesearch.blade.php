@@ -1,6 +1,6 @@
 <form class="search__block-form" spellcheck="false" autocomplete="off">
   <input wire:model.debounce="term" type="text" class="search__block-input form-control" role="search" spellcheck="false"
-    autocomplete="off" placeholder="Tìm kiếm sản phẩm ..." />
+    autocomplete="off" placeholder="{{ __('header.search') }}" />
   <button  type="submit" class="search__block-btn d-sm-none d-lg-block" value="">
     <i wire:loading.remove class="fa-solid fa-magnifying-glass icon"></i>
     <i wire:loading class="fa-duotone fa-spinner fa-spin-pulse fa-lg icon" style="--fa-primary-opacity: 1; --fa-secondary-opacity: 0.2;"></i>
@@ -9,7 +9,7 @@
   <div wire:ignore.self id="searchResult" class="w-100 searchResult mx-lg-0 px-2">
     <div class="search-result-warpper overflow-auto">
       @if (count($products) > 0)
-        <div class="d-block h6 searchResult__product text-left text-white"> Sản phẩm (
+        <div class="d-block h6 searchResult__product text-left text-white">{{ __('header.product') }} (
           <span>{{ count($products) }}</span>)
         </div>
         <div class="searchResult-products">
@@ -45,9 +45,9 @@
       <div class="d-block h6 searchResult__text text-left text-white"> Trang nội dung ( <span>0</span>)
       </div> --}}
         <div class="searchResult_pages"></div>
-        <a href="#" class="btn all-result fw-bold my-0">Xem tất cả kết quả</a>
+        <a href="#" class="btn all-result fw-bold my-0">{{ __('header.view_all') }}</a>
       @else
-        <a href="#" class="btn all-result fw-bold my-0">Không tìm thấy kết quả</a>
+        <a href="#" class="btn all-result fw-bold my-0">{{ __('header.not_found') }}</a>
       @endif
     </div>
   </div>

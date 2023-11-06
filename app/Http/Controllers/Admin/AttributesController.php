@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\ProductAttribute;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class AttributesController extends Controller
 {
@@ -24,13 +26,20 @@ class AttributesController extends Controller
     }
 
     public function store(Request $request) {
-        $data = $request->validate([
-            'name' => 'required|string|max:255|unique:product_attributes,name',
-        ]);
+        try {
+            $data = $request->validate([
+                'name' => 'required|string|max:255|unique:product_attributes,name',
+            ]);
 
-        ProductAttribute::create($data);
+            ProductAttribute::create($data);
 
-        return redirect()->route('admin.attributes.index')->with('success', 'Thêm mới thuộc tính thành công');
+            Log::info(auth()->user()->name . ' đã tạo thuộc tính ' . $data['name'] . '.');
+
+            return redirect()->route('admin.attributes.index')->with('success', 'Thêm mới thuộc tính thành công');
+        } catch (Exception $ex) {
+            Log::alert(auth()->user()->name . ' đã thêm mới thuộc tính thất bại ' . $ex->getMessage());
+            return redirect()->route('admin.attributes.index')->with('error', 'Thêm mới thuộc tính thất bại');
+        }
     }
 
     public function edit($id) {
@@ -40,13 +49,20 @@ class AttributesController extends Controller
     }
 
     public function update(Request $request, $id) {
-        $data = $request->validate([
-            'name' => 'required|string|max:255|unique:product_attributes,name,' . $id,
-        ]);
+        try {
+            $data = $request->validate([
+                'name' => 'required|string|max:255|unique:product_attributes,name,' . $id,
+            ]);
 
-        $attribute = ProductAttribute::findOrFail($id);
-        $attribute->update($data);
+            $attribute = ProductAttribute::findOrFail($id);
+            $attribute->update($data);
 
-        return redirect()->route('admin.attributes.index')->with('success', 'Cập nhật thuộc tính thành công');
+            Log::info(auth()->user()->name . ' đã cập nhật thuộc tính ' . $attribute->name . '.');
+
+            return redirect()->route('admin.attributes.index')->with('success', 'Cập nhật thuộc tính thành công');
+        } catch (Exception $ex) {
+            Log::alert(auth()->user()->name . ' đã cập nhật thuộc tính thất bại ' . $ex->getMessage());
+            return redirect()->route('admin.attributes.index')->with('error', 'Cập nhật thuộc tính thất bại');
+        }
     }
 }

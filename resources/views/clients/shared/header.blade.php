@@ -15,7 +15,7 @@
           </div>
           <div class="info__block d-none d-lg-block me-2 ms-2">
             <a href="tel:0774060610">
-                <i class="fa-solid fa-phone-volume icon" style="transform: rotate(320deg);"></i>
+              <i class="fa-solid fa-phone-volume icon" style="transform: rotate(320deg);"></i>
               <b>Hotline: <br />0774060610 </b>
             </a>
           </div>
@@ -31,24 +31,24 @@
                   @if (Auth::check())
                     <h4 class="d-block fs-6">{{ auth()->user()->name }}</h4>
                     <li class="pop__login-list">
-                      <a href="{{ route('account.index') }}" class="pop__login-link d-block fw-bold">Tài khoản</a>
+                      <a href="{{ route('account.index') }}" class="pop__login-link d-block fw-bold">{{ __('header.account') }}</a>
                     </li>
                     <li class="pop__login-list">
-                      <a href="{{ route('logout') }}" class="pop__login-link d-block fw-bold">Đăng xuất</a>
+                      <a href="{{ route('logout') }}" class="pop__login-link d-block fw-bold">{{ __('header.logout') }}</a>
                     </li>
                   @else
                     <li class="pop__login-list">
-                      <a href="{{ route('login') }}" class="pop__login-link d-block fw-bold">Đăng nhập</a>
+                      <a href="{{ route('login') }}" class="pop__login-link d-block fw-bold">{{ __('header.signin') }}</a>
                     </li>
                     <li class="pop__login-list">
-                      <a href="{{ route('register') }}" class="pop__login-link d-block fw-bold">Đăng ký</a>
+                      <a href="{{ route('register') }}" class="pop__login-link d-block fw-bold">{{ __('header.signup') }}</a>
                     </li>
                   @endif
                 </ul>
               </div>
               <a href="{{ route('cart') }}" class="btn-cart">
                 <span class="box-icon p-1">
-                    <i class="fa-regular fa-cart-shopping-fast fa-bounce icon"></i>
+                  <i class="fa-regular fa-cart-shopping-fast fa-bounce icon"></i>
                 </span>
                 <livewire:client.cart.cart-count-component />
               </a>
@@ -64,13 +64,13 @@
     <!-- PC Menu -->
     <ul id="menu-pc" class="position-relative d-lg-flex d-none d-lg-block m-0 p-0">
       <li class="main__menu pt-lg-2 pb-lg-2 {{ request()->is('/') ? 'active' : '' }}">
-        <a class="ps-lg-3 ps-2" href="{{ route('home') }}">Trang chủ</a>
+        <a class="ps-lg-3 ps-2" href="{{ route('home') }}">{{ __('header.home') }}</a>
       </li>
       <li class="main__menu pt-lg-2 pb-lg-2 {{ request()->is('about') ? 'active' : '' }}">
-        <a class="ps-lg-3" href="{{ route('about') }}">Về Mew Yummy</a>
+        <a class="ps-lg-3" href="{{ route('about') }}">{{ __('header.about') }}</a>
       </li>
       <li class="main__menu pt-lg-2 pb-lg-2 {{ request()->is('product') ? 'active' : '' }} dropdown pb-1">
-        <a class="ps-lg-3" href="{{ route('product') }}">Sản phẩm</a>
+        <a class="ps-lg-3" href="{{ route('product') }}">{{ __('header.product') }}</a>
         <i class="fa-solid fa-caret-down icon"></i>
         <ul class="sub__menu">
           <div class="row px-4 py-2">
@@ -100,15 +100,29 @@
         </ul>
       </li>
       <li class="main__menu pt-lg-2 pb-lg-2 {{ request()->is('news') ? 'active' : '' }}">
-        <a class="ps-lg-3" href="{{ route('news') }}">Tin tức</a>
+        <a class="ps-lg-3" href="{{ route('news') }}">{{ __('header.news') }}</a>
       </li>
       <li class="main__menu pt-lg-2 pb-lg-2 {{ request()->is('contact') ? 'active' : '' }}">
-        <a class="ps-lg-3" href="{{ route('contact') }}">Liên hệ</a>
+        <a class="ps-lg-3" href="{{ route('contact') }}">{{ __('header.contact') }}</a>
       </li>
       <li class="main__menu pt-lg-2 pb-lg-2 ms-auto">
-        <a class="ps-lg-3" href="#">
-          <i class="fa-solid fa-map-location-dot icon"></i> Hệ thống cửa hàng </a>
-      </li>
+        {{-- select language --}}
+        <div class="dropdown">
+          <button class="btn btn-white dropdown-toggle" type="button" id="dropdownMenuButton1"
+            data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="fa-solid fa-globe icon"></i>
+            <span>{{ __('header.language') }}</span>
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+            @foreach (LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
+            <li>
+                <a class="dropdown-item" rel="alternate" hreflang="{{ $localeCode }}" href="{{ LaravelLocalization::getLocalizedURL($localeCode, null, [], true) }}">
+                    {{ $properties['native'] }}
+                </a>
+            </li>
+            @endforeach
+          </ul>
+        </div>
     </ul>
   </div>
   <!-- Mobile Menu -->

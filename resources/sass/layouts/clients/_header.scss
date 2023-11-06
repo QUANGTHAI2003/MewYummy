@@ -372,6 +372,13 @@
 			&.active .icon {
 				color: $menuHover;
 			}
+
+            .dropdown {
+                button {
+                    background: white;
+                    color: black;
+                }
+            }
 		}
 	}
 

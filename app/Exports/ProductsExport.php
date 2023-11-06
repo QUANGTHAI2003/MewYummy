@@ -16,7 +16,7 @@ class ProductsExport implements FromCollection, WithHeadings, WithMapping, Shoul
 {
     public function collection()
     {
-        return Product::all();
+        return Product::with('categories', 'product_images')->get();
     }
 
     public function headings(): array
@@ -41,14 +41,14 @@ class ProductsExport implements FromCollection, WithHeadings, WithMapping, Shoul
     {
         return [
             $product->id,
-            $product->category->name,
+            $product->categories->name ?: '',
             $product->name,
             $product->slug,
             $product->regular_price,
-            $product->sale_price,
-            $product->stock_quantity,
-            $product->is_active,
-            $product->thumbnail,
+            $product->sale_price == 0 ? 'Không có' : $product->sale_price,
+            $product->stock_qty < 1 ? 'Hết hàng' : $product->stock_qty,
+            $product->is_active ? 'Đang hoạt động' : 'Không hoạt động',
+            $product->product_images->where('is_main', 1)->first()->image ?: '',
             $product->description,
             Date::dateTimeToExcel($product->created_at),
             Date::dateTimeToExcel($product->updated_at),

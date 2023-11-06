@@ -1,6 +1,60 @@
-@extends('layouts.client')
+<!DOCTYPE html>
+<html lang="en">
 
-@section('content')
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <link href="{{ asset('storage/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+  <title>Document</title>
+  <style>
+    .order-info {
+      box-shadow: 0px 0px 3px #d7d7d7;
+    }
+
+    .order-info .head-title h1 {
+      font-size: 1.25rem;
+      color: #2e9f3c;
+    }
+
+    .order-info .title-head {
+      font-size: 1.25rem;
+      color: #2e9f3c;
+    }
+
+    .order-info .i_main {
+      font-size: 17px;
+      text-transform: capitalize;
+    }
+
+    .order-info .i_sup {
+      font-size: 14px;
+    }
+
+    .order-info .item_order {
+      transition: all 0.5s;
+    }
+
+    .order-info .item_order a {
+      color: #515151;
+    }
+
+    .order-info .item_order img {
+      max-height: 90px;
+    }
+
+    .order-info .item_order:hover {
+      box-shadow: 0px 0px 7px -2px #ffc107;
+      border-color: #ffc107 !important;
+    }
+
+    .order-info .price {
+      color: #f00;
+    }
+  </style>
+</head>
+
+<body>
   <div class="container-sm">
     <div class="order-info rounded bg-white p-3">
       <div class="head-title clearfix">
@@ -96,9 +150,9 @@
                 {{ $item->product_quantity }} x
               </div>
               <div class="image_order col-2 d-none d-md-block pl-1 pr-1 text-center">
-                <a title="{{ $item->product_name }}"
+                {{-- <a title="{{ $item->product_name }}"
                   href="{{ route('show', ['slug' => $item->product->slug, 'id' => $item->product->id]) }}"><img
-                    src="{{ getProductImage($item->product_image) }}" alt="{{ $item->product_name }}"></a>
+                    src="{{ getProductImage($item->product_image) }}" alt="{{ $item->product_name }}"></a> --}}
               </div>
               <div class="content_right col-9 col-md-7 pl-1 pr-1">
                 <a class="title_order fw-bold"
@@ -168,4 +222,6 @@
       </div>
     </div>
   </div>
-@endsection
+</body>
+
+</html>

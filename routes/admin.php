@@ -8,7 +8,7 @@ use App\Http\Controllers\Admin\RoleManagementController;
 use App\Http\Controllers\Admin\UserManagementController;
 use App\Http\Controllers\Admin\AttributesController;
 use App\Http\Controllers\Admin\OrdersController;
-use App\Http\Controllers\CouponController;
+use App\Http\Controllers\Admin\CouponController;
 
 /*
 |--------------------------------------------------------------------------

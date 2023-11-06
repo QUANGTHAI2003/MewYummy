@@ -69,9 +69,11 @@
       <div class="head-title clearfix">
         <div class="header d-flex align-items-center justify-content-between">
           <h1 class="fw-bold m-0">Chi tiết đơn hàng #{{ $order->id }}</h1>
+          @if($order->status == 'pending')
           <div class="invoices">
             <a href="{{ route('account.acceptOrder', ['orderId' => $order->id, 'token' => $order->token]) }}" class="btn btn-sm btn-primary">Xác nhận đơn hàng</a>
           </div>
+          @endif
         </div>
         <p class="note order_date m-0">Ngày tạo: {{ \Carbon\Carbon::parse($order->created_at)->format('d-m-Y') }}</p>
 
@@ -89,6 +91,10 @@
             <span class="span_ text-success">
               Đã giao hàng
             </span>
+          @else
+          <span class="span_ text-danger">
+            Đã hủy
+          </span>
           @endif
         </div>
       </div>

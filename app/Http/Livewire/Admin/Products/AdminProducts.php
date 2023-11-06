@@ -154,6 +154,7 @@ class AdminProducts extends Component {
     }
 
     public function export() {
-        return Excel::download(new ProductsExport(), 'invoices.xlsx');
+        $name = 'products-' . date('Y-m-d') . '.xlsx';
+        return Excel::download(new ProductsExport(), $name);
     }
 }

@@ -2,7 +2,7 @@
 
 namespace App\Console;
 
-use App\Http\Controllers\Client\Orders\OrderController;
+use App\Http\Controllers\Clients\Orders\OrderController;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 

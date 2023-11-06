@@ -2,12 +2,14 @@
 
 namespace App\Http\Livewire\Admin\Orders;
 
+use App\Mail\Order\OrderShipped;
 use App\Models\Order;
 use Livewire\Component;
 use WireUi\Traits\Actions;
 use Livewire\WithPagination;
 use App\Traits\tableSortingTrait;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Support\Facades\Mail;
 
 class AdminOrders extends Component
 {
@@ -33,8 +35,10 @@ class AdminOrders extends Component
         $order->status = $status;
         if($status == Order::COMPLETED) {
             $order->delivered_date = now();
+            Mail::to($order->email)->send(new OrderShipped($order));
         } else if ($status == Order::CANCELLED) {
             $order->cancelled_date = now();
+            Mail::to($order->email)->send(new OrderShipped($order));
         }
         $order->save();
 

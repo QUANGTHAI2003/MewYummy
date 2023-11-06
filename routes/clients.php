@@ -7,11 +7,11 @@ use App\Http\Controllers\Clients\CartController;
 use App\Http\Controllers\Clients\HomeController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ForgotPassController;
-use App\Http\Controllers\Client\ThankYouController;
+use App\Http\Controllers\Clients\ThankYouController;
 use App\Http\Controllers\Clients\AccountController;
 use App\Http\Controllers\Clients\ProductController;
 use App\Http\Controllers\Clients\CheckoutController;
-use App\Http\Controllers\Client\Orders\OrderController;
+use App\Http\Controllers\Clients\Orders\OrderController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 /*

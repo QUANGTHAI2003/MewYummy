@@ -436,6 +436,10 @@ li {
 .navbar #menu-pc .main__menu.active a, .navbar #menu-pc .main__menu.active .icon {
   color: #ffc107;
 }
+.navbar #menu-pc .main__menu .dropdown button {
+  background: white;
+  color: black;
+}
 .navbar #menu-mobi {
   display: flex;
   align-items: center;

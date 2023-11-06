@@ -15,11 +15,9 @@ use Illuminate\Support\Facades\Log;
 */
 
 Broadcast::channel('newuser.{id}', function ($user, $id){
-    Log::info('router: newuser.' . $id);
     return (int) $user->id === (int) $id;
 });
 
 Broadcast::channel('order.{id}', function ($user, $id){
-    Log::info('router: order.' . $id);
     return (int) $user->id === (int) $id;
 });

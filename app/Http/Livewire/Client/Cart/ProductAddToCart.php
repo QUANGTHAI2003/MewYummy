@@ -50,7 +50,7 @@ class ProductAddToCart extends Component
             ])->associate('App\Models\Product');
         }
 
-        session()->flash('success_message', 'Item added in Cart.');
+        session('success', 'Thêm sản phẩm vào giỏ hàng thành công');
 
         $this->emit('cartUpdated');
     }
